@@ -53,4 +53,8 @@ public class metodoVenta {
             return null;
         }
     }
+    
+    public void agregarCarrito(){
+        
+    }
 }
