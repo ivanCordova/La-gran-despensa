@@ -20,25 +20,37 @@ import javax.swing.JOptionPane;
  */
 public class metodoVenta {
 
-    public ArrayList<producto> buscarProducto(String dato) {//Método para buscar productos por nombre
+    public ArrayList<producto> buscarProducto(String dato, int tipo) {//Método para buscar productos por nombre
 
         ArrayList<producto> listaPro = new ArrayList<producto>();
-
-        PreparedStatement ps;//Variable para cargar consulta 
-        ResultSet rs; //Variable el resultado de la consulta 
 
         try {
             Connections.Connectionn.enter("ivan", "ivan");//Ingresamos las credenciales de conexión 
             Connection con = Connectionn.getConnection();//Inicializamos la conexión 
-            ps = con.prepareStatement("select p.id_producto, p.nombre, m.nombre_marca, p.precioVenta, p.imagen \n"
-                    + "from Productos as p join Marcas as m on p.id_marca = m.id_marca where p.nombre=?"); //Cargamos la consulta 
+            PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
+            ResultSet rs; //Variable el resultado de la consulta 
+//            ps = con.prepareStatement("select p.id_producto, p.nombre, m.nombre_marca, p.precioVenta, p.imagen \n"
+//                    + "from Productos as p join Marcas as m on p.id_marca = m.id_marca where p.nombre=?"); //Cargamos la consulta 
+
+            if (tipo == 0) {
+                ps = con.prepareStatement("select p.id_producto, p.nombre, m.nombre_marca, p.precioVenta, p.imagen, c.nombre_categoria "
+                        + "from Productos as p join Marcas as m on p.id_marca = m.id_marca join Categorias as c on p.id_categoria = c.id_categoria "
+                        + "where p.nombre=?");
+            } else {
+
+                ps = con.prepareStatement("select p.id_producto, p.nombre, m.nombre_marca, p.precioVenta, p.imagen, c.nombre_categoria "
+                        + "from Productos as p join Marcas as m on p.id_marca = m.id_marca join Categorias as c on p.id_categoria = c.id_categoria "
+                        + "where p.id_producto=?");
+
+            }
+
             ps.setString(1, dato);//Insertamos el dato buscando en la consulta 
             rs = ps.executeQuery();//Asignamos el resultado de la consulta 
 
             if (rs.next()) {
                 do {
                     producto p = new producto();//Creamos una clase producto 
-                    
+
                     //Asignamos a cada variable del objeto producto el valor del Result set en su posición correspondiente 
                     p.id_producto = (Integer) rs.getObject(1);
                     p.nombre = (String) rs.getObject(2);
@@ -46,16 +58,17 @@ public class metodoVenta {
 
                     p.precioVenta = (BigDecimal) rs.getObject(4);
                     p.imagen = (String) rs.getObject(5);
+                    p.nombre_categoria = (String) rs.getObject(6);
 
                     listaPro.add(p);
                 } while (rs.next());//Recorremos las filas de la consulta 
             } else {
                 //En caso de no regresar ningún resultado mostramos un mensaje de advertencia 
-                JOptionPane.showMessageDialog(null, "Mensaje dentro de la ventana", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "No se encontró ningún producto", "Advertencia", JOptionPane.WARNING_MESSAGE);
             }
             return listaPro;//Regresamos el ArrayList
         } catch (Exception e) {
-            System.err.println(e.toString());
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
             return null;
         }
     }
