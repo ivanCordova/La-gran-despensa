@@ -12,49 +12,55 @@ import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javax.swing.JOptionPane;
 
 /**
  *
  * @author Ivan
  */
 public class metodoVenta {
-    
-    public ArrayList<producto>  buscarProducto(String dato){
 
-        
-         ArrayList<producto> listaPro = new ArrayList<producto>();
-         
-         PreparedStatement ps;
-         ResultSet rs;
-         
-         try {
-            Connections.Connectionn.enter("ivan", "ivan");
-            Connection con = Connectionn.getConnection();
-            ps = con.prepareStatement("select p.id_producto, p.nombre, m.nombre_marca, p.precioVenta, p.imagen \n" +
-                                        "from Productos as p join Marcas as m on p.id_marca = m.id_marca where p.nombre=?");
-            ps.setString(1, dato);
-            rs = ps.executeQuery();
-             while (rs.next()) {
-                 producto p = new producto();
-                 p.id_producto = (Integer)rs.getObject(1);
-                 p.nombre = (String)rs.getObject(2);
-                 p.nombre_marca = (String)rs.getObject(3);
-                 p.precioVenta = (BigDecimal)rs.getObject(4);
-                 p.imagen = (String)rs.getObject(5);       
-                 
-                 listaPro.add(p);
-             }
-            
-            
-            
-            return listaPro;
+    public ArrayList<producto> buscarProducto(String dato) {//Método para buscar productos por nombre
+
+        ArrayList<producto> listaPro = new ArrayList<producto>();
+
+        PreparedStatement ps;//Variable para cargar consulta 
+        ResultSet rs; //Variable el resultado de la consulta 
+
+        try {
+            Connections.Connectionn.enter("ivan", "ivan");//Ingresamos las credenciales de conexión 
+            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+            ps = con.prepareStatement("select p.id_producto, p.nombre, m.nombre_marca, p.precioVenta, p.imagen \n"
+                    + "from Productos as p join Marcas as m on p.id_marca = m.id_marca where p.nombre=?"); //Cargamos la consulta 
+            ps.setString(1, dato);//Insertamos el dato buscando en la consulta 
+            rs = ps.executeQuery();//Asignamos el resultado de la consulta 
+
+            if (rs.next()) {
+                do {
+                    producto p = new producto();//Creamos una clase producto 
+                    
+                    //Asignamos a cada variable del objeto producto el valor del Result set en su posición correspondiente 
+                    p.id_producto = (Integer) rs.getObject(1);
+                    p.nombre = (String) rs.getObject(2);
+                    p.nombre_marca = (String) rs.getObject(3);
+
+                    p.precioVenta = (BigDecimal) rs.getObject(4);
+                    p.imagen = (String) rs.getObject(5);
+
+                    listaPro.add(p);
+                } while (rs.next());//Recorremos las filas de la consulta 
+            } else {
+                //En caso de no regresar ningún resultado mostramos un mensaje de advertencia 
+                JOptionPane.showMessageDialog(null, "Mensaje dentro de la ventana", "Mensaje en la barra de titulo", JOptionPane.WARNING_MESSAGE);
+            }
+            return listaPro;//Regresamos el ArrayList
         } catch (Exception e) {
-             System.err.println(e.toString());
+            System.err.println(e.toString());
             return null;
         }
     }
-    
-    public void agregarCarrito(){
-        
+
+    public void agregarCarrito() {
+
     }
 }

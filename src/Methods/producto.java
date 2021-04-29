@@ -12,7 +12,7 @@ import java.math.BigDecimal;
  *
  * @author Ivan
  */
-public class producto {
+public class producto { //Clase productos para cargar en Nueva venta 
 //    int id_producto;
 //    int id_marca;
 //    int id_categoria;
@@ -22,14 +22,14 @@ public class producto {
 //    int precioVenta;
 //    String imagen;
     
-    int id_producto;
-    String nombre;
-    String nombre_marca;
-    BigDecimal precioVenta;
-    String imagen;
+    public int id_producto;
+    public String nombre;
+    public String nombre_marca;
+    public BigDecimal precioVenta;
+    public String imagen;
 
     public producto() {
-        
+        id_producto = 0;
     }
     
     

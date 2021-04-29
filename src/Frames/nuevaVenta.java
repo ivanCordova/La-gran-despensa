@@ -15,20 +15,26 @@ import javax.swing.table.DefaultTableModel;
  * @author Ivan
  */
 public class nuevaVenta extends javax.swing.JFrame {
-    metodoVenta metodos = new metodoVenta();
-    DefaultTableModel modeloBuscar = new DefaultTableModel();
+
+    metodoVenta metodos = new metodoVenta(); //Creamos un objeto métodos global
+    DefaultTableModel modeloBuscar = new DefaultTableModel(); //Modelo de la tabla búsquedas 
+
     /**
      * Creates new form nuevaVenta
      */
     public nuevaVenta() {
         initComponents();
         
+        //Agregamos las columnas de la tabla búsquedas 
         modeloBuscar.addColumn("id_Producto");
         modeloBuscar.addColumn("Nombre");
         modeloBuscar.addColumn("Nombre marca");
         modeloBuscar.addColumn("Precio de venta");
-        this.tbl_Buscar.setModel(modeloBuscar);
+        modeloBuscar.addColumn("imagen");
         
+        this.tbl_Buscar.setModel(modeloBuscar);//Agregamos el modelo a la tabla
+        this.tbl_Buscar.getColumnModel().getColumn(4).setMaxWidth(0);//Ocultamos la columna imagen
+
     }
 
     /**
@@ -45,11 +51,11 @@ public class nuevaVenta extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tbl_Buscar = new javax.swing.JTable();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        txtBuscar = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
         Nombre = new javax.swing.JLabel();
-        jTextField2 = new javax.swing.JTextField();
+        txtNombre = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
         jTextField3 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
@@ -91,6 +97,11 @@ public class nuevaVenta extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tbl_Buscar.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_BuscarMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbl_Buscar);
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
@@ -138,7 +149,7 @@ public class nuevaVenta extends javax.swing.JFrame {
                         .addGap(34, 34, 34)
                         .addComponent(jLabel1)
                         .addGap(58, 58, 58)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(jButton1))
                     .addGroup(jPanel2Layout.createSequentialGroup()
@@ -152,7 +163,7 @@ public class nuevaVenta extends javax.swing.JFrame {
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(Nombre)
                                         .addGap(28, 28, 28)
-                                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE))
                                     .addGroup(jPanel2Layout.createSequentialGroup()
                                         .addComponent(jLabel3)
                                         .addGap(28, 28, 28)
@@ -179,7 +190,7 @@ public class nuevaVenta extends javax.swing.JFrame {
                 .addGap(26, 26, 26)
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jButton1))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 205, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -189,7 +200,7 @@ public class nuevaVenta extends javax.swing.JFrame {
                     .addGroup(jPanel2Layout.createSequentialGroup()
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(Nombre)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel3)
@@ -374,19 +385,38 @@ public class nuevaVenta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-         ArrayList<producto> listaPro = metodos.buscarProducto("Papas sabritas");
+        //Limpiamos la tabla de productos 
+        for (int i = 0; i < this.tbl_Buscar.getRowCount(); i++) {
+            modeloBuscar.removeRow(i);
+            i -= 1;
+        }
+        
+        //Asignamos a un nuevo ArrayList el resultado del método buscarProducto 
+        ArrayList<producto> listaPro = metodos.buscarProducto(txtBuscar.getText());
 
-//         Object O[]=null;
-//         for (int i = 0; i < listaPro.size(); i++) {
-//            modeloBuscar.addRow(O);
-//            producto getP = (producto) listaPro.get(i);
-//            modeloBuscar.setValueAt(getP., i, NORMAL);
-//        }
+        
+        for (producto pro : listaPro) { //Recorremos el ArrayList de productos
+            //Creamos una lista para ingresar en la tabla los valores 
+            Object[] listaTabla = new Object[5];
+            listaTabla[0] = pro.id_producto;
+            listaTabla[1] = pro.nombre;
+            listaTabla[2] = pro.nombre_marca;
+            listaTabla[3] = "" + pro.precioVenta;
+            listaTabla[4] = pro.imagen;
+            modeloBuscar.addRow(listaTabla);
+        }
+
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
+
+    private void tbl_BuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_BuscarMouseClicked
+        int seleccion = this.tbl_Buscar.rowAtPoint(evt.getPoint());
+        txtNombre.setText(String.valueOf(this.tbl_Buscar.getValueAt(seleccion, 1)));
+    }//GEN-LAST:event_tbl_BuscarMouseClicked
 
     /**
      * @param args the command line arguments
@@ -449,12 +479,12 @@ public class nuevaVenta extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable jTable2;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField3;
     private javax.swing.JTextField jTextField4;
     private javax.swing.JTextField jTextField5;
     private javax.swing.JTextField jTextField6;
     private javax.swing.JTable tbl_Buscar;
+    private javax.swing.JTextField txtBuscar;
+    private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
 }
