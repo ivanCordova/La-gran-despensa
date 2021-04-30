@@ -8,6 +8,8 @@ package Frames;
 import Methods.metodoVenta;
 import Methods.producto;
 import java.awt.Image;
+import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -22,6 +24,7 @@ public class nuevaVenta extends javax.swing.JFrame {
 
     metodoVenta metodos = new metodoVenta(); //Creamos un objeto métodos global
     DefaultTableModel modeloBuscar = new DefaultTableModel(); //Modelo de la tabla búsquedas 
+    DefaultTableModel modeloCarrito = new DefaultTableModel(); //Modelo de la tabla Carrito 
 
     /**
      * Creates new form nuevaVenta
@@ -36,8 +39,15 @@ public class nuevaVenta extends javax.swing.JFrame {
         modeloBuscar.addColumn("Precio de venta");
         modeloBuscar.addColumn("Categoria");
         modeloBuscar.addColumn("imagen");
-
         this.tbl_Buscar.setModel(modeloBuscar);//Agregamos el modelo a la tabla
+        modeloCarrito.addColumn("id_Producto");
+        modeloCarrito.addColumn("Nombre");
+        modeloCarrito.addColumn("Nombre marca");
+        modeloCarrito.addColumn("Precio producto");
+        modeloCarrito.addColumn("Cantidad vendida");
+        modeloCarrito.addColumn("Sub total");
+        this.tbl_Carrito.setModel(modeloCarrito);//Agregamos el modelo a la Carrito
+        
         this.tbl_Buscar.getColumnModel().getColumn(5).setMaxWidth(0);//Ocultamos la columna imagen
 
     }
@@ -75,7 +85,7 @@ public class nuevaVenta extends javax.swing.JFrame {
         coboxBuscar = new javax.swing.JComboBox<>();
         jPanel3 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tbl_Carrito = new javax.swing.JTable();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jLabel7 = new javax.swing.JLabel();
@@ -132,7 +142,7 @@ public class nuevaVenta extends javax.swing.JFrame {
 
         txtMarca.setEditable(false);
 
-        jLabel4.setText("Categoria");
+        jLabel4.setText("Categoría");
 
         txtCategoria.setEditable(false);
 
@@ -143,6 +153,11 @@ public class nuevaVenta extends javax.swing.JFrame {
         jLabel6.setText("Cantidad");
 
         jButton2.setText("Agregar a carrito");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         lbImagen.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
@@ -249,7 +264,7 @@ public class nuevaVenta extends javax.swing.JFrame {
         jPanel3.setBackground(new java.awt.Color(255, 255, 255));
         jPanel3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tbl_Carrito.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -260,7 +275,7 @@ public class nuevaVenta extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        jScrollPane2.setViewportView(tbl_Carrito);
 
         jLabel2.setText("Carrito de compras");
 
@@ -484,6 +499,31 @@ public class nuevaVenta extends javax.swing.JFrame {
 
     }//GEN-LAST:event_tbl_BuscarMouseClicked
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        //Acción para agregar el producto seleccionado a la tala de carrito 
+        if (!txtId.getText().equals("")) {
+            if (txtCantidad.getText().matches("[+-]?\\d*(\\.\\d+)?") || !txtCantidad.getText().equals("")) { //Comprobamos en caso de elegir buscar un código que este sea un número
+                Object[] objetoCarrito = new Object[6];
+                objetoCarrito[0] = txtId.getText();
+                objetoCarrito[1] = txtNombre.getText();
+                objetoCarrito[2] = txtMarca.getText();
+                objetoCarrito[3] = txtPrecio.getText();
+                objetoCarrito[4] = txtCantidad.getText();
+                BigDecimal precio = new BigDecimal(txtPrecio.getText());
+                //objetoCarrito[5] = "" + (precio * 1);
+                //objetoCarrito[5] = "" + (Integer.parseInt(txtPrecio.getText()) * Integer.parseInt(txtCantidad.getText()));
+                modeloCarrito.addRow(objetoCarrito);
+                
+            } else {
+                JOptionPane.showMessageDialog(null, "La cantidad debe ser un número entero", "Error", JOptionPane.WARNING_MESSAGE);
+            }
+        }else{
+            JOptionPane.showMessageDialog(null, "No se ha elegido ningún artículo", "Error", JOptionPane.WARNING_MESSAGE);
+        }
+
+
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -545,9 +585,9 @@ public class nuevaVenta extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
     private javax.swing.JLabel lbImagen;
     private javax.swing.JTable tbl_Buscar;
+    private javax.swing.JTable tbl_Carrito;
     private javax.swing.JTextField txtBuscar;
     private javax.swing.JTextField txtCantidad;
     private javax.swing.JTextField txtCategoria;

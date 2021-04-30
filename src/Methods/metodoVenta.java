@@ -55,7 +55,6 @@ public class metodoVenta {
                     p.id_producto = (Integer) rs.getObject(1);
                     p.nombre = (String) rs.getObject(2);
                     p.nombre_marca = (String) rs.getObject(3);
-
                     p.precioVenta = (BigDecimal) rs.getObject(4);
                     p.imagen = (String) rs.getObject(5);
                     p.nombre_categoria = (String) rs.getObject(6);
