@@ -13,13 +13,9 @@ public class Connectionn {
     
     //VARIABLES
     static Connection contact = null;
-    public static String user;
-    public static String password;
-    public static boolean status = false;
 
     public static Connection getConnection() {
-        status = false;
-        String url = "jdbc:sqlserver://localhost:1433;databaseName=bd_LGD2";
+        String url = "jdbc:sqlserver://localhost:1433;databaseName=bd_LGD";
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         } catch (ClassNotFoundException e) {
@@ -27,8 +23,7 @@ public class Connectionn {
             JOptionPane.showMessageDialog(null, "CONNECTION NOT ESTABLISHED" + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
         }
         try {
-            contact = DriverManager.getConnection(url, Connectionn.user, Connectionn.password);
-            status = true;
+            contact = DriverManager.getConnection(url,"sa","12345");
         } catch (SQLException e) {
             sound.error();
             JOptionPane.showMessageDialog(null, "CONNECTION NOT ESTABLISHED" + e.getMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -36,14 +31,14 @@ public class Connectionn {
         return contact;
     }
     
-    public static void enter(String user, String password){
-        Connectionn.user = user; 
-        Connectionn.password = password;
-    }
-    
-    public static boolean status(){
-        return status;
-    }
+//    public static void enter(String user, String password){
+//        Connectionn.user = user; 
+//        Connectionn.password = password;
+//    }
+//    
+//    public static boolean status(){
+//        return status;
+//    }
 
     public static ResultSet consultation(String consultation) {
         Connection con = getConnection();

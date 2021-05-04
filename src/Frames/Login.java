@@ -1,6 +1,11 @@
 //JFrame Login
 package Frames;
 
+import Connections.Connectionn;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
@@ -14,6 +19,8 @@ public class Login extends javax.swing.JFrame {
     Ventas ventas = new Ventas();
     //VARIABLES
     int moveX, moveY;
+    public static String id = "";
+    String pass = "";
 
     public Login() {
         initComponents();
@@ -33,9 +40,9 @@ public class Login extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
-        tfUser = new javax.swing.JTextField();
+        txtId = new javax.swing.JTextField();
         jSeparator2 = new javax.swing.JSeparator();
-        tfPassword = new javax.swing.JPasswordField();
+        txtPassword = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
         Background = new javax.swing.JLabel();
 
@@ -97,7 +104,7 @@ public class Login extends javax.swing.JFrame {
         PContenido.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 340, -1, -1));
 
         jLabel4.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        jLabel4.setText("Usuario:");
+        jLabel4.setText("ID:");
         PContenido.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, -1, -1));
 
         jLabel5.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
@@ -105,18 +112,18 @@ public class Login extends javax.swing.JFrame {
         PContenido.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, -1, -1));
         PContenido.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 390, 310, 10));
 
-        tfUser.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        tfUser.setText("EmmanuelMiranda");
-        tfUser.setBorder(null);
-        tfUser.setOpaque(false);
-        PContenido.add(tfUser, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 230, 260, 40));
+        txtId.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        txtId.setText("1");
+        txtId.setBorder(null);
+        txtId.setOpaque(false);
+        PContenido.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 230, 260, 40));
         PContenido.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, 310, 10));
 
-        tfPassword.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        tfPassword.setText("12345");
-        tfPassword.setBorder(null);
-        tfPassword.setOpaque(false);
-        PContenido.add(tfPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 340, 260, 40));
+        txtPassword.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        txtPassword.setText("12345");
+        txtPassword.setBorder(null);
+        txtPassword.setOpaque(false);
+        PContenido.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 340, 260, 40));
 
         btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/BtnInput1.png"))); // NOI18N
         btnLogin.setBorder(null);
@@ -171,46 +178,44 @@ public class Login extends javax.swing.JFrame {
     }//GEN-LAST:event_PContenidoMousePressed
 
     private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
-        if (String.valueOf(tfUser.getText()).compareTo("") == 0 && String.valueOf(tfPassword.getPassword()).compareTo("") == 0) {
-            sound.warning();
-            JOptionPane.showMessageDialog(this, "INGRESE SU USUARIO Y CONTRASEÑA", "WARNING", JOptionPane.WARNING_MESSAGE);
-        } else {
-            if (String.valueOf(tfUser.getText()).compareTo(tfUser.getText()) == 0 && String.valueOf(tfPassword.getPassword()).compareTo("") == 0) {
-                sound.warning();
-                JOptionPane.showMessageDialog(this, "POR FAVOR INGRESE SU CONTRASEÑA", "WARNING", JOptionPane.WARNING_MESSAGE);
-            } else {
-                if (String.valueOf(tfUser.getText()).compareTo("") == 0 && String.valueOf(tfPassword.getPassword()).compareTo(tfPassword.getText()) == 0) {
-                    sound.warning();
-                    JOptionPane.showMessageDialog(this, "POR FAVOR INGRESE SU USUARIO", "WARNING", JOptionPane.WARNING_MESSAGE);
-                } else {
-                    if (String.valueOf(tfUser.getText()).compareTo("G0000001") == 0 && String.valueOf(tfPassword.getPassword()).compareTo("gerente") == 0) {
-                        Connections.Connectionn.enter("ivan", "ivan");
-                        Connections.Connectionn.getConnection();
-                        if (Connections.Connectionn.status()) {
-                            this.dispose();
-                            sound.login();
-                            proveedores.setVisible(true);
-                        }
-                    }
-                    if (String.valueOf(tfUser.getText()).compareTo("C0000001") == 0 && String.valueOf(tfPassword.getPassword()).compareTo("cajero") == 0) {
-                        Connections.Connectionn.enter("ivan", "ivan");
-                        Connections.Connectionn.getConnection();
-                        if (Connections.Connectionn.status()) {
-                            this.dispose();
-                            sound.login();
-                            ventas.setVisible(true);
-                        }
-                    }
-                     if (String.valueOf(tfUser.getText()).compareTo("A0000001") == 0 && String.valueOf(tfPassword.getPassword()).compareTo("admin") == 0) {
-                         Connections.Connectionn.enter("sa", "123");
-                        Connections.Connectionn.getConnection();
-                        if (Connections.Connectionn.status()) {
-                            this.dispose();
-                            sound.login();
-                            usuarios.setVisible(true);
-                        }
-                    }
+        id = txtId.getText().trim();
+        pass = txtPassword.getText().trim();
 
+        if (String.valueOf(txtId.getText()).compareTo("") == 0 && String.valueOf(txtPassword.getPassword()).compareTo("") == 0) {
+            JOptionPane.showMessageDialog(this, "Ingrese su usuario y contraseña", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+        } else {
+            if (String.valueOf(txtId.getText()).compareTo(txtId.getText()) == 0 && String.valueOf(txtPassword.getPassword()).compareTo("") == 0) {
+                JOptionPane.showMessageDialog(this, "Ingrese su contraseña", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            } else {
+                if (String.valueOf(txtId.getText()).compareTo("") == 0 && String.valueOf(txtPassword.getPassword()).compareTo(txtPassword.getText()) == 0) {
+                    JOptionPane.showMessageDialog(this, "Ingrese su usuario", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                } else {
+                    try {
+                        Connection cn = Connectionn.getConnection();
+                        PreparedStatement pst = cn.prepareStatement("select id_rol from Usuarios where id_usuario = '" + id
+                            + "' and contraseña = '" + pass + "'");
+                        ResultSet rs = pst.executeQuery();
+                        if (rs.next()) {
+                            String id_rol = rs.getString("id_rol");
+                            if(id_rol.equals("A0000001")){
+                                dispose();
+                                new Usuarios().setVisible(true);
+                            } else if (id_rol.equals("G0000001")){
+                                dispose();
+                                new Proveedores().setVisible(true);
+                            } else if (id_rol.equals("C0000001")){
+                                dispose();
+                                new Ventas().setVisible(true);
+                            }
+                        } else {
+                            JOptionPane.showMessageDialog(this, "Datos de acceso incorrectos", "ERROR", JOptionPane.ERROR_MESSAGE);
+                            txtId.setText("");
+                            txtPassword.setText("");
+                        }
+                    } catch (SQLException e) {
+                        System.err.print("Error en el boton Ingresar" + e);
+                        JOptionPane.showMessageDialog(this, "Contacte al administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
+                    }
                 }
             }
         }
@@ -253,7 +258,7 @@ public class Login extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
-    private javax.swing.JPasswordField tfPassword;
-    private javax.swing.JTextField tfUser;
+    private javax.swing.JTextField txtId;
+    private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables
 }

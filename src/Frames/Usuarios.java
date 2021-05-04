@@ -1,35 +1,74 @@
 //JFrame Users
 package Frames;
 
+import AppPackage.AnimationClass;
+import Connections.Connectionn;
 import Connections.Procedure;
+import com.github.sarxos.webcam.Webcam;
+import com.github.sarxos.webcam.WebcamPanel;
+import com.github.sarxos.webcam.WebcamResolution;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Usuarios extends javax.swing.JFrame {
     //OBJECTS
-
+    AnimationClass animation = new AnimationClass();
     Methods.General general = new Methods.General();
     Methods.Sound sound = new Methods.Sound();
 //EDITADO PRUEBA SEGUNDAS
     //VARIABLES
     int moveX, moveY;
     static ResultSet res;
-    int cont;
+    int ancho = 320;
+    int alto = 210;
+    Dimension dimension = new Dimension(ancho, alto);
+    Dimension dimension1 = WebcamResolution.VGA.getSize();
+    Webcam webcam = Webcam.getDefault();
+    WebcamPanel webcamPanel = new WebcamPanel(webcam, dimension, false);
+    BufferedImage ruta;
+    int counter = 0;
 
     public Usuarios() {
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("")).getImage());
+        webcam.setViewSize(dimension1);
+        webcamPanel.setFillArea(true);
+        PCamera.setLayout(new FlowLayout());
+        PCamera.add(webcamPanel);
+        lbStatusCamera.setText(webcam.toString());
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        SCamera = new javax.swing.JScrollPane();
+        PCameraSystem = new javax.swing.JPanel();
+        PCamera = new javax.swing.JPanel();
+        PControllers = new javax.swing.JPanel();
+        btnOnOff = new javax.swing.JButton();
+        lbOnOff = new javax.swing.JLabel();
+        btnCapture = new javax.swing.JButton();
+        lbCapture = new javax.swing.JLabel();
+        btnSaveC = new javax.swing.JButton();
+        lbSave = new javax.swing.JLabel();
+        PStorage = new javax.swing.JPanel();
+        lbStatusCamera = new javax.swing.JLabel();
+        STable = new javax.swing.JScrollPane();
+        tUsuarios = new javax.swing.JTable();
         PHome = new javax.swing.JPanel();
         PAcciones = new javax.swing.JPanel();
         btnRefresh = new javax.swing.JButton();
@@ -61,11 +100,9 @@ public class Usuarios extends javax.swing.JFrame {
         tfAP = new javax.swing.JTextField();
         tfDireccion = new javax.swing.JTextField();
         lbTelefono1 = new javax.swing.JLabel();
-        tfContraseña = new javax.swing.JTextField();
+        tfContrasena = new javax.swing.JTextField();
         jSeparator8 = new javax.swing.JSeparator();
-        tfFoto = new javax.swing.JTextField();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tUsuarios = new javax.swing.JTable();
+        lbPhoto = new javax.swing.JLabel();
         btnClose = new javax.swing.JButton();
         btnMinimize = new javax.swing.JButton();
         lbTitulo = new javax.swing.JLabel();
@@ -80,7 +117,130 @@ public class Usuarios extends javax.swing.JFrame {
         setMaximumSize(new java.awt.Dimension(700, 700));
         setMinimumSize(new java.awt.Dimension(700, 700));
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(700, 700));
         setResizable(false);
+        setSize(new java.awt.Dimension(700, 700));
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        SCamera.setBackground(new java.awt.Color(255, 255, 255));
+        SCamera.setBorder(null);
+        SCamera.setHorizontalScrollBarPolicy(javax.swing.ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
+        SCamera.setVerticalScrollBarPolicy(javax.swing.ScrollPaneConstants.VERTICAL_SCROLLBAR_NEVER);
+
+        PCameraSystem.setBackground(new java.awt.Color(255, 255, 255));
+        PCameraSystem.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "SISTEMA DE CAMARA", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 0, 12))); // NOI18N
+        PCameraSystem.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        PCamera.setBackground(new java.awt.Color(0, 0, 0));
+        PCameraSystem.add(PCamera, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, 320, 210));
+
+        PControllers.setBackground(new java.awt.Color(255, 255, 255));
+        PControllers.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "CONTROLADORES", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 0, 12))); // NOI18N
+        PControllers.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        btnOnOff.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Off_x40N.png"))); // NOI18N
+        btnOnOff.setBorder(null);
+        btnOnOff.setBorderPainted(false);
+        btnOnOff.setContentAreaFilled(false);
+        btnOnOff.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnOnOff.setFocusPainted(false);
+        btnOnOff.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btnOnOffMouseClicked(evt);
+            }
+        });
+        PControllers.add(btnOnOff, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 30, 40, -1));
+
+        lbOnOff.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        lbOnOff.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbOnOff.setText("On / Off");
+        PControllers.add(lbOnOff, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 70, 80, -1));
+
+        btnCapture.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/CaptureOff_x40N.png"))); // NOI18N
+        btnCapture.setBorder(null);
+        btnCapture.setBorderPainted(false);
+        btnCapture.setContentAreaFilled(false);
+        btnCapture.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnCapture.setEnabled(false);
+        btnCapture.setFocusPainted(false);
+        btnCapture.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCaptureActionPerformed(evt);
+            }
+        });
+        PControllers.add(btnCapture, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 40, -1));
+
+        lbCapture.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        lbCapture.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbCapture.setText("Tomar foto");
+        PControllers.add(lbCapture, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 70, 80, -1));
+
+        btnSaveC.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Save_x40N.png"))); // NOI18N
+        btnSaveC.setBorder(null);
+        btnSaveC.setBorderPainted(false);
+        btnSaveC.setContentAreaFilled(false);
+        btnSaveC.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        btnSaveC.setEnabled(false);
+        btnSaveC.setFocusPainted(false);
+        btnSaveC.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSaveCActionPerformed(evt);
+            }
+        });
+        PControllers.add(btnSaveC, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 30, 40, -1));
+
+        lbSave.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        lbSave.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbSave.setText("Guardar");
+        PControllers.add(lbSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 70, 80, -1));
+
+        PCameraSystem.add(PControllers, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 20, 280, 110));
+
+        PStorage.setBackground(new java.awt.Color(255, 255, 255));
+        PStorage.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "ALMACENAMIENTO", javax.swing.border.TitledBorder.LEFT, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 0, 12))); // NOI18N
+        PStorage.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        lbStatusCamera.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        lbStatusCamera.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
+        lbStatusCamera.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Off_x32R.png"))); // NOI18N
+        lbStatusCamera.setToolTipText("");
+        PStorage.add(lbStatusCamera, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 30, 260, 30));
+
+        PCameraSystem.add(PStorage, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 140, 280, 100));
+
+        SCamera.setViewportView(PCameraSystem);
+
+        getContentPane().add(SCamera, new org.netbeans.lib.awtextra.AbsoluteConstraints(710, 340, 640, 260));
+
+        tUsuarios.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null, null}
+            },
+            new String [] {
+                "ID", "ID_ROL", "NOMBRE", "APELLIDOP", "APELLIDOM", "DIRECCION", "TELEFONO", "SEXO", "FOTO", "CONTRASEÑA"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        STable.setViewportView(tUsuarios);
+
+        getContentPane().add(STable, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 640, 260));
 
         PHome.setBackground(new java.awt.Color(255, 255, 255));
         PHome.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
@@ -184,9 +344,13 @@ public class Usuarios extends javax.swing.JFrame {
         btnFotografia.setBorder(null);
         btnFotografia.setBorderPainted(false);
         btnFotografia.setContentAreaFilled(false);
-        btnFotografia.setEnabled(false);
         btnFotografia.setFocusPainted(false);
         btnFotografia.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/btnFotografia2.jpg"))); // NOI18N
+        btnFotografia.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnFotografiaActionPerformed(evt);
+            }
+        });
         PAcciones.add(btnFotografia, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, 150, 30));
 
         PHome.add(PAcciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 610, 640, 70));
@@ -220,10 +384,10 @@ public class Usuarios extends javax.swing.JFrame {
         PDatos.add(lbId, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
 
         cbSexo.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
-        cbSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "M", "F" }));
+        cbSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino" }));
         cbSexo.setBorder(null);
         cbSexo.setOpaque(false);
-        PDatos.add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 120, 70, 20));
+        PDatos.add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, 100, 20));
         PDatos.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 80, 160, 10));
         PDatos.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 70, 10));
         PDatos.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, 180, 10));
@@ -277,45 +441,17 @@ public class Usuarios extends javax.swing.JFrame {
         lbTelefono1.setText("Telefono:");
         PDatos.add(lbTelefono1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 120, -1, -1));
 
-        tfContraseña.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
-        tfContraseña.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfContraseña.setText("12345");
-        tfContraseña.setBorder(null);
-        PDatos.add(tfContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 140, -1));
-        PDatos.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, 140, 10));
-        PDatos.add(tfFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 20, 140, 130));
+        tfContrasena.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
+        tfContrasena.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        tfContrasena.setText("12345");
+        tfContrasena.setBorder(null);
+        PDatos.add(tfContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 110, -1));
+        PDatos.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, 110, 10));
+
+        lbPhoto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        PDatos.add(lbPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 10, 140, 140));
 
         PHome.add(PDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 640, 160));
-
-        tUsuarios.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null}
-            },
-            new String [] {
-                "ID", "ID_ROL", "NOMBRE", "APELLIDOP", "APELLIDOM", "DIRECCION", "TELEFONO", "SEXO", "CONTRASEÑA"
-            }
-        ) {
-            Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-            public boolean isCellEditable(int rowIndex, int columnIndex) {
-                return canEdit [columnIndex];
-            }
-        });
-        jScrollPane1.setViewportView(tUsuarios);
-
-        PHome.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 340, 640, 260));
 
         btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Close_x32N.png"))); // NOI18N
         btnClose.setBorder(null);
@@ -371,18 +507,9 @@ public class Usuarios extends javax.swing.JFrame {
         PHome.add(btnGuie, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 100, -1, -1));
 
         Background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/BackgroundUsers.jpg"))); // NOI18N
-        PHome.add(Background, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 0, -1, -1));
+        PHome.add(Background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 700));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PHome, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getContentPane().add(PHome, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1340, -1));
 
         pack();
         setLocationRelativeTo(null);
@@ -409,41 +536,80 @@ public class Usuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_PHomeMousePressed
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
-        if (tfId.getText().isEmpty() || cbIdRol.getSelectedItem() == "" || tfNombre.getText().isEmpty() || tfAP.getText().isEmpty() || tfAM.getText().isEmpty()
-                || tfDireccion.getText().isEmpty() || tfTelefono.getText().isEmpty() || cbSexo.getSelectedItem() == "" || tfContraseña.getText().isEmpty()) {
-            sound.warning();
-            JOptionPane.showMessageDialog(this, "INSERTA LOS DATOS CORRECTAMENTE", "WARNING", JOptionPane.WARNING_MESSAGE);
-        } else {
-            try {
-                res = Connections.Connectionn.consultation("Select COUNT(id_usuario)from Usuarios where id_usuario='" + tfId.getText() + "'");
-                try {
-                    while (res.next()) {
-                        cont = res.getInt(1);
+        int rolcb, sexocb, validacion = 0;
+        String id, name, ap, am, address, phone, pass, rolstring = "", sexostring = "";
+        id = tfId.getText().trim();
+        name = tfNombre.getText().trim();
+        ap = tfAP.getText().trim();
+        am = tfAM.getText().trim();
+        address = tfDireccion.getText().trim();
+        phone = tfTelefono.getText().trim();
+        pass = tfContrasena.getText().trim();
+        rolcb = cbIdRol.getSelectedIndex() + 1;
+        sexocb = cbSexo.getSelectedIndex() + 1;
+        if (id.equals("") || name.equals("") || ap.equals("") || am.equals("") || address.equals("") || phone.equals("")
+                || phone.equals("") || pass.equals("")) {
+            validacion++;
+            JOptionPane.showMessageDialog(null, "Inserte datos en los campos vacios", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        switch (rolcb) {
+            case 1:
+                rolstring = "A0000001";
+                break;
+            case 2:
+                rolstring = "G0000001";
+                break;
+            case 3:
+                rolstring = "C0000001";
+                break;
+            default:
+                break;
+        }
+        
+        if (sexocb == 1) {
+            sexostring = "M";
+        } else if (sexocb == 2) {
+            sexostring = "F";
+        }
+        
+        try {
+            Connection cn = Connectionn.getConnection();
+            PreparedStatement pst = cn.prepareStatement("select id_usuario from Usuarios where id_usuario = '"
+                    + id + "'");
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(null, "ID en uso", "ERROR", JOptionPane.ERROR_MESSAGE);
+                cn.close();
+            } else {
+                cn.close();
+                if (validacion == 0) {
+                    try {
+                        Connection cn2 = Connectionn.getConnection();
+                        PreparedStatement pst2 = cn2.prepareStatement("insert into Usuarios values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                        pst2.setString(1, id);
+                        pst2.setString(2, rolstring);
+                        pst2.setString(3, name);
+                        pst2.setString(4, ap);
+                        pst2.setString(5, am);
+                        pst2.setString(6, address);
+                        pst2.setString(7, phone);
+                        pst2.setString(8, sexostring);
+                        pst2.setString(9, "Pendiente");
+                        pst2.setString(10, pass);
+                        pst2.executeUpdate();
+                        cn2.close();
+                        JOptionPane.showMessageDialog(null, "Usuario creado correctamente", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                        refresh();
+                    } catch (SQLException e) {
+                        System.err.println("Error al registrar usuario" + e);
+                        JOptionPane.showMessageDialog(null, "Error al registrar usuario, contacte al administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
-                } catch (SQLException e) {
                 }
-                if (cont >= 1) {
-                    sound.error();
-                    JOptionPane.showMessageDialog(this, "USUARIO EXISTENTE", "ERROR", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    String x = cbIdRol.getSelectedItem().toString();
-                    if (x == "Gerente") {
-                        x = "G0000001";
-                    }
-                    if (x == "Cajero") {
-                        x = "C0000001";
-                    }
-                    if (x == "Administrador") {
-                        x = "A0000001";
-                    }
-                    Procedure.entradaUsuarios(Integer.parseInt(tfId.getText()), x, tfNombre.getText(), tfAP.getText(), tfAM.getText(), tfDireccion.getText(), tfTelefono.getText(), cbSexo.getSelectedItem().toString(), tfContraseña.getText());
-                    general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContraseña);
-                    sound.executed();
-                    JOptionPane.showMessageDialog(this, "USUARIO CREADO", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
-                    refresh();
-                }
-            } catch (SQLException e) {
             }
+        } catch (SQLException e) {
+            System.err.println("Error en la validacion del usuario" + e);
+            JOptionPane.showMessageDialog(null, "Errores al comparar usuarios, contacte al administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAddMouseClicked
 
@@ -477,12 +643,12 @@ public class Usuarios extends javax.swing.JFrame {
         tfDireccion.setEnabled(true);
         tfTelefono.setEnabled(true);
         cbSexo.setEnabled(true);
-        tfContraseña.setEnabled(true);
+        tfContrasena.setEnabled(true);
     }//GEN-LAST:event_btnEditMouseClicked
 
     private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
         if (tfId.getText().isEmpty() || cbIdRol.getSelectedItem() == "" || tfNombre.getText().isEmpty() || tfAP.getText().isEmpty() || tfAM.getText().isEmpty()
-                || tfDireccion.getText().isEmpty() || tfTelefono.getText().isEmpty() || cbSexo.getSelectedItem() == "" || tfContraseña.getText().isEmpty()) {
+                || tfDireccion.getText().isEmpty() || tfTelefono.getText().isEmpty() || cbSexo.getSelectedItem() == "" || tfContrasena.getText().isEmpty()) {
             sound.warning();
             JOptionPane.showMessageDialog(this, "CAMPOS VACIOS", "WARNING", JOptionPane.WARNING_MESSAGE);
         } else {
@@ -499,12 +665,12 @@ public class Usuarios extends javax.swing.JFrame {
                 }
                 PreparedStatement pss = Connections.Connectionn.getConnection().prepareStatement("update Usuarios set id_rol='" + x
                         + "', nombre='" + tfNombre.getText() + "', ape_paterno='" + tfAP.getText() + "', ape_materno='" + tfAM.getText()
-                        + "', direccion='" + tfDireccion.getText() + "', telefono='" + tfTelefono.getText() + "', contraseña='" + tfContraseña.getText()
+                        + "', direccion='" + tfDireccion.getText() + "', telefono='" + tfTelefono.getText() + "', contraseña='" + tfContrasena.getText()
                         + "' where id_usuario='" + tfId.getText() + "'");
                 pss.executeUpdate();
                 sound.executed();
                 JOptionPane.showMessageDialog(this, "DATOS MODIFICADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
-                general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContraseña);
+                general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
                 refresh();
             } catch (SQLException e) {
             }
@@ -520,7 +686,7 @@ public class Usuarios extends javax.swing.JFrame {
                 String b;
                 Procedure.BuscarUsuarios(Integer.parseInt(tfId.getText()));
                 b = tfId.getText();
-                general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContraseña);
+                general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
                 res = Connections.Connectionn.consultation("select * from Usuarios");
                 while (res.next()) {
                     if (res.getString(1).equals(b)) {
@@ -543,7 +709,7 @@ public class Usuarios extends javax.swing.JFrame {
                         tfDireccion.setText(res.getString(6));
                         tfTelefono.setText(res.getString(7));
                         cbSexo.setSelectedItem(res.getString(8));
-                        tfContraseña.setText(res.getString(9));
+                        tfContrasena.setText(res.getString(9));
                     }
                 }
                 JOptionPane.showMessageDialog(this, "DATOS NO ENCONTRADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
@@ -563,9 +729,66 @@ public class Usuarios extends javax.swing.JFrame {
         tfDireccion.setEnabled(false);
         tfTelefono.setEnabled(false);
         cbSexo.setEnabled(false);
-        tfContraseña.setEnabled(false);
-        general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContraseña);
+        tfContrasena.setEnabled(false);
+        general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
     }//GEN-LAST:event_btnRefreshMouseClicked
+
+    boolean change = false;
+    private void btnOnOffMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnOnOffMouseClicked
+        if (!change) {
+            btnOnOff.setIcon(new ImageIcon(getClass().getResource("/Elements/On_x40N.png")));
+            btnCapture.setEnabled(true);
+            btnCapture.setIcon(new ImageIcon(getClass().getResource("/Elements/CaptureOn_x40N.png")));
+            btnSaveC.setEnabled(true);
+            lbStatusCamera.setIcon(new ImageIcon(getClass().getResource("/Elements/On_x32V.png")));
+            Thread t = new Thread() {
+                @Override
+                public void run() {
+                    webcamPanel.start();
+                }
+            };
+            t.setDaemon(true);
+            t.start();
+            change = true;
+        } else {
+            btnOnOff.setIcon(new ImageIcon(getClass().getResource("/Elements/Off_x40N.png")));
+            btnCapture.setEnabled(false);
+            btnCapture.setIcon(new ImageIcon(getClass().getResource("/Elements/CaptureOff_x40N.png")));
+            btnSaveC.setEnabled(false);
+            lbStatusCamera.setIcon(new ImageIcon(getClass().getResource("/Elements/Off_x32R.png")));
+            webcamPanel.stop();
+            change = false;
+        }
+    }//GEN-LAST:event_btnOnOffMouseClicked
+
+    private void btnCaptureActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCaptureActionPerformed
+        ImageIcon photo;
+        photo = new ImageIcon(webcam.getImage());
+        Icon icon = new ImageIcon(photo.getImage().getScaledInstance(lbPhoto.getWidth(), lbPhoto.getHeight(), Image.SCALE_SMOOTH));
+        lbPhoto.setIcon(icon);
+        ruta = webcam.getImage();
+    }//GEN-LAST:event_btnCaptureActionPerformed
+
+    private void btnSaveCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveCActionPerformed
+        int x = JOptionPane.showConfirmDialog(this, "Confirmar para guardar", "INFORMACIÓN", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
+        if (x == 0) {
+            File outputFile = new File(getClass().getResource("/ImagenesLGD/foto.jpg").getFile());
+            counter++;
+            try {
+                ImageIO.write(ruta, "jpg", outputFile);
+                JOptionPane.showMessageDialog(this, "FOTO GUARDADA CORRECTAMETE", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "ERROR", "ERROR", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnSaveCActionPerformed
+
+    private void btnFotografiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnFotografiaActionPerformed
+        animation.jTextAreaXLeft(30, -700, 10, 10, STable);
+        animation.jTextAreaXRight(-700, 30, 10, 10, STable);
+        animation.jTextAreaXLeft(710, 30, 10, 10, SCamera);
+        animation.jTextAreaXRight(30, 710, 10, 10, SCamera);
+    }//GEN-LAST:event_btnFotografiaActionPerformed
 
     public void refresh() {
         DefaultTableModel model = (DefaultTableModel) tUsuarios.getModel();
@@ -619,21 +842,29 @@ public class Usuarios extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel Background;
     private javax.swing.JPanel PAcciones;
+    private javax.swing.JPanel PCamera;
+    private javax.swing.JPanel PCameraSystem;
+    private javax.swing.JPanel PControllers;
     private javax.swing.JPanel PDatos;
     private javax.swing.JPanel PHome;
+    private javax.swing.JPanel PStorage;
+    private javax.swing.JScrollPane SCamera;
+    private javax.swing.JScrollPane STable;
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnCapture;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnFotografia;
     private javax.swing.JButton btnGuie;
     private javax.swing.JButton btnMinimize;
+    private javax.swing.JButton btnOnOff;
     private javax.swing.JButton btnRefresh;
     private javax.swing.JButton btnSave;
+    private javax.swing.JButton btnSaveC;
     private javax.swing.JButton btnSearch;
     private javax.swing.JComboBox<String> cbIdRol;
     private javax.swing.JComboBox<String> cbSexo;
-    private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
     private javax.swing.JSeparator jSeparator2;
     private javax.swing.JSeparator jSeparator3;
@@ -644,9 +875,14 @@ public class Usuarios extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator8;
     private javax.swing.JLabel lbAM;
     private javax.swing.JLabel lbAP;
+    private javax.swing.JLabel lbCapture;
     private javax.swing.JLabel lbDireccion;
     private javax.swing.JLabel lbId;
     private javax.swing.JLabel lbNombre;
+    private javax.swing.JLabel lbOnOff;
+    private javax.swing.JLabel lbPhoto;
+    private javax.swing.JLabel lbSave;
+    private javax.swing.JLabel lbStatusCamera;
     private javax.swing.JLabel lbTelefono;
     private javax.swing.JLabel lbTelefono1;
     private javax.swing.JLabel lbTitulo;
@@ -655,9 +891,8 @@ public class Usuarios extends javax.swing.JFrame {
     private javax.swing.JTable tUsuarios;
     private javax.swing.JTextField tfAM;
     private javax.swing.JTextField tfAP;
-    private javax.swing.JTextField tfContraseña;
+    private javax.swing.JTextField tfContrasena;
     private javax.swing.JTextField tfDireccion;
-    private javax.swing.JTextField tfFoto;
     private javax.swing.JTextField tfId;
     private javax.swing.JTextField tfNombre;
     private javax.swing.JTextField tfTelefono;

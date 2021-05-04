@@ -25,7 +25,7 @@ public class metodoVenta {
         ArrayList<producto> listaPro = new ArrayList<producto>();
 
         try {
-            Connections.Connectionn.enter("ivan", "ivan");//Ingresamos las credenciales de conexión 
+
             Connection con = Connectionn.getConnection();//Inicializamos la conexión 
             PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
             ResultSet rs; //Variable el resultado de la consulta 

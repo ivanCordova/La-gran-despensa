@@ -5,10 +5,17 @@
         <group name="Personales"/>
         <group name="Universidad"/>
         <group>
+<<<<<<< HEAD
             <file>file:/D:/SEMESTRE%206/Ingenieria%20de%20software/Desarrollo/LGD/src/Connections/Connectionn.java</file>
             <file>file:/D:/SEMESTRE%206/Ingenieria%20de%20software/Desarrollo/LGD/src/Methods/metodoVenta.java</file>
             <file>file:/D:/SEMESTRE%206/Ingenieria%20de%20software/Desarrollo/LGD/src/Frames/nuevaVenta.java</file>
             <file>file:/D:/SEMESTRE%206/Ingenieria%20de%20software/Desarrollo/LGD/src/Frames/Ventas.java</file>
+=======
+            <file>file:/C:/Users/Miran/Desktop/Emma/La-gran-despensa/src/Connections/Connectionn.java</file>
+            <file>file:/C:/Users/Miran/Desktop/Emma/La-gran-despensa/src/Frames/Usuarios.java</file>
+            <file>file:/C:/Users/Miran/Desktop/Emma/La-gran-despensa/src/Frames/Login.java</file>
+            <file>file:/C:/Users/Miran/Desktop/Emma/La-gran-despensa/src/Frames/inicio.java</file>
+>>>>>>> a765609ded53a754791a6b412dafef289f228dee
         </group>
     </open-files>
 </project-private>
