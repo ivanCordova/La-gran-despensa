@@ -47,7 +47,7 @@ public class nuevaVenta extends javax.swing.JFrame {
         modeloCarrito.addColumn("Cantidad vendida");
         modeloCarrito.addColumn("Sub total");
         this.tbl_Carrito.setModel(modeloCarrito);//Agregamos el modelo a la Carrito
-        
+
         this.tbl_Buscar.getColumnModel().getColumn(5).setMaxWidth(0);//Ocultamos la columna imagen
 
     }
@@ -502,22 +502,27 @@ public class nuevaVenta extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         //Acción para agregar el producto seleccionado a la tala de carrito 
         if (!txtId.getText().equals("")) {
-            if (txtCantidad.getText().matches("[+-]?\\d*(\\.\\d+)?") || !txtCantidad.getText().equals("")) { //Comprobamos en caso de elegir buscar un código que este sea un número
-                Object[] objetoCarrito = new Object[6];
-                objetoCarrito[0] = txtId.getText();
-                objetoCarrito[1] = txtNombre.getText();
-                objetoCarrito[2] = txtMarca.getText();
-                objetoCarrito[3] = txtPrecio.getText();
-                objetoCarrito[4] = txtCantidad.getText();
-                BigDecimal precio = new BigDecimal(txtPrecio.getText());
-                //objetoCarrito[5] = "" + (precio * 1);
-                //objetoCarrito[5] = "" + (Integer.parseInt(txtPrecio.getText()) * Integer.parseInt(txtCantidad.getText()));
-                modeloCarrito.addRow(objetoCarrito);
-                
+            if (!txtCantidad.getText().equals("")) {
+                if (txtCantidad.getText().matches("[+-]?\\d*(\\.\\d+)?")) { //Comprobamos en caso de elegir buscar un código que este sea un número
+                    //txtCantidad.getText().matches("[+-]?\\d*(\\.\\d+)?") || !txtCantidad.getText().equals("")
+                    Object[] objetoCarrito = new Object[6];
+                    objetoCarrito[0] = txtId.getText();
+                    objetoCarrito[1] = txtNombre.getText();
+                    objetoCarrito[2] = txtMarca.getText();
+                    objetoCarrito[3] = txtPrecio.getText();
+                    objetoCarrito[4] = txtCantidad.getText();
+                    double aux = Double.parseDouble(txtPrecio.getText()) * Integer.parseInt(txtCantidad.getText());
+                    objetoCarrito[5] = "" + aux;
+                    modeloCarrito.addRow(objetoCarrito);
+
+                } else {
+                    JOptionPane.showMessageDialog(null, "La cantidad debe ser un número entero", "Error", JOptionPane.WARNING_MESSAGE);
+                }
             } else {
-                JOptionPane.showMessageDialog(null, "La cantidad debe ser un número entero", "Error", JOptionPane.WARNING_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Ingrese una cantidad ", "Error", JOptionPane.WARNING_MESSAGE);
             }
-        }else{
+
+        } else {
             JOptionPane.showMessageDialog(null, "No se ha elegido ningún artículo", "Error", JOptionPane.WARNING_MESSAGE);
         }
 

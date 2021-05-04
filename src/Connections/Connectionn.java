@@ -19,7 +19,7 @@ public class Connectionn {
 
     public static Connection getConnection() {
         status = false;
-        String url = "jdbc:sqlserver://localhost:1433;databaseName=bd_LGD";
+        String url = "jdbc:sqlserver://localhost:1433;databaseName=bd_LGD2";
         try {
             Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
         } catch (ClassNotFoundException e) {

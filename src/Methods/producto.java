@@ -25,7 +25,7 @@ public class producto { //Clase productos para cargar en Nueva venta 
     public int id_producto;
     public String nombre;
     public String nombre_marca;
-    public BigDecimal precioVenta;
+    public double precioVenta;
     public String imagen;
     public String nombre_categoria;
 
