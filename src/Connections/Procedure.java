@@ -53,6 +53,7 @@ public class Procedure {
         CallableStatement input = Connectionn.getConnection().prepareCall("{call BuscarUsuario(?)}");
         input.setInt(1, id_Provee);
      
+        
         input.execute();
     }
 }
