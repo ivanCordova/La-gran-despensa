@@ -74,7 +74,6 @@ public class Usuarios extends javax.swing.JFrame {
         btnRefresh = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        btnEdit = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
         btnSearch = new javax.swing.JButton();
         btnFotografia = new javax.swing.JButton();
@@ -214,20 +213,20 @@ public class Usuarios extends javax.swing.JFrame {
 
         tUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "ID_ROL", "NOMBRE", "APELLIDOP", "APELLIDOM", "DIRECCION", "TELEFONO", "SEXO", "FOTO", "CONTRASEÑA"
+                "ID", "ID_ROL", "NOMBRE", "APELLIDOP", "APELLIDOM", "DIRECCION", "TELEFONO", "SEXO", "CONTRASEÑA"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -298,19 +297,6 @@ public class Usuarios extends javax.swing.JFrame {
         });
         PAcciones.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
 
-        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Edit_x32A.png"))); // NOI18N
-        btnEdit.setBorder(null);
-        btnEdit.setBorderPainted(false);
-        btnEdit.setContentAreaFilled(false);
-        btnEdit.setFocusPainted(false);
-        btnEdit.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Edit_x32N.png"))); // NOI18N
-        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnEditMouseClicked(evt);
-            }
-        });
-        PAcciones.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, -1));
-
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Save_x32A.png"))); // NOI18N
         btnSave.setBorder(null);
         btnSave.setBorderPainted(false);
@@ -322,7 +308,7 @@ public class Usuarios extends javax.swing.JFrame {
                 btnSaveMouseClicked(evt);
             }
         });
-        PAcciones.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, -1, -1));
+        PAcciones.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, -1));
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Search_x32A.png"))); // NOI18N
         btnSearch.setBorder(null);
@@ -335,7 +321,7 @@ public class Usuarios extends javax.swing.JFrame {
                 btnSearchMouseClicked(evt);
             }
         });
-        PAcciones.add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, -1, -1));
+        PAcciones.add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, -1, -1));
 
         btnFotografia.setBackground(new java.awt.Color(255, 255, 255));
         btnFotografia.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
@@ -595,7 +581,7 @@ public class Usuarios extends javax.swing.JFrame {
                         pst2.setString(6, address);
                         pst2.setString(7, phone);
                         pst2.setString(8, sexostring);
-                        pst2.setString(9, "Pendiente");
+                        pst2.setString(9, "x");
                         pst2.setString(10, pass);
                         pst2.executeUpdate();
                         cn2.close();
@@ -632,19 +618,6 @@ public class Usuarios extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnDeleteMouseClicked
-
-    private void btnEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseClicked
-        sound.clic();
-        tfId.setEnabled(true);
-        cbIdRol.setEnabled(true);
-        tfNombre.setEnabled(true);
-        tfAP.setEnabled(true);
-        tfAM.setEnabled(true);
-        tfDireccion.setEnabled(true);
-        tfTelefono.setEnabled(true);
-        cbSexo.setEnabled(true);
-        tfContrasena.setEnabled(true);
-    }//GEN-LAST:event_btnEditMouseClicked
 
     private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
         if (tfId.getText().isEmpty() || cbIdRol.getSelectedItem() == "" || tfNombre.getText().isEmpty() || tfAP.getText().isEmpty() || tfAM.getText().isEmpty()
@@ -709,7 +682,7 @@ public class Usuarios extends javax.swing.JFrame {
                         tfDireccion.setText(res.getString(6));
                         tfTelefono.setText(res.getString(7));
                         cbSexo.setSelectedItem(res.getString(8));
-                        tfContrasena.setText(res.getString(9));
+                        tfContrasena.setText(res.getString(10));
                     }
                 }
                 JOptionPane.showMessageDialog(this, "DATOS NO ENCONTRADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
@@ -721,15 +694,6 @@ public class Usuarios extends javax.swing.JFrame {
     private void btnRefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefreshMouseClicked
         refresh();
         sound.clic();
-        tfId.setEnabled(false);
-        cbIdRol.setEnabled(false);
-        tfNombre.setEnabled(false);
-        tfAP.setEnabled(false);
-        tfAM.setEnabled(false);
-        tfDireccion.setEnabled(false);
-        tfTelefono.setEnabled(false);
-        cbSexo.setEnabled(false);
-        tfContrasena.setEnabled(false);
         general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
     }//GEN-LAST:event_btnRefreshMouseClicked
 
@@ -772,10 +736,10 @@ public class Usuarios extends javax.swing.JFrame {
     private void btnSaveCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveCActionPerformed
         int x = JOptionPane.showConfirmDialog(this, "Confirmar para guardar", "INFORMACIÓN", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
         if (x == 0) {
-            File outputFile = new File(getClass().getResource("/ImagenesLGD/foto.jpg").getFile());
+//            File outputFilwe = new File(set);
             counter++;
             try {
-                ImageIO.write(ruta, "jpg", outputFile);
+//                ImageIO.write(ruta, "jpg", outputFile);
                 JOptionPane.showMessageDialog(this, "FOTO GUARDADA CORRECTAMETE", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "ERROR", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -805,7 +769,7 @@ public class Usuarios extends javax.swing.JFrame {
                 v.add(res.getString(6));
                 v.add(res.getString(7));
                 v.add(res.getString(8));
-                v.add(res.getString(9));
+                v.add(res.getString(10));
                 model.addRow(v);
                 tUsuarios.setModel(model);
             }
@@ -854,7 +818,6 @@ public class Usuarios extends javax.swing.JFrame {
     private javax.swing.JButton btnCapture;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnFotografia;
     private javax.swing.JButton btnGuie;
     private javax.swing.JButton btnMinimize;
