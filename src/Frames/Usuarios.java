@@ -24,6 +24,7 @@ import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Usuarios extends javax.swing.JFrame {
+
     //OBJECTS
     AnimationClass animation = new AnimationClass();
     Methods.General general = new Methods.General();
@@ -391,36 +392,66 @@ public class Usuarios extends javax.swing.JFrame {
         tfAM.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfAM.setText("Diaz");
         tfAM.setBorder(null);
+        tfAM.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfAMKeyTyped(evt);
+            }
+        });
         PDatos.add(tfAM, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 60, 160, -1));
 
         tfNombre.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfNombre.setText("Emmanuel");
         tfNombre.setBorder(null);
+        tfNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfNombreKeyTyped(evt);
+            }
+        });
         PDatos.add(tfNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, 180, -1));
 
         tfId.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfId.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfId.setText("12345678");
         tfId.setBorder(null);
+        tfId.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfIdKeyTyped(evt);
+            }
+        });
         PDatos.add(tfId, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 70, -1));
 
         tfTelefono.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfTelefono.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfTelefono.setText("2321164170");
         tfTelefono.setBorder(null);
+        tfTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfTelefonoKeyTyped(evt);
+            }
+        });
         PDatos.add(tfTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, 80, -1));
 
         tfAP.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfAP.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfAP.setText("Miranda");
         tfAP.setBorder(null);
+        tfAP.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfAPKeyTyped(evt);
+            }
+        });
         PDatos.add(tfAP, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 150, -1));
 
         tfDireccion.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfDireccion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfDireccion.setText("Col. San Vicente, Mtz de la Torre, Veracruz");
         tfDireccion.setBorder(null);
+        tfDireccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfDireccionKeyTyped(evt);
+            }
+        });
         PDatos.add(tfDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 390, -1));
 
         lbTelefono1.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
@@ -431,6 +462,11 @@ public class Usuarios extends javax.swing.JFrame {
         tfContrasena.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfContrasena.setText("12345");
         tfContrasena.setBorder(null);
+        tfContrasena.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfContrasenaKeyTyped(evt);
+            }
+        });
         PDatos.add(tfContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 110, -1));
         PDatos.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, 110, 10));
 
@@ -538,7 +574,7 @@ public class Usuarios extends javax.swing.JFrame {
             validacion++;
             JOptionPane.showMessageDialog(null, "Inserte datos en los campos vacios", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
         }
-        
+
         switch (rolcb) {
             case 1:
                 rolstring = "A0000001";
@@ -552,13 +588,13 @@ public class Usuarios extends javax.swing.JFrame {
             default:
                 break;
         }
-        
+
         if (sexocb == 1) {
             sexostring = "M";
         } else if (sexocb == 2) {
             sexostring = "F";
         }
-        
+
         try {
             Connection cn = Connectionn.getConnection();
             PreparedStatement pst = cn.prepareStatement("select id_usuario from Usuarios where id_usuario = '"
@@ -754,6 +790,77 @@ public class Usuarios extends javax.swing.JFrame {
         animation.jTextAreaXRight(30, 710, 10, 10, SCamera);
     }//GEN-LAST:event_btnFotografiaActionPerformed
 
+    private void tfIdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfIdKeyTyped
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9') {
+            evt.consume();
+        }
+        if (tfId.getText().length() >= 8) {
+            evt.consume();
+            sound.warning();
+        }
+    }//GEN-LAST:event_tfIdKeyTyped
+
+    private void tfNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNombreKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
+            evt.consume();
+        }
+        if (tfNombre.getText().length() >= 50) {
+            evt.consume();
+            sound.warning();
+        }
+    }//GEN-LAST:event_tfNombreKeyTyped
+
+    private void tfAPKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfAPKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
+            evt.consume();
+        }
+        if (tfAP.getText().length() >= 100) {
+            evt.consume();
+            sound.warning();
+        }
+    }//GEN-LAST:event_tfAPKeyTyped
+
+    private void tfAMKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfAMKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
+            evt.consume();
+        }
+        if (tfAM.getText().length() >= 100) {
+            evt.consume();
+            sound.warning();
+        }
+    }//GEN-LAST:event_tfAMKeyTyped
+
+    private void tfDireccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfDireccionKeyTyped
+        if (tfDireccion.getText().length() >= 100) {
+            evt.consume();
+            sound.warning();
+        }
+
+    }//GEN-LAST:event_tfDireccionKeyTyped
+
+    private void tfTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfTelefonoKeyTyped
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9') {
+            evt.consume();
+        }
+        if (tfTelefono.getText().length() >= 10) {
+            evt.consume();
+            sound.warning();
+        }
+    }//GEN-LAST:event_tfTelefonoKeyTyped
+
+    private void tfContrasenaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfContrasenaKeyTyped
+        char c = evt.getKeyChar();
+        if(tfContrasena.getText().length() >= 20){
+            evt.consume();
+            sound.warning();
+        }
+    }//GEN-LAST:event_tfContrasenaKeyTyped
+
     public void refresh() {
         DefaultTableModel model = (DefaultTableModel) tUsuarios.getModel();
         model.setRowCount(0);
@@ -783,17 +890,29 @@ public class Usuarios extends javax.swing.JFrame {
                 if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                }
+                
+
+}
             }
 
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Usuarios.class
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+
+} catch (InstantiationException ex) {
+            java.util.logging.Logger.getLogger(Usuarios.class
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+
+} catch (IllegalAccessException ex) {
+            java.util.logging.Logger.getLogger(Usuarios.class
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        
+
+} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(Usuarios.class
+.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
