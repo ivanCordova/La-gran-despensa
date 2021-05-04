@@ -12,6 +12,9 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,6 +23,7 @@ import java.util.Vector;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
@@ -360,7 +364,7 @@ public class Usuarios extends javax.swing.JFrame {
 
         lbAM.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         lbAM.setText("ApellidoM:");
-        PDatos.add(lbAM, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 60, -1, -1));
+        PDatos.add(lbAM, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 60, 80, -1));
 
         lbDireccion.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         lbDireccion.setText("Dirección:");
@@ -374,13 +378,13 @@ public class Usuarios extends javax.swing.JFrame {
         cbSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino" }));
         cbSexo.setBorder(null);
         cbSexo.setOpaque(false);
-        PDatos.add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, 100, 20));
-        PDatos.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 80, 160, 10));
+        PDatos.add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 120, 100, 20));
+        PDatos.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 80, 140, 10));
         PDatos.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 70, 10));
-        PDatos.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, 180, 10));
+        PDatos.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, 150, 10));
         PDatos.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, 80, 10));
-        PDatos.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, 150, 10));
-        PDatos.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 390, 10));
+        PDatos.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, 140, 10));
+        PDatos.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 360, 10));
 
         cbIdRol.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         cbIdRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Gerente", "Cajero" }));
@@ -390,29 +394,26 @@ public class Usuarios extends javax.swing.JFrame {
 
         tfAM.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfAM.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfAM.setText("Diaz");
         tfAM.setBorder(null);
         tfAM.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 tfAMKeyTyped(evt);
             }
         });
-        PDatos.add(tfAM, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 60, 160, -1));
+        PDatos.add(tfAM, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, 140, -1));
 
         tfNombre.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfNombre.setText("Emmanuel");
         tfNombre.setBorder(null);
         tfNombre.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 tfNombreKeyTyped(evt);
             }
         });
-        PDatos.add(tfNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, 180, -1));
+        PDatos.add(tfNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, 150, -1));
 
         tfId.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfId.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfId.setText("12345678");
         tfId.setBorder(null);
         tfId.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -423,7 +424,6 @@ public class Usuarios extends javax.swing.JFrame {
 
         tfTelefono.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfTelefono.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfTelefono.setText("2321164170");
         tfTelefono.setBorder(null);
         tfTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
@@ -434,25 +434,23 @@ public class Usuarios extends javax.swing.JFrame {
 
         tfAP.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfAP.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfAP.setText("Miranda");
         tfAP.setBorder(null);
         tfAP.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 tfAPKeyTyped(evt);
             }
         });
-        PDatos.add(tfAP, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 150, -1));
+        PDatos.add(tfAP, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 140, -1));
 
         tfDireccion.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfDireccion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfDireccion.setText("Col. San Vicente, Mtz de la Torre, Veracruz");
         tfDireccion.setBorder(null);
         tfDireccion.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 tfDireccionKeyTyped(evt);
             }
         });
-        PDatos.add(tfDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 390, -1));
+        PDatos.add(tfDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 360, -1));
 
         lbTelefono1.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         lbTelefono1.setText("Telefono:");
@@ -460,18 +458,22 @@ public class Usuarios extends javax.swing.JFrame {
 
         tfContrasena.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfContrasena.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfContrasena.setText("12345");
         tfContrasena.setBorder(null);
         tfContrasena.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyTyped(java.awt.event.KeyEvent evt) {
                 tfContrasenaKeyTyped(evt);
             }
         });
-        PDatos.add(tfContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 110, -1));
-        PDatos.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, 110, 10));
+        PDatos.add(tfContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 80, -1));
+        PDatos.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, 80, 10));
 
         lbPhoto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        PDatos.add(lbPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 10, 140, 140));
+        lbPhoto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbPhotoMouseClicked(evt);
+            }
+        });
+        PDatos.add(lbPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 10, 170, 140));
 
         PHome.add(PDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 640, 160));
 
@@ -855,11 +857,27 @@ public class Usuarios extends javax.swing.JFrame {
 
     private void tfContrasenaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfContrasenaKeyTyped
         char c = evt.getKeyChar();
-        if(tfContrasena.getText().length() >= 20){
+        if (tfContrasena.getText().length() >= 20) {
             evt.consume();
             sound.warning();
         }
     }//GEN-LAST:event_tfContrasenaKeyTyped
+
+    private void lbPhotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbPhotoMouseClicked
+        lbPhoto.setIcon(null);
+        JFileChooser j = new JFileChooser();
+        j.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int estado = j.showOpenDialog(null);
+        if (estado == JFileChooser.APPROVE_OPTION) {
+            try {
+                Image icono = ImageIO.read(j.getSelectedFile()).getScaledInstance(lbPhoto.getWidth(), lbPhoto.getHeight(), Image.SCALE_DEFAULT);
+                lbPhoto.setIcon(new ImageIcon(icono));
+                lbPhoto.updateUI();
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(rootPane, "imagen: " + ex);
+            }
+        }
+    }//GEN-LAST:event_lbPhotoMouseClicked
 
     public void refresh() {
         DefaultTableModel model = (DefaultTableModel) tUsuarios.getModel();
@@ -890,29 +908,25 @@ public class Usuarios extends javax.swing.JFrame {
                 if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
-                
 
-}
+                }
             }
 
         } catch (ClassNotFoundException ex) {
             java.util.logging.Logger.getLogger(Usuarios.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (InstantiationException ex) {
+        } catch (InstantiationException ex) {
             java.util.logging.Logger.getLogger(Usuarios.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (IllegalAccessException ex) {
+        } catch (IllegalAccessException ex) {
             java.util.logging.Logger.getLogger(Usuarios.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
 
-} catch (javax.swing.UnsupportedLookAndFeelException ex) {
+        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Usuarios.class
-.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
