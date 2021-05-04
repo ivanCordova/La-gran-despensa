@@ -15,7 +15,7 @@ public class Usuarios extends javax.swing.JFrame {
 
     Methods.General general = new Methods.General();
     Methods.Sound sound = new Methods.Sound();
-
+//EDITADO PRUEBA CHEMA
     //VARIABLES
     int moveX, moveY;
     static ResultSet res;
