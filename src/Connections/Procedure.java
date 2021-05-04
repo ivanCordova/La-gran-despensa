@@ -52,6 +52,7 @@ public class Procedure {
     public static void BuscarProveedor(int id_Provee) throws SQLException {
         CallableStatement input = Connectionn.getConnection().prepareCall("{call BuscarUsuario(?)}");
         input.setInt(1, id_Provee);
+     
         input.execute();
     }
 }
