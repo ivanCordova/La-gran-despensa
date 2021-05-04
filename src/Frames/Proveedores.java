@@ -380,7 +380,6 @@ public class Proveedores extends javax.swing.JFrame {
                     Empresa_alta.setText("");
                     Telefono_Alta.setText("");
                     Fcha_Alta.setText("");
-
                     JOptionPane.showMessageDialog(this, "PROVEEDOR CREADO", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
 
                 }
