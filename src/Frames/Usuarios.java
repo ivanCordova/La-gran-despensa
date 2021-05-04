@@ -1,7 +1,9 @@
 //JFrame Users
 package Frames;
 
+import Connections.Connectionn;
 import Connections.Procedure;
+import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -19,7 +21,6 @@ public class Usuarios extends javax.swing.JFrame {
     //VARIABLES
     int moveX, moveY;
     static ResultSet res;
-    int cont;
 
     public Usuarios() {
         initComponents();
@@ -220,10 +221,10 @@ public class Usuarios extends javax.swing.JFrame {
         PDatos.add(lbId, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 30, -1, -1));
 
         cbSexo.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
-        cbSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "M", "F" }));
+        cbSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino" }));
         cbSexo.setBorder(null);
         cbSexo.setOpaque(false);
-        PDatos.add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 120, 70, 20));
+        PDatos.add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, 100, 20));
         PDatos.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 80, 160, 10));
         PDatos.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 70, 10));
         PDatos.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, 180, 10));
@@ -281,8 +282,8 @@ public class Usuarios extends javax.swing.JFrame {
         tfContraseña.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         tfContraseña.setText("12345");
         tfContraseña.setBorder(null);
-        PDatos.add(tfContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 140, -1));
-        PDatos.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, 140, 10));
+        PDatos.add(tfContraseña, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 110, -1));
+        PDatos.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, 110, 10));
         PDatos.add(tfFoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 20, 140, 130));
 
         PHome.add(PDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 640, 160));
@@ -409,41 +410,74 @@ public class Usuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_PHomeMousePressed
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
-        if (tfId.getText().isEmpty() || cbIdRol.getSelectedItem() == "" || tfNombre.getText().isEmpty() || tfAP.getText().isEmpty() || tfAM.getText().isEmpty()
-                || tfDireccion.getText().isEmpty() || tfTelefono.getText().isEmpty() || cbSexo.getSelectedItem() == "" || tfContraseña.getText().isEmpty()) {
-            sound.warning();
-            JOptionPane.showMessageDialog(this, "INSERTA LOS DATOS CORRECTAMENTE", "WARNING", JOptionPane.WARNING_MESSAGE);
-        } else {
-            try {
-                res = Connections.Connectionn.consultation("Select COUNT(id_usuario)from Usuarios where id_usuario='" + tfId.getText() + "'");
-                try {
-                    while (res.next()) {
-                        cont = res.getInt(1);
+        int rolcb, sexocb, validacion = 0;
+        String id, name, ap, am, address, phone, pass, rolstring = "", sexostring = "";
+        id = tfId.getText().trim();
+        name = tfNombre.getText().trim();
+        ap = tfAP.getText().trim();
+        am = tfAM.getText().trim();
+        address = tfDireccion.getText().trim();
+        phone = tfTelefono.getText().trim();
+        pass = tfContraseña.getText().trim();
+        rolcb = cbIdRol.getSelectedIndex() + 1;
+        sexocb = cbSexo.getSelectedIndex() + 1;
+        if (id.equals("") || name.equals("") || ap.equals("") || am.equals("") || address.equals("") || phone.equals("")
+                || phone.equals("") || pass.equals("")) {
+            validacion++;
+            JOptionPane.showMessageDialog(null, "Inserte datos en los campos vacios", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+        }
+        
+        if (rolcb == 1) {
+            rolstring = "A0000001";
+        } else if (rolcb == 2) {
+            rolstring = "G0000001";
+        } else if (rolcb == 3) {
+            rolstring = "C0000001";
+        }
+        
+        if (sexocb == 1) {
+            sexostring = "M";
+        } else if (sexocb == 2) {
+            sexostring = "F";
+        }
+        
+        try {
+            Connection cn = Connectionn.getConnection();
+            PreparedStatement pst = cn.prepareStatement("select id_usuario from Usuarios where id_usuario = '"
+                    + id + "'");
+            ResultSet rs = pst.executeQuery();
+            if (rs.next()) {
+                JOptionPane.showMessageDialog(null, "ID en uso", "ERROR", JOptionPane.ERROR_MESSAGE);
+                cn.close();
+            } else {
+                cn.close();
+                if (validacion == 0) {
+                    try {
+                        Connection cn2 = Connectionn.getConnection();
+                        PreparedStatement pst2 = cn2.prepareStatement("insert into Usuarios values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                        pst2.setString(1, id);
+                        pst2.setString(2, rolstring);
+                        pst2.setString(3, name);
+                        pst2.setString(4, ap);
+                        pst2.setString(5, am);
+                        pst2.setString(6, address);
+                        pst2.setString(7, phone);
+                        pst2.setString(8, sexostring);
+                        pst2.setString(9, "foto");
+                        pst2.setString(10, pass);
+                        pst2.executeUpdate();
+                        cn2.close();
+                        JOptionPane.showMessageDialog(null, "Usuario creado correctamente", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                        refresh();
+                    } catch (SQLException e) {
+                        System.err.println("Error al registrar usuario" + e);
+                        JOptionPane.showMessageDialog(null, "Error al registrar usuario, contacte al administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
-                } catch (SQLException e) {
                 }
-                if (cont >= 1) {
-                    sound.error();
-                    JOptionPane.showMessageDialog(this, "USUARIO EXISTENTE", "ERROR", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    String x = cbIdRol.getSelectedItem().toString();
-                    if (x == "Gerente") {
-                        x = "G0000001";
-                    }
-                    if (x == "Cajero") {
-                        x = "C0000001";
-                    }
-                    if (x == "Administrador") {
-                        x = "A0000001";
-                    }
-                    Procedure.entradaUsuarios(Integer.parseInt(tfId.getText()), x, tfNombre.getText(), tfAP.getText(), tfAM.getText(), tfDireccion.getText(), tfTelefono.getText(), cbSexo.getSelectedItem().toString(), tfContraseña.getText());
-                    general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContraseña);
-                    sound.executed();
-                    JOptionPane.showMessageDialog(this, "USUARIO CREADO", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
-                    refresh();
-                }
-            } catch (SQLException e) {
             }
+        } catch (SQLException e) {
+            System.err.println("Error en la validacion del usuario" + e);
+            JOptionPane.showMessageDialog(null, "Errores al comparar usuarios, contacte al administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAddMouseClicked
 
