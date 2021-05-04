@@ -15,6 +15,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 
 /**
  *
@@ -275,6 +276,11 @@ public class nuevaVenta extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tbl_Carrito.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_CarritoMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tbl_Carrito);
 
         jLabel2.setText("Carrito de compras");
@@ -528,6 +534,30 @@ public class nuevaVenta extends javax.swing.JFrame {
 
 
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void tbl_CarritoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_CarritoMouseClicked
+        int seleccion = this.tbl_Buscar.rowAtPoint(evt.getPoint());//Guardamos el índice de la fila que se selecciona 
+
+
+        if (seleccion == 0) {
+            if (JOptionPane.showConfirmDialog(null, "Realmente desea salir de Hola Swing?" + seleccion, "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
+                DefaultTableModel modelo = (DefaultTableModel) tbl_Carrito.getModel();
+                modelo.removeRow(seleccion);
+                //tbl_Carrito.setModel(modelo);
+            }
+        } else {
+            if (JOptionPane.showConfirmDialog(null, "Realmente desea salir de Hola Swing?" + seleccion, "Confirmar salida", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
+                DefaultTableModel modelo = (DefaultTableModel) tbl_Carrito.getModel();
+                modelo.removeRow(seleccion + 1);
+                //tbl_Carrito.setModel(modelo);
+            }
+        }
+
+        
+        
+        
+
+    }//GEN-LAST:event_tbl_CarritoMouseClicked
 
     /**
      * @param args the command line arguments
