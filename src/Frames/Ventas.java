@@ -7,7 +7,7 @@ package Frames;
 
 /**
  *
- * @author Miran
+ * @author Ivan
  */
 public class Ventas extends javax.swing.JFrame {
 
