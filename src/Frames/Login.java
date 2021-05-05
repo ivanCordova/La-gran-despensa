@@ -1,4 +1,3 @@
-//JFrame Login
 package Frames;
 
 import Connections.Connectionn;
@@ -31,40 +30,28 @@ public class Login extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        PContenido = new javax.swing.JPanel();
         btnMinimize = new javax.swing.JButton();
         btnClose = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        jSeparator1 = new javax.swing.JSeparator();
         txtId = new javax.swing.JTextField();
-        jSeparator2 = new javax.swing.JSeparator();
         txtPassword = new javax.swing.JPasswordField();
         btnLogin = new javax.swing.JButton();
-        Background = new javax.swing.JLabel();
+        bgLogin = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("INICIA SESIÖN");
-        setMaximumSize(new java.awt.Dimension(450, 575));
-        setMinimumSize(new java.awt.Dimension(450, 575));
+        setTitle("Inicia sesion");
+        setMaximizedBounds(new java.awt.Rectangle(0, 0, 350, 550));
+        setMaximumSize(new java.awt.Dimension(350, 550));
+        setMinimumSize(new java.awt.Dimension(350, 550));
+        setName("Login"); // NOI18N
         setUndecorated(true);
+        setPreferredSize(new java.awt.Dimension(350, 550));
         setResizable(false);
-
-        PContenido.setBackground(new java.awt.Color(255, 255, 255));
-        PContenido.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
-            public void mouseDragged(java.awt.event.MouseEvent evt) {
-                PContenidoMouseDragged(evt);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
             }
         });
-        PContenido.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mousePressed(java.awt.event.MouseEvent evt) {
-                PContenidoMousePressed(evt);
-            }
-        });
-        PContenido.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnMinimize.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Minimize_x32N.png"))); // NOI18N
         btnMinimize.setBorder(null);
@@ -77,7 +64,7 @@ public class Login extends javax.swing.JFrame {
                 btnMinimizeMouseClicked(evt);
             }
         });
-        PContenido.add(btnMinimize, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 10, 30, 30));
+        getContentPane().add(btnMinimize, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 10, 30, 30));
 
         btnClose.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Close_x32N.png"))); // NOI18N
         btnClose.setBorder(null);
@@ -90,68 +77,48 @@ public class Login extends javax.swing.JFrame {
                 btnCloseMouseClicked(evt);
             }
         });
-        PContenido.add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 10, 30, 30));
-
-        jLabel1.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        jLabel1.setText("Contraseña:");
-        PContenido.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 310, -1, -1));
-
-        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Logo.png"))); // NOI18N
-        PContenido.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 70, -1, -1));
-
-        jLabel3.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Password_x40N.png"))); // NOI18N
-        PContenido.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 340, -1, -1));
-
-        jLabel4.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        jLabel4.setText("ID:");
-        PContenido.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 200, -1, -1));
-
-        jLabel5.setFont(new java.awt.Font("Verdana", 0, 18)); // NOI18N
-        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/User_x40N.png"))); // NOI18N
-        PContenido.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 230, -1, -1));
-        PContenido.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 390, 310, 10));
+        getContentPane().add(btnClose, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 10, 30, 30));
 
         txtId.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        txtId.setText("1");
+        txtId.setForeground(new java.awt.Color(255, 255, 255));
         txtId.setBorder(null);
         txtId.setOpaque(false);
-        PContenido.add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 230, 260, 40));
-        PContenido.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 270, 310, 10));
+        getContentPane().add(txtId, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 270, 170, 40));
 
         txtPassword.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        txtPassword.setText("12345");
+        txtPassword.setForeground(new java.awt.Color(255, 255, 255));
         txtPassword.setBorder(null);
         txtPassword.setOpaque(false);
-        PContenido.add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 340, 260, 40));
+        getContentPane().add(txtPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 350, 170, 40));
 
-        btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/BtnInput1.png"))); // NOI18N
+        btnLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/btnLogin1.jpg"))); // NOI18N
         btnLogin.setBorder(null);
         btnLogin.setBorderPainted(false);
         btnLogin.setContentAreaFilled(false);
         btnLogin.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnLogin.setFocusPainted(false);
-        btnLogin.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/BtnInput2.png"))); // NOI18N
+        btnLogin.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/btnLogin.png"))); // NOI18N
         btnLogin.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 btnLoginMouseClicked(evt);
             }
         });
-        PContenido.add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 450, 260, 40));
+        getContentPane().add(btnLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 420, 210, 40));
 
-        Background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/BackgroundLogin.jpg"))); // NOI18N
-        PContenido.add(Background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
+        bgLogin.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Login.jpg"))); // NOI18N
+        bgLogin.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                bgLoginMouseDragged(evt);
+            }
+        });
+        bgLogin.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                bgLoginMousePressed(evt);
+            }
+        });
+        getContentPane().add(bgLogin, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 350, 550));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PContenido, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PContenido, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-        );
+        getAccessibleContext().setAccessibleName("");
 
         pack();
         setLocationRelativeTo(null);
@@ -166,44 +133,33 @@ public class Login extends javax.swing.JFrame {
         this.setState(Login.ICONIFIED);
     }//GEN-LAST:event_btnMinimizeMouseClicked
 
-    private void PContenidoMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PContenidoMouseDragged
-        int x = evt.getXOnScreen();
-        int y = evt.getYOnScreen();
-        this.setLocation(x - moveX, y - moveY);
-    }//GEN-LAST:event_PContenidoMouseDragged
-
-    private void PContenidoMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PContenidoMousePressed
-        moveX = evt.getX();
-        moveY = evt.getY();
-    }//GEN-LAST:event_PContenidoMousePressed
-
     private void btnLoginMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnLoginMouseClicked
         id = txtId.getText().trim();
         pass = txtPassword.getText().trim();
 
         if (String.valueOf(txtId.getText()).compareTo("") == 0 && String.valueOf(txtPassword.getPassword()).compareTo("") == 0) {
-            JOptionPane.showMessageDialog(this, "Ingrese su usuario y contraseña", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Ingrese su id y contraseña", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
         } else {
             if (String.valueOf(txtId.getText()).compareTo(txtId.getText()) == 0 && String.valueOf(txtPassword.getPassword()).compareTo("") == 0) {
                 JOptionPane.showMessageDialog(this, "Ingrese su contraseña", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
             } else {
                 if (String.valueOf(txtId.getText()).compareTo("") == 0 && String.valueOf(txtPassword.getPassword()).compareTo(txtPassword.getText()) == 0) {
-                    JOptionPane.showMessageDialog(this, "Ingrese su usuario", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "Ingrese su id", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
                 } else {
                     try {
                         Connection cn = Connectionn.getConnection();
                         PreparedStatement pst = cn.prepareStatement("select id_rol from Usuarios where id_usuario = '" + id
-                            + "' and contraseña = '" + pass + "'");
+                                + "' and contraseña = '" + pass + "'");
                         ResultSet rs = pst.executeQuery();
                         if (rs.next()) {
                             String id_rol = rs.getString("id_rol");
-                            if(id_rol.equals("A0000001")){
+                            if (id_rol.equals("A0000001")) {
                                 dispose();
                                 new Usuarios().setVisible(true);
-                            } else if (id_rol.equals("G0000001")){
+                            } else if (id_rol.equals("G0000001")) {
                                 dispose();
                                 new Proveedores().setVisible(true);
-                            } else if (id_rol.equals("C0000001")){
+                            } else if (id_rol.equals("C0000001")) {
                                 dispose();
                                 new Ventas().setVisible(true);
                             }
@@ -221,43 +177,26 @@ public class Login extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnLoginMouseClicked
 
-    public static void main(String args[]) {
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Windows".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Login().setVisible(true);
-            }
-        });
-    }
+    private void bgLoginMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bgLoginMousePressed
+        moveX = evt.getX();
+        moveY = evt.getY();
+    }//GEN-LAST:event_bgLoginMousePressed
+
+    private void bgLoginMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_bgLoginMouseDragged
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+        this.setLocation(x - moveX, y - moveY);
+    }//GEN-LAST:event_bgLoginMouseDragged
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        sound.input();
+    }//GEN-LAST:event_formWindowOpened
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel Background;
-    private javax.swing.JPanel PContenido;
+    private javax.swing.JLabel bgLogin;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnLogin;
     private javax.swing.JButton btnMinimize;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JLabel jLabel5;
-    private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JSeparator jSeparator2;
     private javax.swing.JTextField txtId;
     private javax.swing.JPasswordField txtPassword;
     // End of variables declaration//GEN-END:variables

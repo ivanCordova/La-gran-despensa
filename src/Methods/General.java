@@ -11,7 +11,7 @@ public class General {
     public void close() {
         int message = JOptionPane.YES_NO_OPTION;
         sound.information();
-        int answer = JOptionPane.showConfirmDialog(null, "DO YOU WANT TO GO OUT?", "EXIT", message);
+        int answer = JOptionPane.showConfirmDialog(null, "¿Desea salir?", "INFORMACION", message);
         if (answer == 0) {
             System.exit(0);
         }

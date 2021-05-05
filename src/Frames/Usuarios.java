@@ -124,6 +124,11 @@ public class Usuarios extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(700, 700));
         setResizable(false);
         setSize(new java.awt.Dimension(700, 700));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         SCamera.setBackground(new java.awt.Color(255, 255, 255));
@@ -878,6 +883,10 @@ public class Usuarios extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_lbPhotoMouseClicked
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        sound.login();
+    }//GEN-LAST:event_formWindowOpened
 
     public void refresh() {
         DefaultTableModel model = (DefaultTableModel) tUsuarios.getModel();
