@@ -66,23 +66,25 @@ foto VARCHAR(100) NOT NULL,
 contraseña VARCHAR(20) NOT NULL
 );
 GO
-CREATE TABLE ProductosVendidos(
-id_proventa INT CONSTRAINT pk_proventas PRIMARY KEY,
-id_producto INT NOT NULL REFERENCES Productos,
-cantidad SMALLINT NOT NULL
-);
-GO
 CREATE TABLE Ventas(
-id_venta INT CONSTRAINT pk_ventas PRIMARY KEY,
+id_venta VARCHAR(25) CONSTRAINT pk_ventas PRIMARY KEY,
 id_usuario INT NOT NULL REFERENCES Usuarios,
-id_proventa INT NOT NULL REFERENCES ProductosVendidos,
 fechaVenta VARCHAR(10) NOT NULL,
 sumaFinalV FLOAT NOT NULL
 );
 GO
+
+CREATE TABLE ProductosVendidos(
+id_proventa INT IDENTITY(1,1) CONSTRAINT pk_proventas PRIMARY KEY,
+id_venta VARCHAR(25) NOT NULL REFERENCES Ventas,
+id_producto INT NOT NULL REFERENCES Productos,
+cantidad SMALLINT NOT NULL
+);
+GO
+
 CREATE TABLE CierreCaja(
 id_cierrecaja INT CONSTRAINT pk_cierrecaja PRIMARY KEY,
-id_venta INT NOT NULL REFERENCES Ventas,
+id_venta VARCHAR(25) NOT NULL REFERENCES Ventas,
 fechaCierre VARCHAR(10) NOT NULL,
 sumaFinalCierre FLOAT NOT NULL
 );
