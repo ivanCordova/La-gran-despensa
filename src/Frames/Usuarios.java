@@ -661,7 +661,7 @@ public class Usuarios extends javax.swing.JFrame {
 
     private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
         int row1 = tUsuarios.getSelectedRow(); //Se obtiene el numero de la fila
-        if (row1 == -1) { //Si no se a seleccionado una fila se le avisa al usuario a través de un mensaje
+        if (row1 == -1) { //Si no se ha seleccionado una fila se le avisa al usuario a través de un mensaje
             sound.warning();
             JOptionPane.showMessageDialog(null, "SELECCIONE UN REGISTRO", "WARNING", JOptionPane.WARNING_MESSAGE);
         } else {
