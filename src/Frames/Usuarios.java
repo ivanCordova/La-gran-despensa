@@ -12,6 +12,9 @@ import java.awt.FlowLayout;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,10 +23,12 @@ import java.util.Vector;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class Usuarios extends javax.swing.JFrame {
+
     //OBJECTS
     AnimationClass animation = new AnimationClass();
     Methods.General general = new Methods.General();
@@ -74,7 +79,6 @@ public class Usuarios extends javax.swing.JFrame {
         btnRefresh = new javax.swing.JButton();
         btnAdd = new javax.swing.JButton();
         btnDelete = new javax.swing.JButton();
-        btnEdit = new javax.swing.JButton();
         btnSave = new javax.swing.JButton();
         btnSearch = new javax.swing.JButton();
         btnFotografia = new javax.swing.JButton();
@@ -214,20 +218,20 @@ public class Usuarios extends javax.swing.JFrame {
 
         tUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null, null, null}
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null}
             },
             new String [] {
-                "ID", "ID_ROL", "NOMBRE", "APELLIDOP", "APELLIDOM", "DIRECCION", "TELEFONO", "SEXO", "FOTO", "CONTRASEÑA"
+                "ID", "ID_ROL", "NOMBRE", "APELLIDOP", "APELLIDOM", "DIRECCION", "TELEFONO", "SEXO", "CONTRASEÑA"
             }
         ) {
             Class[] types = new Class [] {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, false, false, false, false, false, false
+                false, false, false, false, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex) {
@@ -298,19 +302,6 @@ public class Usuarios extends javax.swing.JFrame {
         });
         PAcciones.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
 
-        btnEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Edit_x32A.png"))); // NOI18N
-        btnEdit.setBorder(null);
-        btnEdit.setBorderPainted(false);
-        btnEdit.setContentAreaFilled(false);
-        btnEdit.setFocusPainted(false);
-        btnEdit.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Edit_x32N.png"))); // NOI18N
-        btnEdit.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                btnEditMouseClicked(evt);
-            }
-        });
-        PAcciones.add(btnEdit, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, -1));
-
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Save_x32A.png"))); // NOI18N
         btnSave.setBorder(null);
         btnSave.setBorderPainted(false);
@@ -322,7 +313,7 @@ public class Usuarios extends javax.swing.JFrame {
                 btnSaveMouseClicked(evt);
             }
         });
-        PAcciones.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, -1, -1));
+        PAcciones.add(btnSave, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 30, -1, -1));
 
         btnSearch.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Search_x32A.png"))); // NOI18N
         btnSearch.setBorder(null);
@@ -335,7 +326,7 @@ public class Usuarios extends javax.swing.JFrame {
                 btnSearchMouseClicked(evt);
             }
         });
-        PAcciones.add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 30, -1, -1));
+        PAcciones.add(btnSearch, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 30, -1, -1));
 
         btnFotografia.setBackground(new java.awt.Color(255, 255, 255));
         btnFotografia.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
@@ -373,7 +364,7 @@ public class Usuarios extends javax.swing.JFrame {
 
         lbAM.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         lbAM.setText("ApellidoM:");
-        PDatos.add(lbAM, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 60, -1, -1));
+        PDatos.add(lbAM, new org.netbeans.lib.awtextra.AbsoluteConstraints(240, 60, 80, -1));
 
         lbDireccion.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         lbDireccion.setText("Dirección:");
@@ -387,13 +378,13 @@ public class Usuarios extends javax.swing.JFrame {
         cbSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino" }));
         cbSexo.setBorder(null);
         cbSexo.setOpaque(false);
-        PDatos.add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 120, 100, 20));
-        PDatos.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 80, 160, 10));
+        PDatos.add(cbSexo, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 120, 100, 20));
+        PDatos.add(jSeparator2, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 80, 140, 10));
         PDatos.add(jSeparator3, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 50, 70, 10));
-        PDatos.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, 180, 10));
+        PDatos.add(jSeparator4, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 50, 150, 10));
         PDatos.add(jSeparator5, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 140, 80, 10));
-        PDatos.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, 150, 10));
-        PDatos.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 390, 10));
+        PDatos.add(jSeparator6, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 80, 140, 10));
+        PDatos.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 360, 10));
 
         cbIdRol.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         cbIdRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Gerente", "Cajero" }));
@@ -403,39 +394,63 @@ public class Usuarios extends javax.swing.JFrame {
 
         tfAM.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfAM.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfAM.setText("Diaz");
         tfAM.setBorder(null);
-        PDatos.add(tfAM, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 60, 160, -1));
+        tfAM.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfAMKeyTyped(evt);
+            }
+        });
+        PDatos.add(tfAM, new org.netbeans.lib.awtextra.AbsoluteConstraints(310, 60, 140, -1));
 
         tfNombre.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfNombre.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfNombre.setText("Emmanuel");
         tfNombre.setBorder(null);
-        PDatos.add(tfNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, 180, -1));
+        tfNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfNombreKeyTyped(evt);
+            }
+        });
+        PDatos.add(tfNombre, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 30, 150, -1));
 
         tfId.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfId.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfId.setText("12345678");
         tfId.setBorder(null);
+        tfId.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfIdKeyTyped(evt);
+            }
+        });
         PDatos.add(tfId, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 30, 70, -1));
 
         tfTelefono.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfTelefono.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfTelefono.setText("2321164170");
         tfTelefono.setBorder(null);
+        tfTelefono.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfTelefonoKeyTyped(evt);
+            }
+        });
         PDatos.add(tfTelefono, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 120, 80, -1));
 
         tfAP.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfAP.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfAP.setText("Miranda");
         tfAP.setBorder(null);
-        PDatos.add(tfAP, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 150, -1));
+        tfAP.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfAPKeyTyped(evt);
+            }
+        });
+        PDatos.add(tfAP, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 60, 140, -1));
 
         tfDireccion.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfDireccion.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfDireccion.setText("Col. San Vicente, Mtz de la Torre, Veracruz");
         tfDireccion.setBorder(null);
-        PDatos.add(tfDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 390, -1));
+        tfDireccion.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfDireccionKeyTyped(evt);
+            }
+        });
+        PDatos.add(tfDireccion, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 90, 360, -1));
 
         lbTelefono1.setFont(new java.awt.Font("Verdana", 1, 11)); // NOI18N
         lbTelefono1.setText("Telefono:");
@@ -443,13 +458,22 @@ public class Usuarios extends javax.swing.JFrame {
 
         tfContrasena.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfContrasena.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        tfContrasena.setText("12345");
         tfContrasena.setBorder(null);
-        PDatos.add(tfContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 110, -1));
-        PDatos.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, 110, 10));
+        tfContrasena.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                tfContrasenaKeyTyped(evt);
+            }
+        });
+        PDatos.add(tfContrasena, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 120, 80, -1));
+        PDatos.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, 80, 10));
 
         lbPhoto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
-        PDatos.add(lbPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 10, 140, 140));
+        lbPhoto.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbPhotoMouseClicked(evt);
+            }
+        });
+        PDatos.add(lbPhoto, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 10, 170, 140));
 
         PHome.add(PDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 170, 640, 160));
 
@@ -552,7 +576,7 @@ public class Usuarios extends javax.swing.JFrame {
             validacion++;
             JOptionPane.showMessageDialog(null, "Inserte datos en los campos vacios", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
         }
-        
+
         switch (rolcb) {
             case 1:
                 rolstring = "A0000001";
@@ -566,13 +590,13 @@ public class Usuarios extends javax.swing.JFrame {
             default:
                 break;
         }
-        
+
         if (sexocb == 1) {
             sexostring = "M";
         } else if (sexocb == 2) {
             sexostring = "F";
         }
-        
+
         try {
             Connection cn = Connectionn.getConnection();
             PreparedStatement pst = cn.prepareStatement("select id_usuario from Usuarios where id_usuario = '"
@@ -595,7 +619,7 @@ public class Usuarios extends javax.swing.JFrame {
                         pst2.setString(6, address);
                         pst2.setString(7, phone);
                         pst2.setString(8, sexostring);
-                        pst2.setString(9, "Pendiente");
+                        pst2.setString(9, "x");
                         pst2.setString(10, pass);
                         pst2.executeUpdate();
                         cn2.close();
@@ -632,19 +656,6 @@ public class Usuarios extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnDeleteMouseClicked
-
-    private void btnEditMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnEditMouseClicked
-        sound.clic();
-        tfId.setEnabled(true);
-        cbIdRol.setEnabled(true);
-        tfNombre.setEnabled(true);
-        tfAP.setEnabled(true);
-        tfAM.setEnabled(true);
-        tfDireccion.setEnabled(true);
-        tfTelefono.setEnabled(true);
-        cbSexo.setEnabled(true);
-        tfContrasena.setEnabled(true);
-    }//GEN-LAST:event_btnEditMouseClicked
 
     private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
         if (tfId.getText().isEmpty() || cbIdRol.getSelectedItem() == "" || tfNombre.getText().isEmpty() || tfAP.getText().isEmpty() || tfAM.getText().isEmpty()
@@ -709,7 +720,7 @@ public class Usuarios extends javax.swing.JFrame {
                         tfDireccion.setText(res.getString(6));
                         tfTelefono.setText(res.getString(7));
                         cbSexo.setSelectedItem(res.getString(8));
-                        tfContrasena.setText(res.getString(9));
+                        tfContrasena.setText(res.getString(10));
                     }
                 }
                 JOptionPane.showMessageDialog(this, "DATOS NO ENCONTRADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
@@ -721,15 +732,6 @@ public class Usuarios extends javax.swing.JFrame {
     private void btnRefreshMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnRefreshMouseClicked
         refresh();
         sound.clic();
-        tfId.setEnabled(false);
-        cbIdRol.setEnabled(false);
-        tfNombre.setEnabled(false);
-        tfAP.setEnabled(false);
-        tfAM.setEnabled(false);
-        tfDireccion.setEnabled(false);
-        tfTelefono.setEnabled(false);
-        cbSexo.setEnabled(false);
-        tfContrasena.setEnabled(false);
         general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
     }//GEN-LAST:event_btnRefreshMouseClicked
 
@@ -772,10 +774,10 @@ public class Usuarios extends javax.swing.JFrame {
     private void btnSaveCActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSaveCActionPerformed
         int x = JOptionPane.showConfirmDialog(this, "Confirmar para guardar", "INFORMACIÓN", JOptionPane.YES_NO_OPTION, JOptionPane.INFORMATION_MESSAGE);
         if (x == 0) {
-            File outputFile = new File(getClass().getResource("/ImagenesLGD/foto.jpg").getFile());
+//            File outputFilwe = new File(set);
             counter++;
             try {
-                ImageIO.write(ruta, "jpg", outputFile);
+//                ImageIO.write(ruta, "jpg", outputFile);
                 JOptionPane.showMessageDialog(this, "FOTO GUARDADA CORRECTAMETE", "INFORMACIÓN", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(this, "ERROR", "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -789,6 +791,93 @@ public class Usuarios extends javax.swing.JFrame {
         animation.jTextAreaXLeft(710, 30, 10, 10, SCamera);
         animation.jTextAreaXRight(30, 710, 10, 10, SCamera);
     }//GEN-LAST:event_btnFotografiaActionPerformed
+
+    private void tfIdKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfIdKeyTyped
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9') {
+            evt.consume();
+        }
+        if (tfId.getText().length() >= 8) {
+            evt.consume();
+            sound.warning();
+        }
+    }//GEN-LAST:event_tfIdKeyTyped
+
+    private void tfNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfNombreKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
+            evt.consume();
+        }
+        if (tfNombre.getText().length() >= 50) {
+            evt.consume();
+            sound.warning();
+        }
+    }//GEN-LAST:event_tfNombreKeyTyped
+
+    private void tfAPKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfAPKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
+            evt.consume();
+        }
+        if (tfAP.getText().length() >= 100) {
+            evt.consume();
+            sound.warning();
+        }
+    }//GEN-LAST:event_tfAPKeyTyped
+
+    private void tfAMKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfAMKeyTyped
+        char c = evt.getKeyChar();
+        if ((c < 'a' || c > 'z') && (c < 'A' || c > 'Z')) {
+            evt.consume();
+        }
+        if (tfAM.getText().length() >= 100) {
+            evt.consume();
+            sound.warning();
+        }
+    }//GEN-LAST:event_tfAMKeyTyped
+
+    private void tfDireccionKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfDireccionKeyTyped
+        if (tfDireccion.getText().length() >= 100) {
+            evt.consume();
+            sound.warning();
+        }
+
+    }//GEN-LAST:event_tfDireccionKeyTyped
+
+    private void tfTelefonoKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfTelefonoKeyTyped
+        char c = evt.getKeyChar();
+        if (c < '0' || c > '9') {
+            evt.consume();
+        }
+        if (tfTelefono.getText().length() >= 10) {
+            evt.consume();
+            sound.warning();
+        }
+    }//GEN-LAST:event_tfTelefonoKeyTyped
+
+    private void tfContrasenaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tfContrasenaKeyTyped
+        char c = evt.getKeyChar();
+        if (tfContrasena.getText().length() >= 20) {
+            evt.consume();
+            sound.warning();
+        }
+    }//GEN-LAST:event_tfContrasenaKeyTyped
+
+    private void lbPhotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbPhotoMouseClicked
+        lbPhoto.setIcon(null);
+        JFileChooser j = new JFileChooser();
+        j.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        int estado = j.showOpenDialog(null);
+        if (estado == JFileChooser.APPROVE_OPTION) {
+            try {
+                Image icono = ImageIO.read(j.getSelectedFile()).getScaledInstance(lbPhoto.getWidth(), lbPhoto.getHeight(), Image.SCALE_DEFAULT);
+                lbPhoto.setIcon(new ImageIcon(icono));
+                lbPhoto.updateUI();
+            } catch (IOException ex) {
+                JOptionPane.showMessageDialog(rootPane, "imagen: " + ex);
+            }
+        }
+    }//GEN-LAST:event_lbPhotoMouseClicked
 
     public void refresh() {
         DefaultTableModel model = (DefaultTableModel) tUsuarios.getModel();
@@ -805,7 +894,7 @@ public class Usuarios extends javax.swing.JFrame {
                 v.add(res.getString(6));
                 v.add(res.getString(7));
                 v.add(res.getString(8));
-                v.add(res.getString(9));
+                v.add(res.getString(10));
                 model.addRow(v);
                 tUsuarios.setModel(model);
             }
@@ -819,17 +908,25 @@ public class Usuarios extends javax.swing.JFrame {
                 if ("Windows".equals(info.getName())) {
                     javax.swing.UIManager.setLookAndFeel(info.getClassName());
                     break;
+
                 }
             }
 
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Usuarios.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Usuarios.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Usuarios.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
+
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Usuarios.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Usuarios.class
+                    .getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
 
         java.awt.EventQueue.invokeLater(new Runnable() {
@@ -854,7 +951,6 @@ public class Usuarios extends javax.swing.JFrame {
     private javax.swing.JButton btnCapture;
     private javax.swing.JButton btnClose;
     private javax.swing.JButton btnDelete;
-    private javax.swing.JButton btnEdit;
     private javax.swing.JButton btnFotografia;
     private javax.swing.JButton btnGuie;
     private javax.swing.JButton btnMinimize;
