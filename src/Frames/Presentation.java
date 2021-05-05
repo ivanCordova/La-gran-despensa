@@ -22,7 +22,6 @@ public class Presentation extends javax.swing.JFrame {
         setMinimumSize(new java.awt.Dimension(450, 264));
         setName("Presentation"); // NOI18N
         setUndecorated(true);
-        setPreferredSize(new java.awt.Dimension(450, 264));
         setResizable(false);
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -40,7 +39,6 @@ public class Presentation extends javax.swing.JFrame {
 
         bProgreso.setBackground(new java.awt.Color(66, 108, 180));
         bProgreso.setForeground(new java.awt.Color(255, 255, 255));
-        bProgreso.setOpaque(true);
         getContentPane().add(bProgreso, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 230, 410, 5));
 
         bgPresentation.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Presentation.jpg"))); // NOI18N
