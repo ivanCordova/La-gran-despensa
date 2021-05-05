@@ -33,12 +33,13 @@ public class Usuarios extends javax.swing.JFrame {
     AnimationClass animation = new AnimationClass();
     Methods.General general = new Methods.General();
     Methods.Sound sound = new Methods.Sound();
-//EDITADO PRUEBA SEGUNDAS
+    
     //VARIABLES
     int moveX, moveY;
     static ResultSet res;
     int ancho = 320;
     int alto = 210;
+    String id;
     Dimension dimension = new Dimension(ancho, alto);
     Dimension dimension1 = WebcamResolution.VGA.getSize();
     Webcam webcam = Webcam.getDefault();
@@ -54,6 +55,8 @@ public class Usuarios extends javax.swing.JFrame {
         PCamera.setLayout(new FlowLayout());
         PCamera.add(webcamPanel);
         lbStatusCamera.setText(webcam.toString());
+        id = Login.id;
+        lbIdEncabezado.setText("INICIO DE SESION CON ID: " + id);
     }
 
     @SuppressWarnings("unchecked")
@@ -110,7 +113,7 @@ public class Usuarios extends javax.swing.JFrame {
         btnClose = new javax.swing.JButton();
         btnMinimize = new javax.swing.JButton();
         lbTitulo = new javax.swing.JLabel();
-        lbTitulo1 = new javax.swing.JLabel();
+        lbIdEncabezado = new javax.swing.JLabel();
         lbTitulo2 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         btnGuie = new javax.swing.JButton();
@@ -124,6 +127,11 @@ public class Usuarios extends javax.swing.JFrame {
         setPreferredSize(new java.awt.Dimension(700, 700));
         setResizable(false);
         setSize(new java.awt.Dimension(700, 700));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         SCamera.setBackground(new java.awt.Color(255, 255, 255));
@@ -218,6 +226,17 @@ public class Usuarios extends javax.swing.JFrame {
 
         tUsuarios.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
+                {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null, null},
@@ -509,11 +528,11 @@ public class Usuarios extends javax.swing.JFrame {
         lbTitulo.setText("USUARIOS");
         PHome.add(lbTitulo, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 50, 650, -1));
 
-        lbTitulo1.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
-        lbTitulo1.setForeground(new java.awt.Color(255, 255, 255));
-        lbTitulo1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        lbTitulo1.setText("NOMBRE:");
-        PHome.add(lbTitulo1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 650, -1));
+        lbIdEncabezado.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
+        lbIdEncabezado.setForeground(new java.awt.Color(255, 255, 255));
+        lbIdEncabezado.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lbIdEncabezado.setText("INICIO DE SESION CON ID:");
+        PHome.add(lbIdEncabezado, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, 650, -1));
 
         lbTitulo2.setFont(new java.awt.Font("Verdana", 0, 14)); // NOI18N
         lbTitulo2.setForeground(new java.awt.Color(255, 255, 255));
@@ -530,7 +549,7 @@ public class Usuarios extends javax.swing.JFrame {
         btnGuie.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Manual_x32N.png"))); // NOI18N
         PHome.add(btnGuie, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 100, -1, -1));
 
-        Background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/BackgroundUsers.jpg"))); // NOI18N
+        Background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Usuarios.jpg"))); // NOI18N
         PHome.add(Background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 700));
 
         getContentPane().add(PHome, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1340, -1));
@@ -879,6 +898,11 @@ public class Usuarios extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_lbPhotoMouseClicked
 
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        refresh();
+        sound.login();
+    }//GEN-LAST:event_formWindowOpened
+
     public void refresh() {
         DefaultTableModel model = (DefaultTableModel) tUsuarios.getModel();
         model.setRowCount(0);
@@ -974,6 +998,7 @@ public class Usuarios extends javax.swing.JFrame {
     private javax.swing.JLabel lbCapture;
     private javax.swing.JLabel lbDireccion;
     private javax.swing.JLabel lbId;
+    private javax.swing.JLabel lbIdEncabezado;
     private javax.swing.JLabel lbNombre;
     private javax.swing.JLabel lbOnOff;
     private javax.swing.JLabel lbPhoto;
@@ -982,7 +1007,6 @@ public class Usuarios extends javax.swing.JFrame {
     private javax.swing.JLabel lbTelefono;
     private javax.swing.JLabel lbTelefono1;
     private javax.swing.JLabel lbTitulo;
-    private javax.swing.JLabel lbTitulo1;
     private javax.swing.JLabel lbTitulo2;
     private javax.swing.JTable tUsuarios;
     private javax.swing.JTextField tfAM;
