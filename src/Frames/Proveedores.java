@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 /**
  *
  * @author Brandon
- *yo tambien
+ *yo tambien hola we
  */
 public class Proveedores extends javax.swing.JFrame {
 
