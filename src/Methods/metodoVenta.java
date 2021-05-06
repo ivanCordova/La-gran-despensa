@@ -72,7 +72,102 @@ public class metodoVenta {
         }
     }
 
-    public void agregarCarrito() {
+    public boolean agregarVenta(String idVenta, int idUsuario, String fechaVenta, double sumaFinal ) { //Método para agregar una nueva venta a la tabla ventas 
+        try {
+            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+            PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
+            //ResultSet rs; //Variable el resultado de la consulta 
+            
+            ps = con.prepareStatement("insert into Ventas (id_venta, id_usuario, fechaVenta, sumaFinalV) values (?,?,?,?)");
+            //Insertamos el dato buscando en la consulta
+            ps.setString(1, idVenta);
+            ps.setInt(2, idUsuario);
+            ps.setString(3, fechaVenta);
+            ps.setDouble(4, sumaFinal);
+            ps.executeUpdate();
+            //ps.executeQuery();//Hacemos la consulta
+            
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+    }
+    
+    public boolean agregarProVendido(String idVenta, int idProducto, int cantidad){
+        try {
+            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+            PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
+            //ResultSet rs; //Variable el resultado de la consulta 
+
+            ps = con.prepareStatement("insert into ProductosVendidos (id_venta, id_producto, cantidad ) values (?,?,?)");
+            //Insertamos el dato buscando en la consulta
+            ps.setString(1, idVenta);
+            ps.setInt(2, idProducto);
+            ps.setInt(3, cantidad);
+            ps.executeUpdate();
+            //ps.executeQuery();//Hacemos la consulta 
+
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+    }
+    
+    public ArrayList<venta> listaVentas(){
+        try {
+            ArrayList<venta> lista = new ArrayList<venta>();
+            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+            PreparedStatement ps = con.prepareStatement("select v.id_venta, u.nombre, v.fechaVenta, v.sumaFinalV from Ventas as v join Usuarios as u on v.id_usuario = u.id_usuario");//Variable para cargar consulta 
+            ResultSet rs = ps.executeQuery(); //Variable el resultado de la consulta 
+
+            if (rs.next()) {
+                do {
+                    venta nuevaVenta = new venta();//Creamos una clase venta 
+
+                    //Asignamos a cada variable del objeto venta el valor del Result set en su posición correspondiente 
+                    nuevaVenta.idVenta = (String) rs.getObject(1);
+                    nuevaVenta.nombreUsuario = (String) rs.getObject(2);
+                    nuevaVenta.fechaVenta = (String) rs.getObject(3);
+                    nuevaVenta.sumaFinal = (double) rs.getObject(4);
+
+                    lista.add(nuevaVenta);
+                } while (rs.next());//Recorremos las filas de la consulta 
+            } else {
+                //En caso de no regresar ningún resultado mostramos un mensaje de advertencia 
+                JOptionPane.showMessageDialog(null, "No se encontró ningún producto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+            return lista;//Regresamos el ArrayList
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+
+
+        
 
     }
+    
+//    public String eliminarVenta(String idVenta ){
+//        try {
+//            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+//            PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
+//            ResultSet rs; //Variable el resultado de la consulta 
+//
+//            ps = con.prepareStatement("insert into Ventas (id_venta, id_usuario, fechaVenta, sumaFinalV) values (?,?,?,?)");
+//            Insertamos el dato buscando en la consulta
+//            ps.setString(1, idVenta);
+//            ps.setInt(2, idUsuario);
+//            ps.setString(3, fechaVenta);
+//            ps.setDouble(4, sumaFinal);
+//            ps.executeUpdate();
+//            ps.executeQuery();//Hacemos la consulta
+//
+//            return "";
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
+//            return "";
+//        }
+//    }
 }

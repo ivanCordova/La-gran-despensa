@@ -16,6 +16,7 @@ public class Ventas extends javax.swing.JFrame {
      */
     public Ventas() {
         initComponents();
+        this.setLocationRelativeTo(null);
     }
 
     /**
@@ -270,8 +271,11 @@ public class Ventas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-       nuevaVenta n = new nuevaVenta();
+
+
+       nuevaVenta n = new nuevaVenta(this);
        n.setVisible(true);
+       this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     /**

@@ -30,12 +30,48 @@ public class nuevaVenta extends javax.swing.JFrame {
     DefaultTableModel modeloCarrito = new DefaultTableModel(); //Modelo de la tabla Carrito 
     String idVenta = "";//Creamos la variable general idVenta 
     double totalVenta;//Creamos la variable general totalVenta 
+    javax.swing.JFrame padre ;
 
     /**
      * Creates new form nuevaVenta
      */
     public nuevaVenta() {
         initComponents();
+        this.setLocationRelativeTo(null);//Centra la ventana
+                //Agregó la fecha de venta en la vista y creo él id que corresponde a la venta actual 
+        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter fechaId = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH:mm:ss");
+        lb_Fecha.setText(fecha.format(LocalDateTime.now()));
+        this.idVenta = "Venta_"+fechaId.format(LocalDateTime.now());
+        lb_idVenta.setText(idVenta);
+        
+        //Inicializamos la variable local Total venta al label de Total venta 
+        this.totalVenta = 0.0;
+        lb_totalVenta.setText(""+totalVenta);
+        
+        //Agregamos las columnas de la tabla búsquedas 
+        modeloBuscar.addColumn("id_Producto");
+        modeloBuscar.addColumn("Nombre");
+        modeloBuscar.addColumn("Nombre marca");
+        modeloBuscar.addColumn("Precio de venta");
+        modeloBuscar.addColumn("Categoria");
+        modeloBuscar.addColumn("imagen");
+        this.tbl_Buscar.setModel(modeloBuscar);//Agregamos el modelo a la tabla carrito
+        modeloCarrito.addColumn("id_Producto");
+        modeloCarrito.addColumn("Nombre");
+        modeloCarrito.addColumn("Nombre marca");
+        modeloCarrito.addColumn("Precio producto");
+        modeloCarrito.addColumn("Cantidad vendida");
+        modeloCarrito.addColumn("Sub total");
+        this.tbl_Carrito.setModel(modeloCarrito);//Agregamos el modelo a la Carrito
+
+        this.tbl_Buscar.getColumnModel().getColumn(5).setMaxWidth(0);//Ocultamos la columna imagen
+    }
+    
+    public nuevaVenta(javax.swing.JFrame padre){
+        initComponents();
+        this.setLocationRelativeTo(null);//Centra la ventana
+        this.padre = padre;
         //Agregó la fecha de venta en la vista y creo él id que corresponde a la venta actual 
         DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter fechaId = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH:mm:ss");
@@ -54,7 +90,7 @@ public class nuevaVenta extends javax.swing.JFrame {
         modeloBuscar.addColumn("Precio de venta");
         modeloBuscar.addColumn("Categoria");
         modeloBuscar.addColumn("imagen");
-        this.tbl_Buscar.setModel(modeloBuscar);//Agregamos el modelo a la tabla
+        this.tbl_Buscar.setModel(modeloBuscar);//Agregamos el modelo a la tabla carrito
         modeloCarrito.addColumn("id_Producto");
         modeloCarrito.addColumn("Nombre");
         modeloCarrito.addColumn("Nombre marca");
@@ -64,7 +100,6 @@ public class nuevaVenta extends javax.swing.JFrame {
         this.tbl_Carrito.setModel(modeloCarrito);//Agregamos el modelo a la Carrito
 
         this.tbl_Buscar.getColumnModel().getColumn(5).setMaxWidth(0);//Ocultamos la columna imagen
-
     }
 
     /**
@@ -113,6 +148,7 @@ public class nuevaVenta extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setUndecorated(true);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -338,6 +374,11 @@ public class nuevaVenta extends javax.swing.JFrame {
         lb_idVenta.setText("---------------------");
 
         jButton3.setText("Cancelar venta");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Realizar venta");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
@@ -391,9 +432,9 @@ public class nuevaVenta extends javax.swing.JFrame {
                     .addComponent(jLabel9)
                     .addComponent(jLabel11))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lb_Fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(lb_idVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lb_idVenta, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lb_Fecha, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jButton3)
@@ -449,13 +490,7 @@ public class nuevaVenta extends javax.swing.JFrame {
         }
 
         ArrayList<producto> listaPro = new ArrayList<producto>();
-//        
-//        //Asignamos a un nuevo ArrayList el resultado del método buscarProducto 
-//        if (coboxBuscar.getSelectedIndex() == 1) {
-//            listaPro = metodos.buscarProducto(txtBuscar.getText(), coboxBuscar.getSelectedIndex());
-//        }else{
-//            JOptionPane.showMessageDialog(null, "Codigo");
-//        }
+
 
         if (coboxBuscar.getSelectedIndex() == 0) {
             listaPro = metodos.buscarProducto(txtBuscar.getText(), coboxBuscar.getSelectedIndex());
@@ -495,7 +530,33 @@ public class nuevaVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        //Realizamos la inserción de una nueva venta en la tabla ventas e incluimos los productos del carrito en la tabla productos vendidos 
+        try {
+            if (tbl_Carrito.getRowCount() != 0) {
+                if (JOptionPane.showConfirmDialog(null, "Monto a pagar: " + lb_totalVenta.getText(), "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
+                    metodos.agregarVenta(lb_idVenta.getText(), 1, lb_Fecha.getText(), Double.parseDouble(lb_totalVenta.getText()));
+
+                    for (int i = 0; i < tbl_Carrito.getRowCount(); i++) {
+                        int idProducto = Integer.parseInt(tbl_Carrito.getValueAt(i, 0).toString());
+                        int cantidad = Integer.parseInt(tbl_Carrito.getValueAt(i, 4).toString());
+
+                        metodos.agregarProVendido(lb_idVenta.getText(), idProducto, cantidad);
+                    }
+                    this.padre.setVisible(true);
+                    this.dispose();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Debe agregar productos al carrito ", "Error", JOptionPane.WARNING_MESSAGE);
+            }
+            
+
+            
+            
+            
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
+        }
+        
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void tbl_BuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_BuscarMouseClicked
@@ -573,6 +634,12 @@ public class nuevaVenta extends javax.swing.JFrame {
         
 
     }//GEN-LAST:event_tbl_CarritoMouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+        this.padre.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
