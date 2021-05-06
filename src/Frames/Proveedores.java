@@ -5,7 +5,10 @@
  */
 package Frames;
 
+import Connections.Connectionn;
 import Connections.Procedure;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
@@ -13,7 +16,7 @@ import javax.swing.JOptionPane;
 /**
  *
  * @author Brandon
- *yo tambien
+ *
  */
 public class Proveedores extends javax.swing.JFrame {
 
@@ -60,7 +63,6 @@ public class Proveedores extends javax.swing.JFrame {
         jButtonBuscarBaja = new javax.swing.JButton();
         jButtonDardeBaja = new javax.swing.JButton();
         PDatos3 = new javax.swing.JPanel();
-        jButton_Inicio = new javax.swing.JButton();
         Id_ConsultaBuscar = new javax.swing.JTextField();
         lbId5 = new javax.swing.JLabel();
         BuscarProvee = new javax.swing.JButton();
@@ -85,6 +87,9 @@ public class Proveedores extends javax.swing.JFrame {
         jButtonB_Modificar = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         jTableModificar = new javax.swing.JTable();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -139,15 +144,19 @@ public class Proveedores extends javax.swing.JFrame {
         PDatos.add(Telefono_Alta, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 180, 250, -1));
         PDatos.add(Fcha_Alta, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 230, 250, -1));
 
+        jButtonAlta.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonAlta.setForeground(new java.awt.Color(0, 0, 0));
+        jButtonAlta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Add_x32A.png"))); // NOI18N
         jButtonAlta.setText("DAR DE ALTA");
         jButtonAlta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonAltaActionPerformed(evt);
             }
         });
-        PDatos.add(jButtonAlta, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 340, -1, -1));
+        PDatos.add(jButtonAlta, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 340, -1, -1));
 
         jTabbedPane7.addTab("ALTA", PDatos);
+        PDatos.getAccessibleContext().setAccessibleName("DATOS DEL PROVEEDOR");
 
         PDatos1.setBackground(new java.awt.Color(255, 255, 255));
         PDatos1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "DATOS DEL USUARIO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 0, 12))); // NOI18N
@@ -177,34 +186,38 @@ public class Proveedores extends javax.swing.JFrame {
         ));
         jScrollPane2.setViewportView(jTableBajas);
 
-        PDatos1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 570, 260));
+        PDatos1.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 570, 260));
 
+        jButtonBuscarBaja.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonBuscarBaja.setForeground(new java.awt.Color(0, 0, 0));
+        jButtonBuscarBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Search_x32A.png"))); // NOI18N
         jButtonBuscarBaja.setText("BUSCAR");
         jButtonBuscarBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonBuscarBajaActionPerformed(evt);
             }
         });
-        PDatos1.add(jButtonBuscarBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 30, -1, -1));
+        PDatos1.add(jButtonBuscarBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, -1, -1));
 
+        jButtonDardeBaja.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonDardeBaja.setForeground(new java.awt.Color(0, 0, 0));
+        jButtonDardeBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Delete_x32A.png"))); // NOI18N
         jButtonDardeBaja.setText("ELIMINAR");
         jButtonDardeBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonDardeBajaActionPerformed(evt);
             }
         });
-        PDatos1.add(jButtonDardeBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 380, -1, -1));
+        PDatos1.add(jButtonDardeBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 370, -1, -1));
 
         jTabbedPane7.addTab("BAJA", PDatos1);
+        PDatos1.getAccessibleContext().setAccessibleName("DATOS DEL PROVEEDOR");
 
         PDatos3.setBackground(new java.awt.Color(255, 255, 255));
         PDatos3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "DATOS DEL USUARIO", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Verdana", 0, 12))); // NOI18N
         PDatos3.setForeground(new java.awt.Color(0, 0, 0));
         PDatos3.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         PDatos3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        jButton_Inicio.setText("INICIO");
-        PDatos3.add(jButton_Inicio, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 240, -1, -1));
         PDatos3.add(Id_ConsultaBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 250, -1));
 
         lbId5.setBackground(new java.awt.Color(0, 0, 0));
@@ -213,8 +226,16 @@ public class Proveedores extends javax.swing.JFrame {
         lbId5.setText("ID:");
         PDatos3.add(lbId5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, -1, -1));
 
+        BuscarProvee.setBackground(new java.awt.Color(255, 255, 255));
+        BuscarProvee.setForeground(new java.awt.Color(0, 0, 0));
+        BuscarProvee.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Search_x32A.png"))); // NOI18N
         BuscarProvee.setText("BUSCAR");
-        PDatos3.add(BuscarProvee, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 30, -1, -1));
+        BuscarProvee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                BuscarProveeActionPerformed(evt);
+            }
+        });
+        PDatos3.add(BuscarProvee, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, -1, -1));
 
         jTableConsulta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -231,7 +252,7 @@ public class Proveedores extends javax.swing.JFrame {
         ));
         jScrollPane5.setViewportView(jTableConsulta);
 
-        PDatos3.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 570, 130));
+        PDatos3.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 570, 210));
 
         jTabbedPane7.addTab("CONSULTAR", PDatos3);
 
@@ -284,8 +305,11 @@ public class Proveedores extends javax.swing.JFrame {
         PDatos2.add(Telefono_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 320, 250, -1));
         PDatos2.add(Fecha_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 350, 250, -1));
 
+        jButton_Modificar.setBackground(new java.awt.Color(255, 255, 255));
+        jButton_Modificar.setForeground(new java.awt.Color(0, 0, 0));
+        jButton_Modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Edit_x32A.png"))); // NOI18N
         jButton_Modificar.setText("MODIFICAR");
-        PDatos2.add(jButton_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 420, -1, -1));
+        PDatos2.add(jButton_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 410, -1, -1));
         PDatos2.add(Buscar_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 250, -1));
 
         lbId3.setBackground(new java.awt.Color(0, 0, 0));
@@ -294,8 +318,16 @@ public class Proveedores extends javax.swing.JFrame {
         lbId3.setText("ID:");
         PDatos2.add(lbId3, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, -1, -1));
 
+        jButtonB_Modificar.setBackground(new java.awt.Color(255, 255, 255));
+        jButtonB_Modificar.setForeground(new java.awt.Color(0, 0, 0));
+        jButtonB_Modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Search_x32A.png"))); // NOI18N
         jButtonB_Modificar.setText("BUSCAR");
-        PDatos2.add(jButtonB_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 30, -1, -1));
+        jButtonB_Modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButtonB_ModificarActionPerformed(evt);
+            }
+        });
+        PDatos2.add(jButtonB_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, -1, -1));
 
         jTableModificar.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -312,9 +344,41 @@ public class Proveedores extends javax.swing.JFrame {
         ));
         jScrollPane4.setViewportView(jTableModificar);
 
-        PDatos2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 570, 130));
+        PDatos2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 570, 130));
 
         jTabbedPane7.addTab("MODIFICAR", PDatos2);
+        PDatos2.getAccessibleContext().setAccessibleName("DATOS DEL PROVEEDOR");
+
+        jPanel1.setBackground(new java.awt.Color(51, 102, 255));
+        jPanel1.setBorder(new javax.swing.border.MatteBorder(null));
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 3, 36)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setText("PROVEEDORES");
+
+        jButton2.setBackground(new java.awt.Color(51, 102, 255));
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Logo_x32.png"))); // NOI18N
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(27, 27, 27)
+                .addComponent(jButton2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 79, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addGap(144, 144, 144))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(17, 17, 17)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jButton2))
+                .addContainerGap(22, Short.MAX_VALUE))
+        );
 
         javax.swing.GroupLayout PHomeLayout = new javax.swing.GroupLayout(PHome);
         PHome.setLayout(PHomeLayout);
@@ -322,15 +386,20 @@ public class Proveedores extends javax.swing.JFrame {
             PHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(PHomeLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jTabbedPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 654, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(PHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(PHomeLayout.createSequentialGroup()
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jTabbedPane7)))
         );
         PHomeLayout.setVerticalGroup(
             PHomeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, PHomeLayout.createSequentialGroup()
-                .addContainerGap(84, Short.MAX_VALUE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jTabbedPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 488, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap())
+                .addGap(27, 27, 27))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -341,7 +410,7 @@ public class Proveedores extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(PHome, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         pack();
@@ -362,7 +431,8 @@ public class Proveedores extends javax.swing.JFrame {
 
         } else {
             try {
-                res = Connections.Connectionn.consultation("Select COUNT(id_proveedor)from Proveedores where id_Proveedor ='" + Id_alta.getText() + "'");
+                res = Connections.Connectionn.consultation("Select COUNT(id_proveedor)from Proveedores where id_Proveedor ='" 
+                        + Id_alta.getText() + "'");
                 try {
                     while (res.next()) {
                         cont = res.getInt(1);
@@ -372,8 +442,11 @@ public class Proveedores extends javax.swing.JFrame {
                 if (cont >= 1) {
                     JOptionPane.showMessageDialog(this, "PROVEEDOR EXISTENTE", "ERROR", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    Procedure.AgregarProveedor(Integer.parseInt(Id_alta.getText()), Name_alta.getText(), Empresa_alta.getText(), Telefono_Alta.getText(),
-                            Fcha_Alta.getText(), Direccion_Alta.getText());
+                    Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+                    PreparedStatement ps = con.prepareStatement("");//Variable para cargar los datos
+                    ps = con.prepareStatement("INSERT Proveedores VALUES ('" + Id_alta.getText() + "','" + Name_alta.getText() + "','" + Empresa_alta.getText() + "'"
+                            + ",'" + Telefono_Alta.getText() + "','" + Fcha_Alta.getText() + "','" + Direccion_Alta.getText() + "')");
+                    ps.executeQuery();
 
                     Id_alta.setText("");
                     Name_alta.setText("");
@@ -389,7 +462,11 @@ public class Proveedores extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAltaActionPerformed
     }
     private void jButtonBuscarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarBajaActionPerformed
-        // TODO add your handling code here:
+        // VALIDAR QUE EL CAMPO NO ESTE VACIO
+        if (Id_ConsultaBuscar.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "INGRESE SU ID CORRECTAMENTE", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
+            Id_ConsultaBuscar.setText("");
+        }
     }//GEN-LAST:event_jButtonBuscarBajaActionPerformed
 
     private void jButtonDardeBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDardeBajaActionPerformed
@@ -411,6 +488,23 @@ public class Proveedores extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_jButtonDardeBajaActionPerformed
+
+    private void jButtonB_ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonB_ModificarActionPerformed
+        // VALIDAR QUE EL CAMPO NO ESTE VACIO!!
+        if (Id_ConsultaBuscar.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "INGRESE SU ID CORRECTAMENTE", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
+            Id_ConsultaBuscar.setText("");
+            
+        }
+    }//GEN-LAST:event_jButtonB_ModificarActionPerformed
+
+    private void BuscarProveeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarProveeActionPerformed
+        // VALIDAR QUE EL CAMPO NO ESTE VACIO
+        if (Id_ConsultaBuscar.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "INGRESE SU ID CORRECTAMENTE", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
+            Id_ConsultaBuscar.setText("");
+        }
+    }//GEN-LAST:event_BuscarProveeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -437,6 +531,7 @@ public class Proveedores extends javax.swing.JFrame {
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(Proveedores.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
@@ -469,12 +564,14 @@ public class Proveedores extends javax.swing.JFrame {
     private javax.swing.JPanel PHome;
     private javax.swing.JTextField Telefono_Alta;
     private javax.swing.JTextField Telefono_Modificar;
+    private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonAlta;
     private javax.swing.JButton jButtonB_Modificar;
     private javax.swing.JButton jButtonBuscarBaja;
     private javax.swing.JButton jButtonDardeBaja;
-    private javax.swing.JButton jButton_Inicio;
     private javax.swing.JButton jButton_Modificar;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;

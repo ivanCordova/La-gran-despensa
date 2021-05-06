@@ -579,6 +579,8 @@ public class Usuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_PHomeMousePressed
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
+        //Agregar Usuario
+        //Asignación de variables que recolectaran la información del formulario
         int rolcb, sexocb, validacion = 0;
         String id, name, ap, am, address, phone, pass, rolstring = "", sexostring = "";
         id = tfId.getText().trim();
@@ -590,12 +592,13 @@ public class Usuarios extends javax.swing.JFrame {
         pass = tfContrasena.getText().trim();
         rolcb = cbIdRol.getSelectedIndex() + 1;
         sexocb = cbSexo.getSelectedIndex() + 1;
+        //Evitar que algun campo este vacio
         if (id.equals("") || name.equals("") || ap.equals("") || am.equals("") || address.equals("") || phone.equals("")
                 || phone.equals("") || pass.equals("")) {
             validacion++;
             JOptionPane.showMessageDialog(null, "Inserte datos en los campos vacios", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
         }
-
+        //Convertir lo que se obtenga del Rol y convertirlo a una cadena aceptada en la BD
         switch (rolcb) {
             case 1:
                 rolstring = "A0000001";
@@ -609,25 +612,25 @@ public class Usuarios extends javax.swing.JFrame {
             default:
                 break;
         }
-
+        //Convertir lo que se obtenga del Sexo y convertirlo a una cadena aceptada en la BD
         if (sexocb == 1) {
             sexostring = "M";
         } else if (sexocb == 2) {
             sexostring = "F";
         }
-
+        //Verificar si existe ya un usuario con la id que se desea ingresar
         try {
             Connection cn = Connectionn.getConnection();
             PreparedStatement pst = cn.prepareStatement("select id_usuario from Usuarios where id_usuario = '"
                     + id + "'");
             ResultSet rs = pst.executeQuery();
             if (rs.next()) {
-                JOptionPane.showMessageDialog(null, "ID en uso", "ERROR", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "ID en uso", "ERROR", JOptionPane.ERROR_MESSAGE); //Mensaje de error si el id esta en uso
                 cn.close();
             } else {
                 cn.close();
                 if (validacion == 0) {
-                    try {
+                    try { //Guardar los datos si el id no esta en uso
                         Connection cn2 = Connectionn.getConnection();
                         PreparedStatement pst2 = cn2.prepareStatement("insert into Usuarios values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
                         pst2.setString(1, id);
@@ -644,28 +647,28 @@ public class Usuarios extends javax.swing.JFrame {
                         cn2.close();
                         JOptionPane.showMessageDialog(null, "Usuario creado correctamente", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
                         refresh();
-                    } catch (SQLException e) {
+                    } catch (SQLException e) { //Error en dado de suceder un error desconocido
                         System.err.println("Error al registrar usuario" + e);
                         JOptionPane.showMessageDialog(null, "Error al registrar usuario, contacte al administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
                     }
                 }
             }
-        } catch (SQLException e) {
+        } catch (SQLException e) { //Error al validar el id por un error desconocido
             System.err.println("Error en la validacion del usuario" + e);
             JOptionPane.showMessageDialog(null, "Errores al comparar usuarios, contacte al administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
-        int row1 = tUsuarios.getSelectedRow();
-        if (row1 == -1) {
+        int row1 = tUsuarios.getSelectedRow(); //Se obtiene el numero de la fila
+        if (row1 == -1) { //Si no se ha seleccionado una fila se le avisa al usuario a través de un mensaje
             sound.warning();
             JOptionPane.showMessageDialog(null, "SELECCIONE UN REGISTRO", "WARNING", JOptionPane.WARNING_MESSAGE);
         } else {
-            int row = tUsuarios.getSelectedRow();
+            int row = tUsuarios.getSelectedRow(); //Se envia un mensaje de confirmación
             sound.warning();
             int opc = JOptionPane.showConfirmDialog(this, "¿DESEA ELIMINAR EL USUARIO?", "WARNING", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (opc == JOptionPane.YES_OPTION) {
+            if (opc == JOptionPane.YES_OPTION) { //si la respuesta es correcta, se llama al procedimiento almacenado "Eliminar Usuario"
                 try {
                     sound.executed();
                     Procedure.EliminarUsuarios(Integer.parseInt(tUsuarios.getValueAt(row, 0).toString()));
