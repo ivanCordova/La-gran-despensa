@@ -149,25 +149,24 @@ public class metodoVenta {
 
     }
     
-//    public String eliminarVenta(String idVenta ){
-//        try {
-//            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
-//            PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
-//            ResultSet rs; //Variable el resultado de la consulta 
-//
-//            ps = con.prepareStatement("insert into Ventas (id_venta, id_usuario, fechaVenta, sumaFinalV) values (?,?,?,?)");
-//            Insertamos el dato buscando en la consulta
-//            ps.setString(1, idVenta);
-//            ps.setInt(2, idUsuario);
-//            ps.setString(3, fechaVenta);
-//            ps.setDouble(4, sumaFinal);
-//            ps.executeUpdate();
-//            ps.executeQuery();//Hacemos la consulta
-//
-//            return "";
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
-//            return "";
-//        }
-//    }
+    public boolean eliminarVenta(String idVenta){
+        try {
+            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+            PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
+            PreparedStatement ps2 = con.prepareStatement("");//Variable para cargar consulta 
+
+            ps = con.prepareStatement("delete from ProductosVendidos where id_venta = ?");
+            ps.setString(1, idVenta);
+            ps.executeUpdate();
+            
+            ps2 = con.prepareStatement("delete from Ventas where id_venta = ?");
+            ps2.setString(1, idVenta);
+            ps2.executeUpdate();
+
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+    }
 }

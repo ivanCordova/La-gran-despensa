@@ -37,41 +37,42 @@ public class nuevaVenta extends javax.swing.JFrame {
      */
     public nuevaVenta() {
         initComponents();
-        this.setLocationRelativeTo(null);//Centra la ventana
-                //Agregó la fecha de venta en la vista y creo él id que corresponde a la venta actual 
-        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-        DateTimeFormatter fechaId = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH:mm:ss");
-        lb_Fecha.setText(fecha.format(LocalDateTime.now()));
-        this.idVenta = "Venta_"+fechaId.format(LocalDateTime.now());
-        lb_idVenta.setText(idVenta);
-        
-        //Inicializamos la variable local Total venta al label de Total venta 
-        this.totalVenta = 0.0;
-        lb_totalVenta.setText(""+totalVenta);
-        
-        //Agregamos las columnas de la tabla búsquedas 
-        modeloBuscar.addColumn("id_Producto");
-        modeloBuscar.addColumn("Nombre");
-        modeloBuscar.addColumn("Nombre marca");
-        modeloBuscar.addColumn("Precio de venta");
-        modeloBuscar.addColumn("Categoria");
-        modeloBuscar.addColumn("imagen");
-        this.tbl_Buscar.setModel(modeloBuscar);//Agregamos el modelo a la tabla carrito
-        modeloCarrito.addColumn("id_Producto");
-        modeloCarrito.addColumn("Nombre");
-        modeloCarrito.addColumn("Nombre marca");
-        modeloCarrito.addColumn("Precio producto");
-        modeloCarrito.addColumn("Cantidad vendida");
-        modeloCarrito.addColumn("Sub total");
-        this.tbl_Carrito.setModel(modeloCarrito);//Agregamos el modelo a la Carrito
-
-        this.tbl_Buscar.getColumnModel().getColumn(5).setMaxWidth(0);//Ocultamos la columna imagen
+//        this.setLocationRelativeTo(null);//Centra la ventana
+//                //Agregó la fecha de venta en la vista y creo él id que corresponde a la venta actual 
+//        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+//        DateTimeFormatter fechaId = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH:mm:ss");
+//        lb_Fecha.setText(fecha.format(LocalDateTime.now()));
+//        this.idVenta = "Venta_"+fechaId.format(LocalDateTime.now());
+//        lb_idVenta.setText(idVenta);
+//        
+//        //Inicializamos la variable local Total venta al label de Total venta 
+//        this.totalVenta = 0.0;
+//        lb_totalVenta.setText(""+totalVenta);
+//        
+//        //Agregamos las columnas de la tabla búsquedas 
+//        modeloBuscar.addColumn("id_Producto");
+//        modeloBuscar.addColumn("Nombre");
+//        modeloBuscar.addColumn("Nombre marca");
+//        modeloBuscar.addColumn("Precio de venta");
+//        modeloBuscar.addColumn("Categoria");
+//        modeloBuscar.addColumn("imagen");
+//        this.tbl_Buscar.setModel(modeloBuscar);//Agregamos el modelo a la tabla carrito
+//        modeloCarrito.addColumn("id_Producto");
+//        modeloCarrito.addColumn("Nombre");
+//        modeloCarrito.addColumn("Nombre marca");
+//        modeloCarrito.addColumn("Precio producto");
+//        modeloCarrito.addColumn("Cantidad vendida");
+//        modeloCarrito.addColumn("Sub total");
+//        this.tbl_Carrito.setModel(modeloCarrito);//Agregamos el modelo a la Carrito
+//
+//        this.tbl_Buscar.getColumnModel().getColumn(5).setMaxWidth(0);//Ocultamos la columna imagen
     }
     
     public nuevaVenta(javax.swing.JFrame padre){
         initComponents();
         this.setLocationRelativeTo(null);//Centra la ventana
         this.padre = padre;
+        
         //Agregó la fecha de venta en la vista y creo él id que corresponde a la venta actual 
         DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         DateTimeFormatter fechaId = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH:mm:ss");

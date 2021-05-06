@@ -22,8 +22,13 @@ public class eliminarVenta extends javax.swing.JFrame {
      * Creates new form eliminarVenta
      */
     
-    DefaultTableModel modeloVenta = new DefaultTableModel();
+    DefaultTableModel modeloVenta = new DefaultTableModel(){
+        public boolean isCellEditable(int row, int column) { 
+            return false; 
+        }
+    };
     metodoVenta metodos = new metodoVenta();
+    javax.swing.JFrame padre ;
     
     public eliminarVenta() {
         initComponents();
@@ -36,6 +41,19 @@ public class eliminarVenta extends javax.swing.JFrame {
         llenarTabla();
     }
 
+    public eliminarVenta(javax.swing.JFrame padre) {
+        initComponents();
+        this.setLocationRelativeTo(null);//Centra la ventana
+        this.padre = padre;
+
+        modeloVenta.addColumn("Id venta");
+        modeloVenta.addColumn("Nombre usuario");
+        modeloVenta.addColumn("Fecha de venta");
+        modeloVenta.addColumn("Suma de venta");
+        this.tbl_ventas.setModel(modeloVenta);
+        llenarTabla();
+    }
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -82,6 +100,11 @@ public class eliminarVenta extends javax.swing.JFrame {
         jScrollPane1.setViewportView(tbl_ventas);
 
         btn_Regresar.setText("Regresar");
+        btn_Regresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RegresarActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
         jPanel2.setLayout(jPanel2Layout);
@@ -136,20 +159,19 @@ public class eliminarVenta extends javax.swing.JFrame {
     private void tbl_ventasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_ventasMouseClicked
         // TODO add your handling code here:
         int seleccion = this.tbl_ventas.rowAtPoint(evt.getPoint());//Guardamos el índice de la fila que se selecciona
-        
-                if (seleccion == 0) {
-            if (JOptionPane.showConfirmDialog(null, "Quiere eliminar el producto seleccionado", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
-                DefaultTableModel modelo = (DefaultTableModel) tbl_ventas.getModel();
-                
-                modelo.removeRow(seleccion);
-            }
-        } else {
-            if (JOptionPane.showConfirmDialog(null, "Quiere eliminar el producto seleccionado", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
-                DefaultTableModel modelo = (DefaultTableModel) tbl_ventas.getModel();
-                modelo.removeRow(seleccion + 1);
-            }
+
+        if(JOptionPane.showConfirmDialog(null, "Quiere eliminar el producto seleccionado", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0){
+            DefaultTableModel modelo = (DefaultTableModel) tbl_ventas.getModel();
+            metodos.eliminarVenta(String.valueOf(modelo.getValueAt(seleccion, 0)));
+            modelo.removeRow(seleccion);
         }
+
     }//GEN-LAST:event_tbl_ventasMouseClicked
+
+    private void btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegresarActionPerformed
+        this.padre.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_btn_RegresarActionPerformed
 
     public void llenarTabla(){
         ArrayList<venta> lista = metodos.listaVentas();
