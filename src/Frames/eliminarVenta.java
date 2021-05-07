@@ -21,28 +21,31 @@ public class eliminarVenta extends javax.swing.JFrame {
     /**
      * Creates new form eliminarVenta
      */
-    
+    // ----------------- Creamos el modelo por defecto de la Jtabla Ventas ---------------------
     DefaultTableModel modeloVenta = new DefaultTableModel(){
         public boolean isCellEditable(int row, int column) { 
             return false; 
         }
     };
+    // Inicializamos las variables globales
     metodoVenta metodos = new metodoVenta();
     javax.swing.JFrame padre ;
     
     public eliminarVenta() {
         initComponents();
-        this.setLocationRelativeTo(null);//Centra la ventana
-        modeloVenta.addColumn("Id venta");
-        modeloVenta.addColumn("Nombre usuario");
-        modeloVenta.addColumn("Fecha de venta");
-        modeloVenta.addColumn("Suma de venta");
-        this.tbl_ventas.setModel(modeloVenta);
-        llenarTabla();
+//        // Agregamos al modelo las columnas de la tabla 
+//        this.setLocationRelativeTo(null);//Centra la ventana
+//        modeloVenta.addColumn("Id venta");
+//        modeloVenta.addColumn("Nombre usuario");
+//        modeloVenta.addColumn("Fecha de venta");
+//        modeloVenta.addColumn("Suma de venta");
+//        this.tbl_ventas.setModel(modeloVenta);
+//        llenarTabla(); // Usamos el método para llenar el Jtable de ventas 
     }
 
     public eliminarVenta(javax.swing.JFrame padre) {
         initComponents();
+        // Agregamos al modelo las columnas de la tabla 
         this.setLocationRelativeTo(null);//Centra la ventana
         this.padre = padre;
 
@@ -51,7 +54,7 @@ public class eliminarVenta extends javax.swing.JFrame {
         modeloVenta.addColumn("Fecha de venta");
         modeloVenta.addColumn("Suma de venta");
         this.tbl_ventas.setModel(modeloVenta);
-        llenarTabla();
+        llenarTabla(); // Usamos el método para llenar el Jtable de ventas 
     }
     
     /**
@@ -157,10 +160,11 @@ public class eliminarVenta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tbl_ventasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_ventasMouseClicked
-        // TODO add your handling code here:
+        // Controlamos el evento Mouse Clicked para seleccionar la venta que se va a eliminar 
         int seleccion = this.tbl_ventas.rowAtPoint(evt.getPoint());//Guardamos el índice de la fila que se selecciona
 
         if(JOptionPane.showConfirmDialog(null, "Quiere eliminar el producto seleccionado", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0){
+            //Eliminamos la venta del Jtable y con el método eliminar Venta lo eliminamos de la base de datos 
             DefaultTableModel modelo = (DefaultTableModel) tbl_ventas.getModel();
             metodos.eliminarVenta(String.valueOf(modelo.getValueAt(seleccion, 0)));
             modelo.removeRow(seleccion);
@@ -169,11 +173,13 @@ public class eliminarVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_tbl_ventasMouseClicked
 
     private void btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegresarActionPerformed
-        this.padre.setVisible(true);
-        this.dispose();
+         // ----------- Control del botón para cancelar la venta actual ---------------
+        this.padre.setVisible(true); // Hacemos visible al padre 
+        this.dispose(); //Cerramos le proceso actual 
     }//GEN-LAST:event_btn_RegresarActionPerformed
 
     public void llenarTabla(){
+        // Método para llenar el Jtable de ventas 
         ArrayList<venta> lista = metodos.listaVentas();
         for (venta ob : lista) {
             Object[] listaTabla = new Object[4];

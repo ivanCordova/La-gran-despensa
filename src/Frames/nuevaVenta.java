@@ -10,6 +10,7 @@ import Methods.producto;
 import java.awt.Image;
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.sql.Date;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -24,57 +25,30 @@ import javax.swing.table.TableModel;
  * @author Ivan
  */
 public class nuevaVenta extends javax.swing.JFrame {
-
+    // ----------------- Inicialización de variables globales  -----------------------------
     metodoVenta metodos = new metodoVenta(); //Creamos un objeto métodos global
     DefaultTableModel modeloBuscar = new DefaultTableModel(); //Modelo de la tabla búsquedas 
     DefaultTableModel modeloCarrito = new DefaultTableModel(); //Modelo de la tabla Carrito 
     String idVenta = "";//Creamos la variable general idVenta 
     double totalVenta;//Creamos la variable general totalVenta 
-    javax.swing.JFrame padre ;
+    javax.swing.JFrame padre ; //Variable para guardar el padre Jframe
 
     /**
      * Creates new form nuevaVenta
      */
     public nuevaVenta() {
         initComponents();
-//        this.setLocationRelativeTo(null);//Centra la ventana
-//                //Agregó la fecha de venta en la vista y creo él id que corresponde a la venta actual 
-//        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-//        DateTimeFormatter fechaId = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH:mm:ss");
-//        lb_Fecha.setText(fecha.format(LocalDateTime.now()));
-//        this.idVenta = "Venta_"+fechaId.format(LocalDateTime.now());
-//        lb_idVenta.setText(idVenta);
-//        
-//        //Inicializamos la variable local Total venta al label de Total venta 
-//        this.totalVenta = 0.0;
-//        lb_totalVenta.setText(""+totalVenta);
-//        
-//        //Agregamos las columnas de la tabla búsquedas 
-//        modeloBuscar.addColumn("id_Producto");
-//        modeloBuscar.addColumn("Nombre");
-//        modeloBuscar.addColumn("Nombre marca");
-//        modeloBuscar.addColumn("Precio de venta");
-//        modeloBuscar.addColumn("Categoria");
-//        modeloBuscar.addColumn("imagen");
-//        this.tbl_Buscar.setModel(modeloBuscar);//Agregamos el modelo a la tabla carrito
-//        modeloCarrito.addColumn("id_Producto");
-//        modeloCarrito.addColumn("Nombre");
-//        modeloCarrito.addColumn("Nombre marca");
-//        modeloCarrito.addColumn("Precio producto");
-//        modeloCarrito.addColumn("Cantidad vendida");
-//        modeloCarrito.addColumn("Sub total");
-//        this.tbl_Carrito.setModel(modeloCarrito);//Agregamos el modelo a la Carrito
-//
-//        this.tbl_Buscar.getColumnModel().getColumn(5).setMaxWidth(0);//Ocultamos la columna imagen
     }
     
+    //Método sobrecargado para iniciar el programa con el Jframe padre como parámetro 
     public nuevaVenta(javax.swing.JFrame padre){
         initComponents();
+        
         this.setLocationRelativeTo(null);//Centra la ventana
-        this.padre = padre;
+        this.padre = padre; //Asignar valor a la variable padre global con padre del método
         
         //Agregó la fecha de venta en la vista y creo él id que corresponde a la venta actual 
-        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+        DateTimeFormatter fecha = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         DateTimeFormatter fechaId = DateTimeFormatter.ofPattern("yyyy_MM_dd_HH:mm:ss");
         lb_Fecha.setText(fecha.format(LocalDateTime.now()));
         this.idVenta = "Venta_"+fechaId.format(LocalDateTime.now());
@@ -345,7 +319,7 @@ public class nuevaVenta extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
                 .addContainerGap())
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
+                .addGap(59, 59, 59)
                 .addComponent(jLabel2)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -484,15 +458,17 @@ public class nuevaVenta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // -----------Código para cargar los productos encontrados en el Jtable producto -----------------
         //Limpiamos la tabla de productos 
         for (int i = 0; i < this.tbl_Buscar.getRowCount(); i++) {
             modeloBuscar.removeRow(i);
             i -= 1;
         }
 
+        // Creamos ArrayList para guardar los productos 
         ArrayList<producto> listaPro = new ArrayList<producto>();
 
-
+        // If para determinar si se envía un número (id_producto) o una cadena de texto (Nombre producto)
         if (coboxBuscar.getSelectedIndex() == 0) {
             listaPro = metodos.buscarProducto(txtBuscar.getText(), coboxBuscar.getSelectedIndex());
 
@@ -535,12 +511,13 @@ public class nuevaVenta extends javax.swing.JFrame {
         try {
             if (tbl_Carrito.getRowCount() != 0) {
                 if (JOptionPane.showConfirmDialog(null, "Monto a pagar: " + lb_totalVenta.getText(), "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
-                    metodos.agregarVenta(lb_idVenta.getText(), 1, lb_Fecha.getText(), Double.parseDouble(lb_totalVenta.getText()));
-
+                    //Agregamos una venta con el método agregarVenta
+                    metodos.agregarVenta(lb_idVenta.getText(), 1, Date.valueOf(lb_Fecha.getText()), Double.parseDouble(lb_totalVenta.getText()));
+                    //Recorremos el carrito de compras para agregar cada producto a la tabla Producto vendidos
                     for (int i = 0; i < tbl_Carrito.getRowCount(); i++) {
                         int idProducto = Integer.parseInt(tbl_Carrito.getValueAt(i, 0).toString());
                         int cantidad = Integer.parseInt(tbl_Carrito.getValueAt(i, 4).toString());
-
+                        //Agregamos una venta con el método agregarProVendido
                         metodos.agregarProVendido(lb_idVenta.getText(), idProducto, cantidad);
                     }
                     this.padre.setVisible(true);
@@ -561,6 +538,7 @@ public class nuevaVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void tbl_BuscarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_BuscarMouseClicked
+        //----------- Evento que controla el evento MouseClicked para saber cuál es el producto que se elige para agregar a la vista detallada 
         int seleccion = this.tbl_Buscar.rowAtPoint(evt.getPoint());//Guardamos el índice de la fila que se selecciona 
         //Agregamos la información del producto seleccionado a los campos correspondiente
         txtId.setText(String.valueOf(this.tbl_Buscar.getValueAt(seleccion, 0)));
@@ -578,12 +556,11 @@ public class nuevaVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_tbl_BuscarMouseClicked
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        //Acción para agregar el producto seleccionado a la tala de carrito 
+        //-------------------- Acción para agregar el producto seleccionado a la tabla de carrito 
         if (!txtId.getText().equals("")) {
             if (!txtCantidad.getText().equals("")) {
                 if (txtCantidad.getText().matches("[+-]?\\d*(\\.\\d+)?")) { //Comprobamos en caso de elegir buscar un código que este sea un número
-                    //txtCantidad.getText().matches("[+-]?\\d*(\\.\\d+)?") || !txtCantidad.getText().equals("")
-                    Object[] objetoCarrito = new Object[6];
+                    Object[] objetoCarrito = new Object[6];//Creamos una lista Object para guardar las variables del producto 
                     objetoCarrito[0] = txtId.getText();
                     objetoCarrito[1] = txtNombre.getText();
                     objetoCarrito[2] = txtMarca.getText();
@@ -591,7 +568,7 @@ public class nuevaVenta extends javax.swing.JFrame {
                     objetoCarrito[4] = txtCantidad.getText();
                     double aux = Double.parseDouble(txtPrecio.getText()) * Integer.parseInt(txtCantidad.getText());
                     objetoCarrito[5] = "" + aux;
-                    modeloCarrito.addRow(objetoCarrito);
+                    modeloCarrito.addRow(objetoCarrito);//Agregamos el Object al modelo de la tabla carrito 
                     totalVenta += aux;
                     lb_totalVenta.setText(""+totalVenta);
                 } else {
@@ -609,10 +586,11 @@ public class nuevaVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void tbl_CarritoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_CarritoMouseClicked
-        //Acción para eliminar el producto seleccionado de la tabla carrito 
+        //--------------------------Acción para eliminar el producto seleccionado de la tabla carrito con el evento Mouse clicked
         int seleccion = this.tbl_Buscar.rowAtPoint(evt.getPoint());//Guardamos el índice de la fila que se selecciona 
 
         if (seleccion == 0) {
+            //Seleccionamos el producto para eliminarlo de la tabla y diminuimos el valor del monto final
             if (JOptionPane.showConfirmDialog(null, "Quiere eliminar el producto seleccionado", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
                 DefaultTableModel modelo = (DefaultTableModel) tbl_Carrito.getModel();
                 double cantidadEliminada = Double.parseDouble(String.valueOf(modelo.getValueAt(seleccion,5)));
@@ -621,6 +599,7 @@ public class nuevaVenta extends javax.swing.JFrame {
                 modelo.removeRow(seleccion);
             }
         } else {
+            //Seleccionamos el producto para eliminarlo de la tabla y diminuimos el valor del monto final
             if (JOptionPane.showConfirmDialog(null, "Quiere eliminar el producto seleccionado", "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
                 DefaultTableModel modelo = (DefaultTableModel) tbl_Carrito.getModel();
                 double cantidadEliminada = Double.parseDouble(String.valueOf(modelo.getValueAt(seleccion+1,5)));
@@ -637,9 +616,9 @@ public class nuevaVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_tbl_CarritoMouseClicked
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
-        this.padre.setVisible(true);
-        this.dispose();
+        // ----------- Control del botón para cancelar la venta actual ---------------
+        this.padre.setVisible(true); // Hacemos visible al padre 
+        this.dispose();//Cerramos le proceso actual 
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**

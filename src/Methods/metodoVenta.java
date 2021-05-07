@@ -10,6 +10,7 @@ import java.awt.List;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import javax.swing.JOptionPane;
@@ -20,7 +21,7 @@ import javax.swing.JOptionPane;
  */
 public class metodoVenta {
 
-    public ArrayList<producto> buscarProducto(String dato, int tipo) {//Método para buscar productos por nombre
+    public ArrayList<producto> buscarProducto(String dato, int tipo) {//Método para buscar productos por nombre o id
 
         ArrayList<producto> listaPro = new ArrayList<producto>();
 
@@ -29,9 +30,7 @@ public class metodoVenta {
             Connection con = Connectionn.getConnection();//Inicializamos la conexión 
             PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
             ResultSet rs; //Variable el resultado de la consulta 
-//            ps = con.prepareStatement("select p.id_producto, p.nombre, m.nombre_marca, p.precioVenta, p.imagen \n"
-//                    + "from Productos as p join Marcas as m on p.id_marca = m.id_marca where p.nombre=?"); //Cargamos la consulta 
-
+            // Hacemos la consulta dependiendo el tipo, (Nombre = 0 , Id = 1)
             if (tipo == 0) {
                 ps = con.prepareStatement("select p.id_producto, p.nombre, m.nombre_marca, p.precioVenta, p.imagen, c.nombre_categoria "
                         + "from Productos as p join Marcas as m on p.id_marca = m.id_marca join Categorias as c on p.id_categoria = c.id_categoria "
@@ -72,7 +71,7 @@ public class metodoVenta {
         }
     }
 
-    public boolean agregarVenta(String idVenta, int idUsuario, String fechaVenta, double sumaFinal ) { //Método para agregar una nueva venta a la tabla ventas 
+    public boolean agregarVenta(String idVenta, int idUsuario, Date fechaVenta, double sumaFinal ) { //Método para agregar una nueva venta a la tabla ventas 
         try {
             Connection con = Connectionn.getConnection();//Inicializamos la conexión 
             PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
@@ -82,7 +81,7 @@ public class metodoVenta {
             //Insertamos el dato buscando en la consulta
             ps.setString(1, idVenta);
             ps.setInt(2, idUsuario);
-            ps.setString(3, fechaVenta);
+            ps.setString(3, ""+fechaVenta);
             ps.setDouble(4, sumaFinal);
             ps.executeUpdate();
             //ps.executeQuery();//Hacemos la consulta
@@ -115,11 +114,12 @@ public class metodoVenta {
         }
     }
     
-    public ArrayList<venta> listaVentas(){
+    public ArrayList<venta> listaVentas(){ // Método para crear un ArrayList con todas las ventas 
         try {
             ArrayList<venta> lista = new ArrayList<venta>();
             Connection con = Connectionn.getConnection();//Inicializamos la conexión 
-            PreparedStatement ps = con.prepareStatement("select v.id_venta, u.nombre, v.fechaVenta, v.sumaFinalV from Ventas as v join Usuarios as u on v.id_usuario = u.id_usuario");//Variable para cargar consulta 
+            PreparedStatement ps = con.prepareStatement("select v.id_venta, u.nombre, v.fechaVenta, v.sumaFinalV "
+                    + "from Ventas as v join Usuarios as u on v.id_usuario = u.id_usuario");//Variable para cargar consulta 
             ResultSet rs = ps.executeQuery(); //Variable el resultado de la consulta 
 
             if (rs.next()) {
@@ -129,7 +129,7 @@ public class metodoVenta {
                     //Asignamos a cada variable del objeto venta el valor del Result set en su posición correspondiente 
                     nuevaVenta.idVenta = (String) rs.getObject(1);
                     nuevaVenta.nombreUsuario = (String) rs.getObject(2);
-                    nuevaVenta.fechaVenta = (String) rs.getObject(3);
+                    nuevaVenta.fechaVenta = (Date) rs.getObject(3);
                     nuevaVenta.sumaFinal = (double) rs.getObject(4);
 
                     lista.add(nuevaVenta);
@@ -149,18 +149,18 @@ public class metodoVenta {
 
     }
     
-    public boolean eliminarVenta(String idVenta){
+    public boolean eliminarVenta(String idVenta){ // Método para eliminar una venta con su id
         try {
             Connection con = Connectionn.getConnection();//Inicializamos la conexión 
             PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
             PreparedStatement ps2 = con.prepareStatement("");//Variable para cargar consulta 
 
-            ps = con.prepareStatement("delete from ProductosVendidos where id_venta = ?");
-            ps.setString(1, idVenta);
+            ps = con.prepareStatement("delete from ProductosVendidos where id_venta = ?");// Consulta para eliminar productos de ProductosVendidos 
+            ps.setString(1, idVenta);// Sobrecargamos la consulta 
             ps.executeUpdate();
             
-            ps2 = con.prepareStatement("delete from Ventas where id_venta = ?");
-            ps2.setString(1, idVenta);
+            ps2 = con.prepareStatement("delete from Ventas where id_venta = ?"); // // Consulta para eliminar productos de ventas
+            ps2.setString(1, idVenta);// Sobrecargamos la consulta 
             ps2.executeUpdate();
 
             return true;

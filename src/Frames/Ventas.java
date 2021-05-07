@@ -16,7 +16,7 @@ public class Ventas extends javax.swing.JFrame {
      */
     public Ventas() {
         initComponents();
-        this.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null); //Ponemos la ventana en el centro 
     }
 
     /**
@@ -276,14 +276,14 @@ public class Ventas extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-
-
+       // ---------------- Iniciamos una ventana de nuevaVenta y la ponemos visible  ------------------
        nuevaVenta n = new nuevaVenta(this);
        n.setVisible(true);
        this.setVisible(false);
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // ---------------- Iniciamos una ventana de eliminarVenta y la ponemos visible  ------------------
         eliminarVenta n = new eliminarVenta(this);
         n.setVisible(true);
         this.setVisible(false);

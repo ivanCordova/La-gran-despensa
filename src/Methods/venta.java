@@ -5,6 +5,8 @@
  */
 package Methods;
 
+import java.sql.Date;
+
 /**
  *
  * @author Ivan
@@ -12,6 +14,6 @@ package Methods;
 public class venta {
     public String idVenta ;
     public String nombreUsuario;
-    public String fechaVenta;
+    public Date fechaVenta;
     public double sumaFinal;
 }
