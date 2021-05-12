@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ Nombre del programa: La gran despensa
+ Fecha de creación: 30/04/2021
+ Fecha de entrega 06/05/2021
+Autor: Ivan Cordova Rodriguez
  */
 package Frames;
 
@@ -82,6 +83,8 @@ public class eliminarVenta extends javax.swing.JFrame {
         jPanel2.setForeground(new java.awt.Color(255, 255, 255));
 
         jLabel1.setFont(new java.awt.Font("Dialog", 1, 24)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/v_lista.png"))); // NOI18N
         jLabel1.setText("Lista de ventas");
 
         tbl_ventas.setModel(new javax.swing.table.DefaultTableModel(
@@ -102,6 +105,7 @@ public class eliminarVenta extends javax.swing.JFrame {
         });
         jScrollPane1.setViewportView(tbl_ventas);
 
+        btn_Regresar.setBackground(new java.awt.Color(66, 108, 180));
         btn_Regresar.setText("Regresar");
         btn_Regresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

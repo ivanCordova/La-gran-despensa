@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ Nombre del programa: La gran despensa
+ Fecha de creación: 30/04/2021
+ Fecha de entrega 06/05/2021
+Autor: Ivan Cordova Rodriguez
  */
 package Frames;
 
