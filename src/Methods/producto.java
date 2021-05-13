@@ -22,15 +22,21 @@ public class producto { //Clase productos para cargar en Nueva venta 
 //    int precioVenta;
 //    String imagen;
     
+    public int id_proventa;
     public int id_producto;
     public String nombre;
     public String nombre_marca;
     public double precioVenta;
     public String imagen;
     public String nombre_categoria;
+    public Short cantidad;
+    public double subTotal;
 
     public producto() {
+        id_proventa = 0;
         id_producto = 0;
+        cantidad = 1;
+        subTotal = 0;
     }
     
     

@@ -169,4 +169,60 @@ public class metodoVenta {
             return false;
         }
     }
+
+    public ArrayList<producto> listaProducto(String idVenta) { // Método para crear un ArrayList con todas las ventas 
+        try {
+            ArrayList<producto> lista = new ArrayList<producto>();
+            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+            PreparedStatement ps = con.prepareStatement("select pv.id_proventa, p.id_producto, p.nombre, m.nombre_marca, p.precioVenta,pv.cantidad "
+                    + "from Ventas as v join ProductosVendidos as pv on v.id_venta = pv.id_venta "
+                    + "join Productos as p on pv.id_producto = p.id_producto "
+                    + "join Marcas as m on p.id_marca = m.id_marca where pv.id_venta = ?");//Variable para cargar consulta 
+            ps.setString(1, idVenta);
+            ResultSet rs = ps.executeQuery(); //Variable el resultado de la consulta 
+
+            if (rs.next()) {
+                do {
+                    producto p = new producto();
+                    p.id_proventa = (Integer)rs.getObject(1);
+                    p.id_producto = (Integer)rs.getObject(2);
+                    p.nombre = (String) rs.getObject(3);
+                    p.nombre_marca = (String) rs.getObject(4);
+                    p.precioVenta = (double) rs.getObject(5);
+                    p.cantidad = (Short) rs.getObject(6);
+                    p.subTotal = p.precioVenta * p.cantidad;
+                    lista.add(p);
+                } while (rs.next());//Recorremos las filas de la consulta 
+            } else {
+                //En caso de no regresar ningún resultado mostramos un mensaje de advertencia 
+                JOptionPane.showMessageDialog(null, "No se encontró ningún producto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+            return lista;//Regresamos el ArrayList
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+
+    }
+    
+//    public boolean eliminarProductoV(String idProducto, String subTotal){
+//        try {
+//            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+//            PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
+//            PreparedStatement ps2 = con.prepareStatement("");//Variable para cargar consulta 
+//
+//            ps = con.prepareStatement("delete from ProductosVendidos where id_proventa = ?");// Consulta para eliminar productos de ProductosVendidos 
+//            ps.setString(1, idProducto);// Sobrecargamos la consulta 
+//            ps.executeUpdate();
+//
+//            ps2 = con.prepareStatement("delete from "); // // Consulta para eliminar productos de ventas
+//            ps2.setString(1, idVenta);// Sobrecargamos la consulta 
+//            ps2.executeUpdate();
+//
+//            return true;
+//        } catch (Exception e) {
+//            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
+//            return false;
+//        }
+//    }
 }
