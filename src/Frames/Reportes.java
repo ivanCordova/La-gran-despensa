@@ -377,7 +377,7 @@ public class Reportes extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna fecha", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
             }else{
                 Date  fecha=(Date) fechaDia.getDate();
-                DateFormat f=new SimpleDateFormat("yyyy_MM_dd_HH:mm:ss");
+                DateFormat f=new SimpleDateFormat("yyyy-MM-dd");
                 String fecha2=f.format(fecha);
                 
                 //Se muestra el modal con el reporte del día indicado
@@ -396,7 +396,7 @@ public class Reportes extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna fecha", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
             }else{
                 Date  fecha=(Date) fechaDia.getDate();
-                DateFormat f=new SimpleDateFormat("yyyy_MM_dd_HH:mm:ss");
+                DateFormat f=new SimpleDateFormat("yyyy-MM-dd");
                 String fecha2=f.format(fecha);
                 
                 //Se muestra el modal con el reporte estadístico del día indicado
