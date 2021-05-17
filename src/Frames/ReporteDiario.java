@@ -5,18 +5,87 @@
  */
 package Frames;
 
+import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author luisi
  */
 public class ReporteDiario extends javax.swing.JDialog {
-
+    //Luis Eduardo Hernandez Gil - 18TE0245
+    //Creacion del metodo: 14/05/2021
     /**
      * Creates new form ReporteDiario
      */
+    DefaultTableModel modeloTabla = new DefaultTableModel(); //Modelo de la tabla 
     public ReporteDiario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        //Realizamos una consulta para obtener los productos vendidos
+        ResultSet res = Connections.Connectionn.consultation(""+
+        "Select p.nombre,pv.cantidad,m.nombre_marca,c.nombre_categoria,pr.nombre,p.precioVenta,p.imagen from Ventas as v"+
+	" inner join ProductosVendidos as pv on pv.id_venta = v.id_venta and v.fechaVenta ='"+Reportes.fecha2+"'"+
+	" inner join Productos as p on p.id_producto = pv.id_producto"+
+	" inner join Categorias as c on p.id_categoria = c.id_categoria"+
+	" inner join Marcas as m on p.id_marca= m.id_marca"+
+	" inner join Proveedores as pr on pr.id_proveedor = p.id_proveedor");
+        try{
+            //Modelo de nueestra tabla
+            modeloTabla.addColumn("Nombre");
+            modeloTabla.addColumn("Cantidad");
+            modeloTabla.addColumn("Marca");
+            modeloTabla.addColumn("Categoria");
+            modeloTabla.addColumn("Proveedor");
+            modeloTabla.addColumn("Precio Venta");
+            modeloTabla.addColumn("Imagen");
+            this.tProductos.setModel(modeloTabla);//Agregamos el modelo a la tabla
+            String []datos = new String[7]; //Arreglo para obtener los datos de la consulta
+            //Recorremos la respuesta
+            while (res.next()) {   
+                int count=0;//variable para controlar productos repetidos
+                //Agregamos al arreglo los datos correspondientes
+                datos[0] = res.getString(1);
+                datos[1] = res.getString(2);
+                datos[2] = res.getString(3);
+                datos[3] = res.getString(4);
+                datos[4] = res.getString(5);
+                datos[5] = res.getString(6);
+                datos[6] = res.getString(7);
+                //Si la tabla esta vacia agregamos el primer registro
+                if (tProductos.getRowCount()==0) {
+                    modeloTabla.addRow(datos);//Agregamos el registro al modelo
+                    tProductos.setModel(modeloTabla);//Agregamos el modelo a la tabla
+                }else{
+                    //Se reecorre la tabla en busca de productos repetidos
+                    for (int i = 0; i < tProductos.getRowCount(); i++) {
+                        //Verificamos si el producto a ingresar es igual a uno existente
+                        if (tProductos.getValueAt(i, 0).equals(datos[0])) {
+                            //Si existe el producto solo se suma la cantidad vendida al registro existente
+                            int suma=Integer.parseInt(tProductos.getValueAt(i, 1).toString())+Integer.parseInt(datos[1]);
+                            tProductos.setValueAt(suma, i, 1);
+                            count=1;//Cambiamos el contador a uno para no volcer a agregar el producto
+                            tProductos.setModel(modeloTabla);//agregamos el modelo a la tabla
+                            break;
+                        }
+                    }
+                    //Si el producto aun no esta en la tabla, se agrega
+                    if (count!=1) {
+                        modeloTabla.addRow(datos);//Agregamos el registro al modelo
+                        tProductos.setModel(modeloTabla);//agregamos el modelo a la tabla
+                    }
+                }
+            }
+            
+        }catch(Exception e){
+            //En caso de error se le informa al usuario con el respectivo mensaje de error
+            JOptionPane.showMessageDialog(this, "SE HA PRODUCIDO UN ERROR INESPERADO" , "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
+            this.dispose();
+        }
     }
 
     /**

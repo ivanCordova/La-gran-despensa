@@ -20,6 +20,8 @@ public class Reportes extends javax.swing.JFrame {
     /**
      * Creates new form Reportes
      */
+    //Se creea una variable para guardar la fecha
+    public static String fecha2="";
     public Reportes() {
         initComponents();
     }
@@ -45,17 +47,17 @@ public class Reportes extends javax.swing.JFrame {
         jPanel4 = new javax.swing.JPanel();
         jLabel2 = new javax.swing.JLabel();
         fechaDia = new com.toedter.calendar.JDateChooser();
-        jButton3 = new javax.swing.JButton();
+        BFechaDia = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        jMonthChooser1 = new com.toedter.calendar.JMonthChooser();
-        jYearChooser1 = new com.toedter.calendar.JYearChooser();
+        Mes = new com.toedter.calendar.JMonthChooser();
+        Anio = new com.toedter.calendar.JYearChooser();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        BFechaMes = new javax.swing.JButton();
         jPanel7 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
-        jDateChooser2 = new com.toedter.calendar.JDateChooser();
-        jButton4 = new javax.swing.JButton();
+        FechaEst = new com.toedter.calendar.JDateChooser();
+        BFechaEst = new javax.swing.JButton();
 
         jPasswordField1.setText("jPasswordField1");
 
@@ -151,10 +153,10 @@ public class Reportes extends javax.swing.JFrame {
 
         fechaDia.setBackground(new java.awt.Color(60, 247, 226));
 
-        jButton3.setText("Generar Reporte del Día");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        BFechaDia.setText("Generar Reporte del Día");
+        BFechaDia.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                BFechaDiaActionPerformed(evt);
             }
         });
 
@@ -170,7 +172,7 @@ public class Reportes extends javax.swing.JFrame {
                     .addGroup(jPanel4Layout.createSequentialGroup()
                         .addGap(14, 14, 14)
                         .addGroup(jPanel4Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(jButton3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(BFechaDia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(fechaDia, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -182,7 +184,7 @@ public class Reportes extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(fechaDia, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton3)
+                .addComponent(BFechaDia)
                 .addContainerGap(17, Short.MAX_VALUE))
         );
 
@@ -198,11 +200,10 @@ public class Reportes extends javax.swing.JFrame {
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setText("Año:");
 
-        jButton2.setText("Generar Reporte del Mes");
-        jButton2.setActionCommand("Generar Reporte del Mes");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        BFechaMes.setText("Generar Reporte del Mes");
+        BFechaMes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                BFechaMesActionPerformed(evt);
             }
         });
 
@@ -216,15 +217,15 @@ public class Reportes extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
-                        .addComponent(jYearChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(Anio, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
-                        .addComponent(jMonthChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(Mes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18))
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jButton2)
+                .addComponent(BFechaMes)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel5Layout.setVerticalGroup(
@@ -232,14 +233,14 @@ public class Reportes extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jMonthChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Mes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addGap(17, 17, 17)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jYearChooser1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(Anio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
+                .addComponent(BFechaMes)
                 .addContainerGap(16, Short.MAX_VALUE))
         );
 
@@ -251,13 +252,13 @@ public class Reportes extends javax.swing.JFrame {
         jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("Seleccionar fecha");
 
-        jDateChooser2.setBackground(new java.awt.Color(60, 247, 226));
+        FechaEst.setBackground(new java.awt.Color(60, 247, 226));
 
-        jButton4.setText("Generar Reporte Estadístico");
-        jButton4.setActionCommand("Generar Reporte Estadistico");
-        jButton4.addActionListener(new java.awt.event.ActionListener() {
+        BFechaEst.setText("Generar Reporte Estadístico");
+        BFechaEst.setActionCommand("Generar Reporte Estadistico");
+        BFechaEst.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton4ActionPerformed(evt);
+                BFechaEstActionPerformed(evt);
             }
         });
 
@@ -272,8 +273,8 @@ public class Reportes extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel7Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jDateChooser2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(BFechaEst, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(FechaEst, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel7Layout.setVerticalGroup(
@@ -282,9 +283,9 @@ public class Reportes extends javax.swing.JFrame {
                 .addGap(21, 21, 21)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
-                .addComponent(jDateChooser2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(FechaEst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
-                .addComponent(jButton4)
+                .addComponent(BFechaEst)
                 .addContainerGap(15, Short.MAX_VALUE))
         );
 
@@ -356,29 +357,31 @@ public class Reportes extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        
+    private void BFechaMesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BFechaMesActionPerformed
+        //Luis Eduardo Hernandez Gil - 18TE0245
+        //Creacion del metodo: 14/05/2021
         try{
-            if(fechaDia.getDate().toString().equals("")){
-                JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna fecha", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
-            }else{
-                //Se muestra el modal con el reporte del mes indicado
-                new ReporteMensual(this, true).setVisible(true);
-            }
+            JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna fecha", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
+            //Se muestra el modal con el reporte del mes indicado
+            new ReporteMensual(this, true).setVisible(true);
         }catch(Exception e){
             //En caso de error se le informa al usuario con el respectivo mensaje de error
             JOptionPane.showMessageDialog(this, "SE HA PRODUCIDO UN ERROR INESPERADO" , "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_BFechaMesActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void BFechaDiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BFechaDiaActionPerformed
+        //Luis Eduardo Hernandez Gil - 18TE0245
+        //Creacion del metodo: 14/05/2021
         try{
+            //comprobamos el campo no este vacio
             if(fechaDia.getDate()==null){
                 JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna fecha", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
             }else{
+                //le damos el formato a la fecha para coincidir con bd
                 Date  fecha=(Date) fechaDia.getDate();
                 DateFormat f=new SimpleDateFormat("yyyy-MM-dd");
-                String fecha2=f.format(fecha);
+                fecha2=f.format(fecha);
                 
                 //Se muestra el modal con el reporte del día indicado
                 new ReporteDiario(this,true).setVisible(true);
@@ -388,14 +391,18 @@ public class Reportes extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "SE HA PRODUCIDO UN ERROR INESPERADO"+e.getMessage() , "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
         }
         
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_BFechaDiaActionPerformed
 
-    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+    private void BFechaEstActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BFechaEstActionPerformed
+        //Luis Eduardo Hernandez Gil - 18TE0245
+        //Creacion del metodo: 14/05/2021
         try{
-            if(fechaDia.getDate()==null){
+            //Verificamos que el campo no este vacio
+            if(FechaEst.getDate()==null){
                 JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna fecha", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
             }else{
-                Date  fecha=(Date) fechaDia.getDate();
+                //le damos el formato a la fecha para coincidir con bd
+                Date  fecha=(Date) FechaEst.getDate();
                 DateFormat f=new SimpleDateFormat("yyyy-MM-dd");
                 String fecha2=f.format(fecha);
                 
@@ -406,7 +413,7 @@ public class Reportes extends javax.swing.JFrame {
             //En caso de error se le informa al usuario con el respectivo mensaje de error
             JOptionPane.showMessageDialog(this, "SE HA PRODUCIDO UN ERROR INESPERADO"+e.getMessage() , "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
         }
-    }//GEN-LAST:event_jButton4ActionPerformed
+    }//GEN-LAST:event_BFechaEstActionPerformed
 
     /**
      * @param args the command line arguments
@@ -444,12 +451,14 @@ public class Reportes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private com.toedter.calendar.JYearChooser Anio;
+    private javax.swing.JButton BFechaDia;
+    private javax.swing.JButton BFechaEst;
+    private javax.swing.JButton BFechaMes;
+    private com.toedter.calendar.JDateChooser FechaEst;
+    private com.toedter.calendar.JMonthChooser Mes;
     private com.toedter.calendar.JDateChooser fechaDia;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JButton jButton4;
-    private com.toedter.calendar.JDateChooser jDateChooser2;
     private javax.swing.JDesktopPane jDesktopPane1;
     private javax.swing.JFrame jFrame1;
     private javax.swing.JInternalFrame jInternalFrame1;
@@ -458,7 +467,6 @@ public class Reportes extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
-    private com.toedter.calendar.JMonthChooser jMonthChooser1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -466,6 +474,5 @@ public class Reportes extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPasswordField jPasswordField1;
-    private com.toedter.calendar.JYearChooser jYearChooser1;
     // End of variables declaration//GEN-END:variables
 }
