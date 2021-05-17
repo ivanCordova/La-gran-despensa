@@ -56,13 +56,22 @@ public class modificarVenta extends javax.swing.JFrame {
         modeloProducto.addColumn("Cantidad");
         modeloProducto.addColumn("Subtotal");
         modeloProducto.addColumn("id_proventa");
+        modeloProducto.addColumn("id_venta");
         this.tbl_Productos.setModel(modeloProducto);
         this.tbl_Productos.getColumnModel().getColumn(6).setMaxWidth(0);//Ocultamos la columna imagen
-        llenarTabla(); // Usamos el método para llenar el Jtable de ventas
+        this.tbl_Productos.getColumnModel().getColumn(7).setMaxWidth(0);//Ocultamos la columna imagen
+        llenarTablaVentas(); // Usamos el método para llenar el Jtable de ventas
     }
 
-        public void llenarTabla(){
+        public void llenarTablaVentas(){
         // Método para llenar el Jtable de ventas 
+                //Limpiamos la tabla de productos 
+        DefaultTableModel modeloVentas = (DefaultTableModel) tbl_ventas.getModel();
+        for (int i = 0; i < this.tbl_ventas.getRowCount(); i++) {
+            modeloVentas.removeRow(i);
+            i -= 1;
+        }
+        
         ArrayList<venta> lista = metodos.listaVentas();
         for (venta ob : lista) {
             Object[] listaTabla = new Object[4];
@@ -73,6 +82,16 @@ public class modificarVenta extends javax.swing.JFrame {
             modeloVenta.addRow(listaTabla);
         }
     }
+        
+        
+        public void limpiarTablaProductos(){
+                    //Limpiamos la tabla de productos 
+        DefaultTableModel modeloProductos = (DefaultTableModel) tbl_Productos.getModel();
+        for (int i = 0; i < this.tbl_Productos.getRowCount(); i++) {
+            modeloProductos.removeRow(i);
+            i -= 1;
+        }
+        }
     
     /**
      * This method is called from within the constructor to initialize the form.
@@ -214,19 +233,14 @@ public class modificarVenta extends javax.swing.JFrame {
 
     private void tbl_ventasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_ventasMouseClicked
         // Controlamos el evento Mouse Clicked para seleccionar la venta que se va a modificar 
-        //Limpiamos la tabla de productos 
-        DefaultTableModel modeloProductos = (DefaultTableModel) tbl_Productos.getModel();
-        for (int i = 0; i < this.tbl_Productos.getRowCount(); i++) {
-            modeloProductos.removeRow(i);
-            i -= 1;
-        }
-        
+
+        limpiarTablaProductos();
         int seleccion = this.tbl_ventas.rowAtPoint(evt.getPoint());//Guardamos el índice de la fila que se selecciona
         DefaultTableModel modeloVentas = (DefaultTableModel) tbl_ventas.getModel();
         ArrayList<producto> listaProductos = metodos.listaProducto(String.valueOf(modeloVentas.getValueAt(seleccion, 0)));
         
         for (producto li : listaProductos) {
-            Object[] listaTabla = new Object[7];
+            Object[] listaTabla = new Object[8];
             listaTabla[0] = li.id_producto;
             listaTabla[1] = li.nombre;
             listaTabla[2] = li.nombre_marca;
@@ -234,6 +248,7 @@ public class modificarVenta extends javax.swing.JFrame {
             listaTabla[4] = li.cantidad;
             listaTabla[5] = li.subTotal;
             listaTabla[6] = li.id_proventa;
+            listaTabla[7] = String.valueOf(modeloVentas.getValueAt(seleccion, 0));
             modeloProducto.addRow(listaTabla);
         }
     }//GEN-LAST:event_tbl_ventasMouseClicked
@@ -258,9 +273,24 @@ public class modificarVenta extends javax.swing.JFrame {
                 "opcion 1");
 
         if (opcion == 0) {
-            //metodos.eliminarProductoV(String.valueOf(modeloProductos.getValueAt(seleccion, 6)),String.valueOf(modeloProductos.getValueAt(seleccion, 5)));
+            boolean m = metodos.eliminarProductoV(String.valueOf(modeloProductos.getValueAt(seleccion, 6)), String.valueOf(modeloProductos.getValueAt(seleccion, 5)), String.valueOf(modeloProductos.getValueAt(seleccion, 7)));
+            if (m == true) {
+                JOptionPane.showMessageDialog(null, "Producto eliminado correctamente");
+                llenarTablaVentas();
+                limpiarTablaProductos();
+            }
         }else if(opcion == 1){
-            System.out.println("Cambiar cantidad");
+            String numero = JOptionPane.showInputDialog("Ingrese la nueva cantidad");
+            if (numero.matches("^\\d+$")) {
+                int numeroInt = Integer.parseInt(numero);
+                boolean res = metodos.modificarCantidadP(numeroInt, String.valueOf(modeloProductos.getValueAt(seleccion, 6)), String.valueOf(modeloProductos.getValueAt(seleccion, 7)));
+                JOptionPane.showMessageDialog(null, "" + res);
+                llenarTablaVentas();
+                limpiarTablaProductos();
+            } else {
+                JOptionPane.showMessageDialog(null, "El numero tiene que ser positivo", "Error", JOptionPane.WARNING_MESSAGE);
+            }
+
         }
         
     }//GEN-LAST:event_tbl_ProductosMouseClicked

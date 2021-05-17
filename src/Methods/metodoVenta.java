@@ -205,24 +205,94 @@ public class metodoVenta {
 
     }
     
-//    public boolean eliminarProductoV(String idProducto, String subTotal){
-//        try {
-//            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
-//            PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
-//            PreparedStatement ps2 = con.prepareStatement("");//Variable para cargar consulta 
-//
-//            ps = con.prepareStatement("delete from ProductosVendidos where id_proventa = ?");// Consulta para eliminar productos de ProductosVendidos 
-//            ps.setString(1, idProducto);// Sobrecargamos la consulta 
-//            ps.executeUpdate();
-//
-//            ps2 = con.prepareStatement("delete from "); // // Consulta para eliminar productos de ventas
-//            ps2.setString(1, idVenta);// Sobrecargamos la consulta 
-//            ps2.executeUpdate();
-//
-//            return true;
-//        } catch (Exception e) {
-//            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
-//            return false;
-//        }
-//    }
+    public boolean eliminarProductoV(String idProducto, String subTotal, String idVenta){
+        try {
+            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+            PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
+            PreparedStatement ps2 = con.prepareStatement("");//Variable para cargar consulta 
+
+            ps = con.prepareStatement("delete from ProductosVendidos where id_proventa = ?");// Consulta para eliminar productos de ProductosVendidos 
+            ps.setString(1, idProducto);// Sobrecargamos la consulta 
+            ps.executeUpdate();
+            
+            
+            
+            ps2 = con.prepareStatement("update Ventas set sumaFinalV = (sumaFinalV - ?) where id_venta = ?");// Consulta para eliminar productos de ProductosVendidos 
+            ps2.setDouble(1, Double.parseDouble(subTotal));// Sobrecargamos la consulta 
+            ps2.setString(2, idVenta);// Sobrecargamos la consulta 
+            ps2.executeUpdate();
+
+
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+    }
+    
+    public boolean modificarProductoV(String idProducto, String subTotal, String idVenta){
+        try {
+            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+            PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
+            PreparedStatement ps2 = con.prepareStatement("");//Variable para cargar consulta 
+
+            ps = con.prepareStatement("delete from ProductosVendidos where id_proventa = ?");// Consulta para eliminar productos de ProductosVendidos 
+            ps.setString(1, idProducto);// Sobrecargamos la consulta 
+            ps.executeUpdate();
+
+            ps2 = con.prepareStatement("update Ventas set sumaFinalV = (sumaFinalV - ?) where id_venta = ?");// Consulta para eliminar productos de ProductosVendidos 
+            ps2.setDouble(1, Double.parseDouble(subTotal));// Sobrecargamos la consulta 
+            ps2.setString(2, idVenta);// Sobrecargamos la consulta 
+            ps2.executeUpdate();
+
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+    }
+    
+    public boolean modificarCantidadP(int nuevaCantidad, String idProducto, String idVenta){
+        try {
+            double nuevaSumaFinal = 0.0;
+            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+            PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
+            PreparedStatement ps2 = con.prepareStatement("");//Variable para cargar consulta 
+            PreparedStatement ps3 = con.prepareStatement("");//Variable para cargar consulta 
+
+            ps = con.prepareStatement("update ProductosVendidos set cantidad = ? where id_proventa = ?");// Consulta para eliminar productos de ProductosVendidos 
+            ps.setInt(1, nuevaCantidad);// Sobrecargamos la consulta 
+            ps.setInt(2, Integer.parseInt(idProducto));// Sobrecargamos la consulta 
+            ps.executeUpdate();
+
+           
+            ps2 = con.prepareStatement("select p.precioVenta, pv.cantidad from Productos as p join ProductosVendidos as pv on "
+                    + "p.id_producto = pv.id_producto where pv.id_venta = ?");//Variable para cargar consulta 
+            ps2.setString(1, idVenta);
+            ResultSet rs = ps2.executeQuery(); //Variable el resultado de la consulta 
+
+            if (rs.next()) {
+                do {
+                    
+                    double precioVenta = (Double)rs.getObject(1);
+                    int cantidad = (Short)rs.getObject(2);
+                    nuevaSumaFinal += precioVenta * cantidad;
+
+                } while (rs.next());//Recorremos las filas de la consulta 
+            } else {
+                //En caso de no regresar ningún resultado mostramos un mensaje de advertencia 
+                JOptionPane.showMessageDialog(null, "No se encontró ningún producto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+
+            ps3 = con.prepareStatement("update Ventas set sumaFinalV = ? where id_venta = ?");// Consulta para eliminar productos de ProductosVendidos 
+            ps3.setDouble(1, nuevaSumaFinal);// Sobrecargamos la consulta 
+            ps3.setString(2, idVenta);// Sobrecargamos la consulta 
+            ps3.executeUpdate();
+
+            return true;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
+            return false;
+        }
+    }
 }
