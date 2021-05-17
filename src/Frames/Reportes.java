@@ -357,12 +357,12 @@ public class Reportes extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        //Se muestra el modal con el reporte del mes indicado
+        
         try{
             if(fechaDia.getDate().toString().equals("")){
                 JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna fecha", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
             }else{
-                JOptionPane.showMessageDialog(this, "f:"+fechaDia.getDate().toString(), "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
+                //Se muestra el modal con el reporte del mes indicado
                 new ReporteMensual(this, true).setVisible(true);
             }
         }catch(Exception e){
@@ -377,12 +377,11 @@ public class Reportes extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna fecha", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
             }else{
                 Date  fecha=(Date) fechaDia.getDate();
-                DateFormat f=new SimpleDateFormat("dd-MM-yyyy");
+                DateFormat f=new SimpleDateFormat("yyyy_MM_dd_HH:mm:ss");
                 String fecha2=f.format(fecha);
                 
-                JOptionPane.showMessageDialog(this, "f:"+fecha2, "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
                 //Se muestra el modal con el reporte del día indicado
-        new ReporteDiario(this,true).setVisible(true);
+                new ReporteDiario(this,true).setVisible(true);
             }
         }catch(Exception e){
             //En caso de error se le informa al usuario con el respectivo mensaje de error
@@ -392,8 +391,21 @@ public class Reportes extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        //Se muestra el modal con el reporte estadístico del día indicado
-        new ReporteEstadistico(this, true).setVisible(true);
+        try{
+            if(fechaDia.getDate()==null){
+                JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna fecha", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
+            }else{
+                Date  fecha=(Date) fechaDia.getDate();
+                DateFormat f=new SimpleDateFormat("yyyy_MM_dd_HH:mm:ss");
+                String fecha2=f.format(fecha);
+                
+                //Se muestra el modal con el reporte estadístico del día indicado
+                new ReporteEstadistico(this, true).setVisible(true);
+            }
+        }catch(Exception e){
+            //En caso de error se le informa al usuario con el respectivo mensaje de error
+            JOptionPane.showMessageDialog(this, "SE HA PRODUCIDO UN ERROR INESPERADO"+e.getMessage() , "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**
