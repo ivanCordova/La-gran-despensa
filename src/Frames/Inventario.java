@@ -792,7 +792,7 @@ public class Inventario extends javax.swing.JFrame {
                 PreparedStatement ps = con.prepareStatement("");//Variable para cargar los datos
                 ps = con.prepareStatement("DELETE FROM Prodcutos WHERE id_producto='" + id_producto_eliminar+"'");
                 ps.executeQuery();
-                //Informamos al usuario de la creacion exitosa de un producto
+                //Informamos al usuario de la creacion exitosa de un producto existente
                 JOptionPane.showMessageDialog(this, "PRODUCTO ELIMINADO", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
             } catch (Exception e) {
                 //Informamos de un error
