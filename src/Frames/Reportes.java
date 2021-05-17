@@ -22,8 +22,8 @@ public class Reportes extends javax.swing.JFrame {
      */
     //Se creea una variable para guardar la fecha
     public static String fecha2="";
-    public static String mes="";
-    public static String anio="";
+    public static int mes=0;
+    public static int anio=0;
     public Reportes() {
         initComponents();
     }
@@ -51,8 +51,8 @@ public class Reportes extends javax.swing.JFrame {
         fechaDia = new com.toedter.calendar.JDateChooser();
         BFechaDia = new javax.swing.JButton();
         jPanel5 = new javax.swing.JPanel();
-        Mes = new com.toedter.calendar.JMonthChooser();
-        Anio = new com.toedter.calendar.JYearChooser();
+        MesIn = new com.toedter.calendar.JMonthChooser();
+        AnioIn = new com.toedter.calendar.JYearChooser();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         BFechaMes = new javax.swing.JButton();
@@ -219,11 +219,11 @@ public class Reportes extends javax.swing.JFrame {
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel4)
                         .addGap(18, 18, 18)
-                        .addComponent(Anio, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(AnioIn, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel5Layout.createSequentialGroup()
                         .addComponent(jLabel3)
                         .addGap(18, 18, 18)
-                        .addComponent(Mes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(MesIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addGap(18, 18, 18))
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
@@ -235,11 +235,11 @@ public class Reportes extends javax.swing.JFrame {
             .addGroup(jPanel5Layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Mes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(MesIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel3))
                 .addGap(17, 17, 17)
                 .addGroup(jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(Anio, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(AnioIn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel4))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(BFechaMes)
@@ -360,6 +360,9 @@ public class Reportes extends javax.swing.JFrame {
         //Luis Eduardo Hernandez Gil - 18TE0245
         //Creacion del metodo: 14/05/2021
         try{
+            //Se les asigna su valor a las variables globales
+            anio=AnioIn.getYear();
+            mes= MesIn.getMonth();
             //Se muestra el modal con el reporte del mes indicado
             new ReporteMensual(this, true).setVisible(true);
         }catch(Exception e){
@@ -449,12 +452,12 @@ public class Reportes extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private com.toedter.calendar.JYearChooser Anio;
+    private com.toedter.calendar.JYearChooser AnioIn;
     private javax.swing.JButton BFechaDia;
     private javax.swing.JButton BFechaEst;
     private javax.swing.JButton BFechaMes;
     private com.toedter.calendar.JDateChooser FechaEst;
-    private com.toedter.calendar.JMonthChooser Mes;
+    private com.toedter.calendar.JMonthChooser MesIn;
     private com.toedter.calendar.JDateChooser fechaDia;
     private javax.swing.JButton jButton1;
     private javax.swing.JDesktopPane jDesktopPane1;
