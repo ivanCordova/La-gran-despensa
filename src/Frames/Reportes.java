@@ -22,6 +22,8 @@ public class Reportes extends javax.swing.JFrame {
      */
     //Se creea una variable para guardar la fecha
     public static String fecha2="";
+    public static String mes="";
+    public static String anio="";
     public Reportes() {
         initComponents();
     }
@@ -286,7 +288,7 @@ public class Reportes extends javax.swing.JFrame {
                 .addComponent(FechaEst, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(BFechaEst)
-                .addContainerGap(15, Short.MAX_VALUE))
+                .addContainerGap(17, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout jPanel3Layout = new javax.swing.GroupLayout(jPanel3);
@@ -305,15 +307,12 @@ public class Reportes extends javax.swing.JFrame {
         jPanel3Layout.setVerticalGroup(
             jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel3Layout.createSequentialGroup()
-                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(25, 25, 25)
+                .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                        .addGroup(jPanel3Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel3Layout.createSequentialGroup()
-                            .addGap(27, 27, 27)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(jPanel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
@@ -361,7 +360,6 @@ public class Reportes extends javax.swing.JFrame {
         //Luis Eduardo Hernandez Gil - 18TE0245
         //Creacion del metodo: 14/05/2021
         try{
-            JOptionPane.showMessageDialog(this, "No se ha seleccionado ninguna fecha", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
             //Se muestra el modal con el reporte del mes indicado
             new ReporteMensual(this, true).setVisible(true);
         }catch(Exception e){
@@ -404,7 +402,7 @@ public class Reportes extends javax.swing.JFrame {
                 //le damos el formato a la fecha para coincidir con bd
                 Date  fecha=(Date) FechaEst.getDate();
                 DateFormat f=new SimpleDateFormat("yyyy-MM-dd");
-                String fecha2=f.format(fecha);
+                fecha2=f.format(fecha);
                 
                 //Se muestra el modal con el reporte estadístico del día indicado
                 new ReporteEstadistico(this, true).setVisible(true);
