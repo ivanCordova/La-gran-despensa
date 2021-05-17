@@ -13,6 +13,8 @@ import javax.swing.table.DefaultTableModel;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
 /**
@@ -127,6 +129,51 @@ public class ReporteEstadistico extends javax.swing.JDialog {
             //En caso de error se le informa al usuario con el respectivo mensaje de error
             JOptionPane.showMessageDialog(this, "SE HA PRODUCIDO UN ERROR INESPERADO" , "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
         }
+        //-------------------------------------------Grafica de barras-----------------------------------------------------------------
+        try{
+            DefaultCategoryDataset datos = new DefaultCategoryDataset();
+            ResultSet productos = Connections.Connectionn.consultation("Select * from Productos");
+            while (productos.next()) {
+                int contador=0; 
+                for (int i = 0; i < tProductos.getRowCount(); i++) {
+                        //Verificamos si la categoria a ingresar es igual a una existente
+                        if (tProductos.getValueAt(i, 0).equals(productos.getString(6))) {
+                            //Si existe la categoria en la tabla se toma el registro de cantidad
+                            datos.setValue(Integer.parseInt(tProductos.getValueAt(i, 1).toString()),productos.getString(6),tProductos.getValueAt(i, 3).toString());
+                            contador=1;//Hace referencia a que el producto existe n la tabla
+                            break;
+                        }
+                }
+                if(contador!=1){
+                    //Se obtiene la categoria del producto quee no esta
+                    ResultSet categoria = Connections.Connectionn.consultation(""+
+                    "select c.nombre_categoria from categorias as c \n" +
+                    "	inner join Productos as p on p.nombre='"+productos.getString(0)+"' and p.id_categoria=c.id_categoria");
+                    //En caso de no estar en la tabla se le asigna un 0
+                    datos.setValue(0,productos.getString(6),categoria.getString(0));
+                }
+            }
+            JFreeChart grafico_barras = ChartFactory.createBarChart3D(
+                "Ventas por categorias",    //Nombre del grafico
+                "Productos",                //nombre de las barras
+                "Cantidad",                 //nombre de la numeracion
+                datos,                      //datos
+                PlotOrientation.VERTICAL,   //orientacion
+                true,                       //nombre de las categorias
+                true,                       //herramientas
+                false                       //generacion de url
+            );
+            
+            ChartPanel panel2 = new ChartPanel(grafico_barras);
+            panel2.setMouseWheelEnabled(true);
+            panel2.setPreferredSize(new Dimension(500,320));
+            
+            PanelBarras.setLayout(new BorderLayout());
+            PanelBarras.add(panel2,BorderLayout.NORTH);
+        }catch(Exception e){
+            //En caso de error se le informa al usuario con el respectivo mensaje de error
+            JOptionPane.showMessageDialog(this, "SE HA PRODUCIDO UN ERROR INESPERADO AL GENERAR EL GRAFICO DE BARRAS" , "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
+        }
     }
 
     /**
@@ -145,6 +192,7 @@ public class ReporteEstadistico extends javax.swing.JDialog {
         jScrollPane2 = new javax.swing.JScrollPane();
         tProductos = new javax.swing.JTable();
         PanelPastel = new javax.swing.JPanel();
+        PanelBarras = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -171,7 +219,7 @@ public class ReporteEstadistico extends javax.swing.JDialog {
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(62, 62, 62)
                 .addComponent(jLabel1)
-                .addContainerGap(599, Short.MAX_VALUE))
+                .addContainerGap(843, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,10 +256,24 @@ public class ReporteEstadistico extends javax.swing.JDialog {
         PanelPastel.setLayout(PanelPastelLayout);
         PanelPastelLayout.setHorizontalGroup(
             PanelPastelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 247, Short.MAX_VALUE)
+            .addGap(0, 296, Short.MAX_VALUE)
         );
         PanelPastelLayout.setVerticalGroup(
             PanelPastelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+
+        PanelBarras.setBackground(new java.awt.Color(239, 236, 238));
+        PanelBarras.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        javax.swing.GroupLayout PanelBarrasLayout = new javax.swing.GroupLayout(PanelBarras);
+        PanelBarras.setLayout(PanelBarrasLayout);
+        PanelBarrasLayout.setHorizontalGroup(
+            PanelBarrasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 278, Short.MAX_VALUE)
+        );
+        PanelBarrasLayout.setVerticalGroup(
+            PanelBarrasLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGap(0, 364, Short.MAX_VALUE)
         );
 
@@ -222,15 +284,22 @@ public class ReporteEstadistico extends javax.swing.JDialog {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 803, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(PanelPastel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 1034, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(PanelPastel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(PanelBarras, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(83, 83, 83))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(PanelPastel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(PanelPastel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PanelBarras, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 219, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -301,6 +370,7 @@ public class ReporteEstadistico extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel PanelBarras;
     private javax.swing.JPanel PanelPastel;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
