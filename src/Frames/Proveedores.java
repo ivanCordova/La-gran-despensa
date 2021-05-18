@@ -7,11 +7,14 @@ package Frames;
 
 import Connections.Connectionn;
 import Connections.Procedure;
+import Methods.Proveedor;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -56,8 +59,6 @@ public class Proveedores extends javax.swing.JFrame {
         Fcha_Alta = new javax.swing.JTextField();
         jButtonAlta = new javax.swing.JButton();
         PDatos1 = new javax.swing.JPanel();
-        lbId1 = new javax.swing.JLabel();
-        BuscarBaja = new javax.swing.JTextField();
         jScrollPane2 = new javax.swing.JScrollPane();
         jTableBajas = new javax.swing.JTable();
         jButtonBuscarBaja = new javax.swing.JButton();
@@ -71,12 +72,10 @@ public class Proveedores extends javax.swing.JFrame {
         PDatos2 = new javax.swing.JPanel();
         lbNombre2 = new javax.swing.JLabel();
         lbDireccion4 = new javax.swing.JLabel();
-        lbId2 = new javax.swing.JLabel();
         lbTelefono5 = new javax.swing.JLabel();
         lbDireccion5 = new javax.swing.JLabel();
         lbTelefono6 = new javax.swing.JLabel();
         Direccion_Modificar = new javax.swing.JTextField();
-        ID_modificar = new javax.swing.JTextField();
         Nombre_Modificar = new javax.swing.JTextField();
         Empresa_Modificar = new javax.swing.JTextField();
         Telefono_Modificar = new javax.swing.JTextField();
@@ -85,8 +84,6 @@ public class Proveedores extends javax.swing.JFrame {
         Buscar_Modificar = new javax.swing.JTextField();
         lbId3 = new javax.swing.JLabel();
         jButtonB_Modificar = new javax.swing.JButton();
-        jScrollPane4 = new javax.swing.JScrollPane();
-        jTableModificar = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
@@ -164,13 +161,6 @@ public class Proveedores extends javax.swing.JFrame {
         PDatos1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         PDatos1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lbId1.setBackground(new java.awt.Color(0, 0, 0));
-        lbId1.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        lbId1.setForeground(new java.awt.Color(0, 0, 0));
-        lbId1.setText("ID:");
-        PDatos1.add(lbId1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, -1, -1));
-        PDatos1.add(BuscarBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 250, -1));
-
         jTableBajas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null},
@@ -191,13 +181,13 @@ public class Proveedores extends javax.swing.JFrame {
         jButtonBuscarBaja.setBackground(new java.awt.Color(255, 255, 255));
         jButtonBuscarBaja.setForeground(new java.awt.Color(0, 0, 0));
         jButtonBuscarBaja.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Search_x32A.png"))); // NOI18N
-        jButtonBuscarBaja.setText("BUSCAR");
+        jButtonBuscarBaja.setText("ACTUALIZAR");
         jButtonBuscarBaja.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButtonBuscarBajaActionPerformed(evt);
             }
         });
-        PDatos1.add(jButtonBuscarBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, -1, -1));
+        PDatos1.add(jButtonBuscarBaja, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 20, -1, -1));
 
         jButtonDardeBaja.setBackground(new java.awt.Color(255, 255, 255));
         jButtonDardeBaja.setForeground(new java.awt.Color(0, 0, 0));
@@ -266,50 +256,48 @@ public class Proveedores extends javax.swing.JFrame {
         lbNombre2.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         lbNombre2.setForeground(new java.awt.Color(0, 0, 0));
         lbNombre2.setText("Nombre:");
-        PDatos2.add(lbNombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 260, -1, -1));
+        PDatos2.add(lbNombre2, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 150, -1, -1));
 
         lbDireccion4.setBackground(new java.awt.Color(0, 0, 0));
         lbDireccion4.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         lbDireccion4.setForeground(new java.awt.Color(0, 0, 0));
         lbDireccion4.setText("Fecha de Registro:");
-        PDatos2.add(lbDireccion4, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 350, -1, -1));
-
-        lbId2.setBackground(new java.awt.Color(0, 0, 0));
-        lbId2.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
-        lbId2.setForeground(new java.awt.Color(0, 0, 0));
-        lbId2.setText("ID:");
-        PDatos2.add(lbId2, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 230, -1, -1));
+        PDatos2.add(lbDireccion4, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 240, -1, -1));
 
         lbTelefono5.setBackground(new java.awt.Color(0, 0, 0));
         lbTelefono5.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         lbTelefono5.setForeground(new java.awt.Color(0, 0, 0));
         lbTelefono5.setText("Empresa:");
         lbTelefono5.setToolTipText("");
-        PDatos2.add(lbTelefono5, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 290, -1, -1));
+        PDatos2.add(lbTelefono5, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 180, -1, -1));
 
         lbDireccion5.setBackground(new java.awt.Color(0, 0, 0));
         lbDireccion5.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         lbDireccion5.setForeground(new java.awt.Color(0, 0, 0));
         lbDireccion5.setText("Dirección:");
-        PDatos2.add(lbDireccion5, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 380, -1, -1));
+        PDatos2.add(lbDireccion5, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 270, -1, -1));
 
         lbTelefono6.setBackground(new java.awt.Color(0, 0, 0));
         lbTelefono6.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         lbTelefono6.setForeground(new java.awt.Color(0, 0, 0));
         lbTelefono6.setText("Telefono:");
-        PDatos2.add(lbTelefono6, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 320, -1, -1));
-        PDatos2.add(Direccion_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 380, 250, -1));
-        PDatos2.add(ID_modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 230, 250, -1));
-        PDatos2.add(Nombre_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 260, 250, -1));
-        PDatos2.add(Empresa_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 290, 250, -1));
-        PDatos2.add(Telefono_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 320, 250, -1));
-        PDatos2.add(Fecha_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(220, 350, 250, -1));
+        PDatos2.add(lbTelefono6, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 210, -1, -1));
+        PDatos2.add(Direccion_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 270, 250, -1));
+        PDatos2.add(Nombre_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 150, 250, -1));
+        PDatos2.add(Empresa_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 180, 250, -1));
+        PDatos2.add(Telefono_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 210, 250, -1));
+        PDatos2.add(Fecha_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(180, 240, 250, -1));
 
         jButton_Modificar.setBackground(new java.awt.Color(255, 255, 255));
         jButton_Modificar.setForeground(new java.awt.Color(0, 0, 0));
         jButton_Modificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Edit_x32A.png"))); // NOI18N
         jButton_Modificar.setText("MODIFICAR");
-        PDatos2.add(jButton_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(290, 410, -1, -1));
+        jButton_Modificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton_ModificarActionPerformed(evt);
+            }
+        });
+        PDatos2.add(jButton_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 320, -1, -1));
         PDatos2.add(Buscar_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 250, -1));
 
         lbId3.setBackground(new java.awt.Color(0, 0, 0));
@@ -328,23 +316,6 @@ public class Proveedores extends javax.swing.JFrame {
             }
         });
         PDatos2.add(jButtonB_Modificar, new org.netbeans.lib.awtextra.AbsoluteConstraints(390, 20, -1, -1));
-
-        jTableModificar.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null},
-                {null, null, null, null, null, null}
-            },
-            new String [] {
-                "ID PROVEEDOR", "NOMBRE", "EMPRESA", "TELEFONO", "FECHA REGISTRO", "DIRECCION"
-            }
-        ));
-        jScrollPane4.setViewportView(jTableModificar);
-
-        PDatos2.add(jScrollPane4, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 80, 570, 130));
 
         jTabbedPane7.addTab("MODIFICAR", PDatos2);
         PDatos2.getAccessibleContext().setAccessibleName("DATOS DEL PROVEEDOR");
@@ -416,12 +387,22 @@ public class Proveedores extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+        //PROGRAMA LA GRAN DESPENSA - MODULO PROVEEDORES
+        //BASE DE DATOS: bd_LGB.sql
+        //CREADA ABRIL 2021
+        //FECHA DE ENTREGA: 06/05/2021
+        //AUTOR: BRANDON GONZALEZ CRESCENCIO
+    
     private void jButtonAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAltaActionPerformed
 
+        //VALIDA QUE NO HAYA CAMPOS VACIOS
+        
         if (Id_alta.getText().isEmpty() || Name_alta.getText().isEmpty() || Direccion_Alta.getText().isEmpty()
-                || Empresa_alta.getText().isEmpty() || Telefono_Alta.getText().isEmpty() || Fcha_Alta.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "INGRESE SUS DATOS CORRECTAMENTE", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
-
+                || Empresa_alta.getText().isEmpty() || Telefono_Alta.getText().isEmpty() || 
+                Fcha_Alta.getText().isEmpty()) {
+            JOptionPane.showMessageDialog(this, "INGRESE SUS DATOS CORRECTAMENTE", "INFORMACION!", 
+                    JOptionPane.INFORMATION_MESSAGE);
+            //LIMPIA LOS CAMPOS 
             Id_alta.setText("");
             Name_alta.setText("");
             Direccion_Alta.setText("");
@@ -430,8 +411,10 @@ public class Proveedores extends javax.swing.JFrame {
             Fcha_Alta.setText("");
 
         } else {
+            //CONSULTA PARA VALIDAR QUE NO SE REPITA EL ID
             try {
-                res = Connections.Connectionn.consultation("Select COUNT(id_proveedor)from Proveedores where id_Proveedor ='" 
+                res = Connections.Connectionn.consultation("Select COUNT(id_proveedor)from Proveedores where "
+                        + "id_Proveedor ='"
                         + Id_alta.getText() + "'");
                 try {
                     while (res.next()) {
@@ -444,8 +427,10 @@ public class Proveedores extends javax.swing.JFrame {
                 } else {
                     Connection con = Connectionn.getConnection();//Inicializamos la conexión 
                     PreparedStatement ps = con.prepareStatement("");//Variable para cargar los datos
-                    ps = con.prepareStatement("INSERT Proveedores VALUES ('" + Id_alta.getText() + "','" + Name_alta.getText() + "','" + Empresa_alta.getText() + "'"
-                            + ",'" + Telefono_Alta.getText() + "','" + Fcha_Alta.getText() + "','" + Direccion_Alta.getText() + "')");
+                    ps = con.prepareStatement("INSERT Proveedores VALUES ('" + Id_alta.getText() + "','" + 
+                            Name_alta.getText() + "','" + Empresa_alta.getText() + "'"
+                            + ",'" + Telefono_Alta.getText() + "','" + Fcha_Alta.getText() + "','" + 
+                            Direccion_Alta.getText() + "')");
                     ps.executeQuery();
 
                     Id_alta.setText("");
@@ -454,7 +439,8 @@ public class Proveedores extends javax.swing.JFrame {
                     Empresa_alta.setText("");
                     Telefono_Alta.setText("");
                     Fcha_Alta.setText("");
-                    JOptionPane.showMessageDialog(this, "PROVEEDOR CREADO", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "PROVEEDOR CREADO", "INFORMATION", 
+                            JOptionPane.INFORMATION_MESSAGE);
 
                 }
             } catch (Exception e) {
@@ -462,13 +448,77 @@ public class Proveedores extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonAltaActionPerformed
     }
     private void jButtonBuscarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarBajaActionPerformed
-        // VALIDAR QUE EL CAMPO NO ESTE VACIO
+        ArrayList<Proveedor> listaProveedor = new ArrayList<Proveedor>();
+        listaProveedor = buscarProveedor(0,0);
+
+        DefaultTableModel modelo= (DefaultTableModel)jTableBajas.getModel();
+        
+        for (Proveedor pv : listaProveedor) {
+            Object[] tabla = new Object[6];
+            tabla[0]=pv.id_Proveedor;
+            tabla[1]=pv.nombre;
+            tabla[2]=pv.telefono;
+            tabla[3]=pv.empresa;
+            tabla[4]=pv.fecha_Registro;
+            tabla[5]=pv.direccion;
+            
+            modelo.addRow(tabla);
+        
+        }
+
+
+    }//GEN-LAST:event_jButtonBuscarBajaActionPerformed
+    public ArrayList<Proveedor> buscarProveedor(int id_Proveedor,int tipo) {//Método para buscar productos por nombre
+
+        ArrayList<Proveedor> listaProveedor = new ArrayList<Proveedor>();
+
+// VALIDAR QUE EL CAMPO NO ESTE VACIO
         if (Id_ConsultaBuscar.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "INGRESE SU ID CORRECTAMENTE", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
             Id_ConsultaBuscar.setText("");
-        }
-    }//GEN-LAST:event_jButtonBuscarBajaActionPerformed
 
+            try {
+
+                Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+                PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
+                ResultSet rs;
+                
+                if (tipo==0) {
+                      ps = con.prepareStatement("SELECT*FROM Proveedores");
+                }
+                else{  ps = con.prepareStatement("SELECT*FROM Proveedores Where id_Proveedor=?");
+                String id=Id_ConsultaBuscar.getText();
+                ps.setString(1,id);
+                
+                }
+              
+                rs = ps.executeQuery();
+                do {
+                    Proveedor pv = new Proveedor();
+                    pv.id_Proveedor = (Integer) rs.getObject(1);
+                    pv.nombre = (String) rs.getObject(2);
+                    pv.telefono = (String) rs.getObject(3);
+                    pv.empresa = (String) rs.getObject(4);
+                    pv.fecha_Registro = (String) rs.getObject(5);
+                    pv.direccion = (String) rs.getObject(6);
+                    listaProveedor.add(pv);
+
+                } while (rs.next());
+
+            } catch (Exception e) {
+}
+            }
+
+        
+        return listaProveedor;
+    }
+        
+        //PROGRAMA LA GRAN DESPENSA - MODULO PROVEEDORES
+        //BASE DE DATOS: bd_LGB.sql
+        //CREADA ABRIL 2021
+        //FECHA DE ENTREGA: 06/05/2021
+        //AUTOR: BRANDON GONZALEZ CRESCENCIO
+    
     private void jButtonDardeBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDardeBajaActionPerformed
         int row1 = jTableBajas.getSelectedRow();
         if (row1 == -1) {
@@ -477,7 +527,8 @@ public class Proveedores extends javax.swing.JFrame {
         } else {
             int row = jTableBajas.getSelectedRow();
 
-            int opc = JOptionPane.showConfirmDialog(this, "¿DESEA ELIMINAR EL PROVEEDOR?", "WARNING", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
+            int opc = JOptionPane.showConfirmDialog(this, "¿DESEA ELIMINAR EL PROVEEDOR?", "WARNING",
+                    JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (opc == JOptionPane.YES_OPTION) {
                 try {
 
@@ -494,7 +545,7 @@ public class Proveedores extends javax.swing.JFrame {
         if (Id_ConsultaBuscar.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "INGRESE SU ID CORRECTAMENTE", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
             Id_ConsultaBuscar.setText("");
-            
+
         }
     }//GEN-LAST:event_jButtonB_ModificarActionPerformed
 
@@ -505,6 +556,10 @@ public class Proveedores extends javax.swing.JFrame {
             Id_ConsultaBuscar.setText("");
         }
     }//GEN-LAST:event_BuscarProveeActionPerformed
+
+    private void jButton_ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ModificarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton_ModificarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -543,7 +598,6 @@ public class Proveedores extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField BuscarBaja;
     private javax.swing.JButton BuscarProvee;
     private javax.swing.JTextField Buscar_Modificar;
     private javax.swing.JTextField Direccion_Alta;
@@ -552,7 +606,6 @@ public class Proveedores extends javax.swing.JFrame {
     private javax.swing.JTextField Empresa_alta;
     private javax.swing.JTextField Fcha_Alta;
     private javax.swing.JTextField Fecha_Modificar;
-    private javax.swing.JTextField ID_modificar;
     private javax.swing.JTextField Id_ConsultaBuscar;
     private javax.swing.JTextField Id_alta;
     private javax.swing.JTextField Name_alta;
@@ -573,19 +626,15 @@ public class Proveedores extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JTabbedPane jTabbedPane7;
     private javax.swing.JTable jTableBajas;
     private javax.swing.JTable jTableConsulta;
-    private javax.swing.JTable jTableModificar;
     private javax.swing.JLabel lbDireccion;
     private javax.swing.JLabel lbDireccion1;
     private javax.swing.JLabel lbDireccion4;
     private javax.swing.JLabel lbDireccion5;
     private javax.swing.JLabel lbId;
-    private javax.swing.JLabel lbId1;
-    private javax.swing.JLabel lbId2;
     private javax.swing.JLabel lbId3;
     private javax.swing.JLabel lbId5;
     private javax.swing.JLabel lbNombre;
