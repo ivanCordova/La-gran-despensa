@@ -36,8 +36,8 @@ public class Usuarios extends javax.swing.JFrame {
     
     //VARIABLES
     int moveX, moveY;
-    static ResultSet res;
     int ancho = 320;
+    static ResultSet res;
     int alto = 210;
     String id;
     Dimension dimension = new Dimension(ancho, alto);
@@ -709,24 +709,25 @@ public class Usuarios extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnSaveMouseClicked
-
+/*  Emmanuel Miranda Diaz - Modulo Usuario - Evento: Buscar*/
     private void btnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseClicked
-        if (tfId.getText().isEmpty()) {
+        if (tfId.getText().isEmpty()) { //Si el txt del id esta vacio, entonces enviara una advertencia
             sound.warning();
             JOptionPane.showMessageDialog(this, "INSERTA ID", "WARNING", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
                 String b;
-                Procedure.BuscarUsuarios(Integer.parseInt(tfId.getText()));
+                Procedure.BuscarUsuarios(Integer.parseInt(tfId.getText())); //Se le envia al procedimiento almacenado el id deseado
                 b = tfId.getText();
+                //Se limpian los espacios de texto por si hay algun campo con texto previo
                 general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
-                res = Connections.Connectionn.consultation("select * from Usuarios");
-                while (res.next()) {
-                    if (res.getString(1).equals(b)) {
+                res = Connections.Connectionn.consultation("select * from Usuarios"); //Sea crea un objeto de tipo Resulset, el cual aloja la consulta
+                while (res.next()) { //Recorremos la bd
+                    if (res.getString(1).equals(b)) { //Se busca en todos los id algun coincidente
                         sound.executed();
-                        JOptionPane.showMessageDialog(this, "DATOS ENCONTRADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
-                        tfId.setText(res.getString(1));
-                        String x = res.getString(2);
+                        JOptionPane.showMessageDialog(this, "DATOS ENCONTRADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE); //Mensaje de busqueda exitosa
+                        tfId.setText(res.getString(1)); //Se envia el ID al espacio correspondiente
+                        String x = res.getString(2); //Se hace la conversión del ID de Rol encontrado para mostrarlo como es nombrado
                         if (x == "G0000001") {
                             cbIdRol.setSelectedItem("Gerente");
                         }
@@ -736,6 +737,7 @@ public class Usuarios extends javax.swing.JFrame {
                         if (x == "A0000001") {
                             cbIdRol.setSelectedItem("Administrador");
                         }
+                        //Se envian los datos restantes a los espacios correspondientes
                         tfNombre.setText(res.getString(3));
                         tfAP.setText(res.getString(4));
                         tfAM.setText(res.getString(5));
@@ -744,7 +746,7 @@ public class Usuarios extends javax.swing.JFrame {
                         cbSexo.setSelectedItem(res.getString(8));
                         tfContrasena.setText(res.getString(10));
                     }
-                }
+                }//Si no coincide con ningun id registrado, se muestra el siguiente mensaje
                 JOptionPane.showMessageDialog(this, "DATOS NO ENCONTRADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException e) {
             }

@@ -26,9 +26,9 @@ public class Procedure {
     }
 
     public static void BuscarUsuarios(int a) throws SQLException {
-        CallableStatement input = Connectionn.getConnection().prepareCall("{call BuscarUsuario(?)}");
-        input.setInt(1, a);
-        input.execute();
+        CallableStatement input = Connectionn.getConnection().prepareCall("{call BuscarUsuario(?)}"); //Llamado del procedimiento almacenado BuscarUsuario
+        input.setInt(1, a); //A nuestro parametro se le asigna una posición en la bd de tipo INT
+        input.execute(); //Finalizar
     }
     
     public static void AgregarProveedor(int id_Provee, String nombre_Provee, String empresa_Provee
@@ -50,10 +50,8 @@ public class Procedure {
     }
 
     public static void BuscarProveedor(int id_Provee) throws SQLException {
-        CallableStatement input = Connectionn.getConnection().prepareCall("{call BuscarUsuario(?)}");
-        input.setInt(1, id_Provee);
-     
-        
-        input.execute();
+        CallableStatement input = Connectionn.getConnection().prepareCall("{call BuscarUsuario(?)}"); 
+        input.setInt(1, id_Provee); 
+        input.execute(); 
     }
 }
