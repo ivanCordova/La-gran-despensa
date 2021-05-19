@@ -5,10 +5,9 @@
         <group name="Personales"/>
         <group name="Universidad"/>
         <group>
-            <file>file:/D:/SEMESTRE%206/Ingenieria%20de%20software/Proyecto/La-gran-despensa/src/Methods/metodoVenta.java</file>
+            <file>file:/D:/SEMESTRE%206/Ingenieria%20de%20software/Proyecto/La-gran-despensa/src/Frames/eliminarVenta.java</file>
+            <file>file:/D:/SEMESTRE%206/Ingenieria%20de%20software/Proyecto/La-gran-despensa/src/Frames/cierreCaja.java</file>
             <file>file:/D:/SEMESTRE%206/Ingenieria%20de%20software/Proyecto/La-gran-despensa/src/Frames/Ventas.java</file>
-            <file>file:/D:/SEMESTRE%206/Ingenieria%20de%20software/Proyecto/La-gran-despensa/src/Frames/nuevaVenta.java</file>
-            <file>file:/D:/SEMESTRE%206/Ingenieria%20de%20software/Proyecto/La-gran-despensa/src/Frames/modificarVenta.java</file>
         </group>
     </open-files>
 </project-private>

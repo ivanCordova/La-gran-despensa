@@ -295,4 +295,126 @@ public class metodoVenta {
             return false;
         }
     }
+    
+    public int totalVentas() {
+        try {
+            int total = 0;
+            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+            PreparedStatement ps = con.prepareStatement("SELECT count(*) FROM Ventas");//Variable para cargar consulta 
+            ResultSet rs = ps.executeQuery(); //Variable el resultado de la consulta 
+            //total = (Integer) rs.getObject(1);
+            if (rs.next()) {
+                do {
+                    total = (Integer) rs.getObject(1);
+                } while (rs.next());//Recorremos las filas de la consulta 
+            } else {
+                //En caso de no regresar ningún resultado mostramos un mensaje de advertencia 
+                JOptionPane.showMessageDialog(null, "No se encontró ningún producto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+            return total;//Regresamos el ArrayList
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
+            return 0;
+        }
+    }
+    
+    public int totalProductosVendidos() {
+        try {
+            int total = 0;
+            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+            PreparedStatement ps = con.prepareStatement("SELECT count(*) FROM ProductosVendidos");//Variable para cargar consulta 
+            ResultSet rs = ps.executeQuery(); //Variable el resultado de la consulta 
+            //total = (Integer) rs.getObject(1);
+            if (rs.next()) {
+                do {
+                    total = (Integer) rs.getObject(1);
+                } while (rs.next());//Recorremos las filas de la consulta 
+            } else {
+                //En caso de no regresar ningún resultado mostramos un mensaje de advertencia 
+                JOptionPane.showMessageDialog(null, "No se encontró ningún producto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+            return total;//Regresamos el ArrayList
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
+            return 0;
+        }
+    }
+    
+    public ArrayList<String> productoMasVendidos() {
+        try {
+            ArrayList<String> resultado = new ArrayList<String>();
+//            String res = "";
+            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+            PreparedStatement ps = con.prepareStatement("select top 1 p.nombre, sum(pv.cantidad) as total from ProductosVendidos as pv join Productos as p on "
+                    + "pv.id_producto = p.id_producto  group by p.nombre order by total desc");//Variable para cargar consulta 
+            ResultSet rs = ps.executeQuery(); //Variable el resultado de la consulta 
+            //total = (Integer) rs.getObject(1);
+            if (rs.next()) {
+                do {
+                    String res1 = (String) rs.getObject(1);
+                    String res2 = ""+(Integer) rs.getObject(2);
+                    resultado.add(res1);
+                    resultado.add(res2);
+                } while (rs.next());//Recorremos las filas de la consulta 
+            } else {
+                //En caso de no regresar ningún resultado mostramos un mensaje de advertencia 
+                JOptionPane.showMessageDialog(null, "No se encontró ningún producto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+            return resultado;//Regresamos el ArrayList
+ //           return res;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+    }
+
+    public ArrayList<String> mejorVendedor() {
+        try {
+            ArrayList<String> resultado = new ArrayList<String>();
+//            String res = "";
+            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+            PreparedStatement ps = con.prepareStatement("select top 1 u.nombre, count(u.nombre) as total from Ventas as v join Usuarios as u "
+                    + "on v.id_usuario = u.id_usuario group by u.nombre order by total desc");//Variable para cargar consulta 
+            ResultSet rs = ps.executeQuery(); //Variable el resultado de la consulta 
+            //total = (Integer) rs.getObject(1);
+            if (rs.next()) {
+                do {
+                    String res1 = (String) rs.getObject(1);
+                    String res2 = "" + (Integer) rs.getObject(2);
+                    resultado.add(res1);
+                    resultado.add(res2);
+                } while (rs.next());//Recorremos las filas de la consulta 
+            } else {
+                //En caso de no regresar ningún resultado mostramos un mensaje de advertencia 
+                JOptionPane.showMessageDialog(null, "No se encontró ningún producto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+            return resultado;//Regresamos el ArrayList
+            //           return res;
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
+            return null;
+        }
+    }
+
+    public double totalVentasDia() {
+        try {
+            double total = 0;
+            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+            PreparedStatement ps = con.prepareStatement("select sum(sumaFinalV) from Ventas");//Variable para cargar consulta 
+            ResultSet rs = ps.executeQuery(); //Variable el resultado de la consulta 
+            //total = (Integer) rs.getObject(1);
+            if (rs.next()) {
+                do {
+                    total = (double) rs.getObject(1);
+                } while (rs.next());//Recorremos las filas de la consulta 
+            } else {
+                //En caso de no regresar ningún resultado mostramos un mensaje de advertencia 
+                JOptionPane.showMessageDialog(null, "No se encontró ningún producto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+            return total;//Regresamos el ArrayList
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
+            return 0;
+        }
+    }
 }
