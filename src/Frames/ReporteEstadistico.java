@@ -27,7 +27,7 @@ public class ReporteEstadistico extends javax.swing.JDialog {
      * Creates new form ReporteEstadistico
      */
     
-   //Luis Eduardo Hernandez Gil 16/05/2021
+   //Luis Eduardo Hernandez Gil - 16/05/2021
     DefaultTableModel modeloTabla = new DefaultTableModel(); //Modelo de la tabla 
     public ReporteEstadistico(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
