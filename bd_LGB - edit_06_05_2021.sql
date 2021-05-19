@@ -5,13 +5,13 @@ Fecha de entrega: 06/05/2021
 Numero de equipo: 4
 */
 
------------- Creación de la base de datos --------------------------
+------------ Creaciï¿½n de la base de datos --------------------------
 CREATE DATABASE bd_LGD;
 GO
 USE bd_LGD;
 GO
 
------------ Creación de las tablas conforme a su diseño ------------
+----------- Creaciï¿½n de las tablas conforme a su diseï¿½o ------------
 CREATE TABLE Marcas(
 id_marca INT CONSTRAINT pk_marca PRIMARY KEY,
 nombre_marca VARCHAR(25) NOT NULL
@@ -77,7 +77,7 @@ direccion VARCHAR(100) NOT NULL,
 telefono VARCHAR(10) NOT NULL,
 sexo CHAR(1) NOT NULL,
 foto VARCHAR(100) NOT NULL,
-contraseña VARCHAR(20) NOT NULL
+contraseï¿½a VARCHAR(20) NOT NULL
 );
 GO
 
@@ -113,8 +113,8 @@ INSERT INTO Marcas (id_marca,nombre_marca) VALUES
 GO
 
 INSERT INTO Categorias (id_categoria, nombre_categoria) VALUES 
-(1,'Pan dulce'),(2,'Bebidas'),(3,'Botanas'),(4,'Lácteos'),(5,'Dulces'),
-(6,'Pastas'),(7,'Limpieza'),(8,'Cereales'),(9,'Enlatados'),(10,'Bebidas alcohólicas');
+(1,'Pan dulce'),(2,'Bebidas'),(3,'Botanas'),(4,'Lï¿½cteos'),(5,'Dulces'),
+(6,'Pastas'),(7,'Limpieza'),(8,'Cereales'),(9,'Enlatados'),(10,'Bebidas alcohï¿½licas');
 GO
 
 INSERT INTO Medidas (id_medida,nombre_medida) VALUES 
@@ -130,7 +130,7 @@ INSERT INTO Proveedores (id_proveedor,nombre,telefono,empresa,fechaRegistro,dire
 (5,'Gamesa','2314434543','Gamesa','2021-05-06','CALLE IGNACIO MATIAS NO.6'),
 (6,'Jumex','2316656797','Jumex','2021-05-06','CALLE OCAMPO NO. 254'),
 (7,'Alpura','231123432','Alpura','2021-05-06','CENTRAL ESQ. BENITO JUAREZ'),
-(8,'Nestlé','2311134345','Nestlé','2021-05-06','AV. INDEPENDENCIA NO. 985-A'),
+(8,'Nestlï¿½','2311134345','Nestlï¿½','2021-05-06','AV. INDEPENDENCIA NO. 985-A'),
 (9,'Grupo Moderna','2314454567','Moderna','2021-05-06','AV. INDEPENDENCIA NO. 1282-A'),
 (10,'Ricolino','231445456','Ricolino','2021-05-06','AV. 5 DE MAYO NO. 1652');
 GO
@@ -167,11 +167,11 @@ INSERT INTO RolUsuarios (id_rol,tipo) VALUES
 ('G0000001','Gerente');
 GO
 
-INSERT INTO Usuarios (id_usuario,id_rol,nombre,ape_paterno,ape_materno,direccion,telefono,sexo,foto,contraseña) VALUES
+INSERT INTO Usuarios (id_usuario,id_rol,nombre,ape_paterno,ape_materno,direccion,telefono,sexo,foto,contraseï¿½a) VALUES
 (1,'A0000001','Emmanuel','Miranda','Diaz','AV INDEPENDENCIA 565-A','2311123234','M','Pendiente','12345'),
 (2,'G0000001','Ivan','Cordova','Rodriguez','CALLE MATAMOROS NO. 325','2311121232','M','Pendiente','12345'),
-(3,'G0000001','Luis Eduardo','Hernández','Gil','CALLE RIVA PALACIOS NO. 465','231445456','M','Pendiente','12345'),
-(4,'G0000001','Brandon','González','Crescencio','AV. 20 DE NOVIEMBRE NO. 1291','231445456','M','Pendiente','12345'),
+(3,'G0000001','Luis Eduardo','Hernï¿½ndez','Gil','CALLE RIVA PALACIOS NO. 465','231445456','M','Pendiente','12345'),
+(4,'G0000001','Brandon','Gonzï¿½lez','Crescencio','AV. 20 DE NOVIEMBRE NO. 1291','231445456','M','Pendiente','12345'),
 (5,'G0000001','Sergio','Del Carmen','Salazar','5 DE MAYO 1038','231123234','M','Pendiente','12345'),
 (6,'C0000001','Oscar','Arreolo','Peregrina','INDEPENDENCIA 748','2314453452','M','Pendiente','12345'),
 (7,'C0000001','Enrique','Rodriguez','Cabrera','AV. 20 DE NOVIEMBRE NO. 963','2314457867','M','Pendiente','12345'),
@@ -238,4 +238,12 @@ GO
 
 -------- Utiliza el comando "INNER JOIN" ----------
 SELECT u.id_usuario, u.nombre, r.tipo FROM Usuarios AS u INNER JOIN RolUsuarios AS r ON u.id_rol = R.id_rol
+GO
+
+
+-------- Procedimiento Almacenado Modificar Proveedor --------
+CREATE PROC ModificarProvee (@id int)
+AS BEGIN 
+SELECT * FROM Proveedores WHERE id=@id
+END
 GO
