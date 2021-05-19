@@ -678,14 +678,15 @@ public class Usuarios extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnDeleteMouseClicked
-
+/*EMMANUEL MIRANDA DIAZ, 18TE0559, Evento: Modificar*/
     private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
+        //Se verifica que ningun campo este vacio
         if (tfId.getText().isEmpty() || cbIdRol.getSelectedItem() == "" || tfNombre.getText().isEmpty() || tfAP.getText().isEmpty() || tfAM.getText().isEmpty()
                 || tfDireccion.getText().isEmpty() || tfTelefono.getText().isEmpty() || cbSexo.getSelectedItem() == "" || tfContrasena.getText().isEmpty()) {
             sound.warning();
-            JOptionPane.showMessageDialog(this, "CAMPOS VACIOS", "WARNING", JOptionPane.WARNING_MESSAGE);
+            JOptionPane.showMessageDialog(this, "CAMPOS VACIOS", "WARNING", JOptionPane.WARNING_MESSAGE); //Mensaje de error
         } else {
-            try {
+            try { //Se convierte la información que se obtenga del ComboBox "Rol" para que coincida con la tabla "rol" de la bd
                 String x = cbIdRol.getSelectedItem().toString();
                 if (x == "Gerente") {
                     x = "G0000001";
@@ -695,14 +696,14 @@ public class Usuarios extends javax.swing.JFrame {
                 }
                 if (x == "Administrador") {
                     x = "A0000001";
-                }
+                } //Se actualizan los datos; NOTA: la variable x se ingresa al id_rol (previamente se realizo la conversión)
                 PreparedStatement pss = Connections.Connectionn.getConnection().prepareStatement("update Usuarios set id_rol='" + x
                         + "', nombre='" + tfNombre.getText() + "', ape_paterno='" + tfAP.getText() + "', ape_materno='" + tfAM.getText()
                         + "', direccion='" + tfDireccion.getText() + "', telefono='" + tfTelefono.getText() + "', contraseña='" + tfContrasena.getText()
                         + "' where id_usuario='" + tfId.getText() + "'");
                 pss.executeUpdate();
                 sound.executed();
-                JOptionPane.showMessageDialog(this, "DATOS MODIFICADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "DATOS MODIFICADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);  //Se confirma la actualización
                 general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
                 refresh();
             } catch (SQLException e) {
