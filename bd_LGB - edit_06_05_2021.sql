@@ -242,8 +242,8 @@ GO
 
 
 -------- Procedimiento Almacenado Modificar Proveedor --------
-CREATE PROC ModificarProvee (@id int)
+CREATE PROC ModificarProvee (@id_proveedor int)
 AS BEGIN 
-SELECT * FROM Proveedores WHERE id=@id
+SELECT * FROM Proveedores WHERE id_proveedor=@id_proveedor
 END
 GO
