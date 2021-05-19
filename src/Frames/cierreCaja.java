@@ -8,6 +8,12 @@ package Frames;
 import Methods.metodoVenta;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import javax.swing.JOptionPane;
+import net.sf.jasperreports.engine.JREmptyDataSource;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.view.JasperViewer;
 
 /**
  *
@@ -21,8 +27,27 @@ public class cierreCaja extends javax.swing.JFrame {
     metodoVenta metodos = new metodoVenta();
     DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     DateTimeFormatter hora = DateTimeFormatter.ofPattern("HH:mm:ss");
+    javax.swing.JFrame padre ;
+    
+    
     public cierreCaja() {
         initComponents();
+        txtVentas.setText(""+metodos.totalVentas());
+        txtProductosVen.setText(""+metodos.totalProductosVendidos());
+        txtProductosMasVen.setText(""+metodos.productoMasVendidos().get(0));
+        txtProductosMasVenTotal.setText(""+metodos.productoMasVendidos().get(1));
+        txtMejorVen.setText(""+metodos.mejorVendedor().get(0));
+        txtMejorVenTotal.setText(""+metodos.mejorVendedor().get(1));
+        txtTotalDia.setText(""+metodos.totalVentasDia());
+        txtFecha.setText(fecha.format(LocalDateTime.now()));
+        txtHora.setText(hora.format(LocalDateTime.now()));
+    }
+    
+        public cierreCaja(javax.swing.JFrame padre) {
+        initComponents();
+        
+        this.setLocationRelativeTo(null);//Centra la ventana
+        this.padre = padre;
         txtVentas.setText(""+metodos.totalVentas());
         txtProductosVen.setText(""+metodos.totalProductosVendidos());
         txtProductosMasVen.setText(""+metodos.productoMasVendidos().get(0));
@@ -93,7 +118,7 @@ public class cierreCaja extends javax.swing.JFrame {
         jLabel4.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel4.setForeground(new java.awt.Color(0, 0, 0));
         jLabel4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/v_fecha.png"))); // NOI18N
-        jLabel4.setText("Total del dia");
+        jLabel4.setText("Total del día");
 
         txtFecha.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         txtFecha.setForeground(new java.awt.Color(0, 0, 0));
@@ -162,8 +187,18 @@ public class cierreCaja extends javax.swing.JFrame {
         txtHora.setText("----------");
 
         jButton1.setText("Realizar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("Cancelar");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         jLabel7.setForeground(new java.awt.Color(0, 0, 0));
@@ -343,6 +378,45 @@ public class cierreCaja extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+       Lanzar_Notas();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        this.padre.setVisible(true); // Hacemos visible al padre 
+        this.dispose(); //Cerramos le proceso actual 
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+            public void Lanzar_Notas(){
+        try {
+            Object[] opciones = {"Aceptar", "Cancelar"};
+            int eleccion = JOptionPane.showOptionDialog(null, "Se genera un reporte de cierre, Desea continuar?", 
+                    "Mensaje de confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, "Aceptar");
+            
+            if (eleccion == JOptionPane.YES_OPTION) {
+                String master = System.getProperty("user.dir")+"/reportes/cierreCajaLDG.jasper";
+                HashMap parametros = new HashMap();
+                parametros.put("txtFecha", txtFecha.getText());
+                parametros.put("txtProductosVen", txtProductosVen.getText());
+                parametros.put("txtProductosMasVen", txtProductosMasVen.getText());
+                parametros.put("txtProductosMasVenTotal", txtProductosMasVenTotal.getText());
+                parametros.put("txtVentas", txtVentas.getText());
+                parametros.put("txtMejorVen", txtMejorVen.getText());
+                parametros.put("txtMejorVenTotal", txtMejorVenTotal.getText());
+                parametros.put("txtTotalDia", txtTotalDia.getText());
+                parametros.put("txtHora", txtHora.getText());
+                parametros.put("txtComentario", txtComentario.getText());
+                
+                
+                JasperPrint informe = JasperFillManager.fillReport(master,parametros, new JREmptyDataSource());
+                JasperViewer.viewReport(informe, false);
+            }
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error generra reporte"+e.getMessage().toString());
+        }
+    }
+    
     /**
      * @param args the command line arguments
      */

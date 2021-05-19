@@ -7,58 +7,30 @@
 	<style name="SubTitle" forecolor="#666666" fontName="Arial" fontSize="18"/>
 	<style name="Column header" forecolor="#666666" fontName="Arial" fontSize="12" isBold="true"/>
 	<style name="Detail" fontName="Arial" fontSize="12"/>
-	<group name="Group1">
-		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/15)]]></groupExpression>
-		<groupHeader>
-			<band height="40">
-				<textField>
-					<reportElement style="SubTitle" x="47" y="13" width="506" height="24" forecolor="#006600" uuid="e46a1308-699f-43c2-86e0-a1f2f05d08ed"/>
-					<textElement>
-						<font isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA["GroupField"]]></textFieldExpression>
-				</textField>
-				<rectangle>
-					<reportElement mode="Opaque" x="0" y="13" width="36" height="24" forecolor="#CCCCCC" backcolor="#CCCCCC" uuid="f7373afe-c2a3-46fe-9477-99a60b240c57"/>
-				</rectangle>
-			</band>
-		</groupHeader>
-		<groupFooter>
-			<band height="6"/>
-		</groupFooter>
-	</group>
-	<group name="Group2">
-		<groupExpression><![CDATA[(int)($V{REPORT_COUNT}/5)]]></groupExpression>
-		<groupHeader>
-			<band height="30">
-				<textField>
-					<reportElement style="SubTitle" x="0" y="4" width="460" height="20" uuid="91798afa-1918-4415-8ba6-9228f66c22a5"/>
-					<textElement>
-						<font size="16" isBold="true"/>
-					</textElement>
-					<textFieldExpression><![CDATA["GroupField"]]></textFieldExpression>
-				</textField>
-			</band>
-		</groupHeader>
-	</group>
-	<background>
-		<band splitType="Stretch"/>
-	</background>
+	<parameter name="txtFecha" class="java.lang.String"/>
+	<parameter name="txtProductosVen" class="java.lang.String"/>
+	<parameter name="txtProductosMasVen" class="java.lang.String"/>
+	<parameter name="txtProductosMasVenTotal" class="java.lang.String"/>
+	<parameter name="txtVentas" class="java.lang.String"/>
+	<parameter name="txtMejorVen" class="java.lang.String"/>
+	<parameter name="txtMejorVenTotal" class="java.lang.String"/>
+	<parameter name="txtTotalDia" class="java.lang.String"/>
+	<parameter name="txtHora" class="java.lang.String"/>
+	<parameter name="txtComentario" class="java.lang.String"/>
 	<title>
-		<band height="70" splitType="Stretch">
+		<band height="106" splitType="Stretch">
 			<staticText>
-				<reportElement style="Title" x="0" y="13" width="263" height="33" uuid="8c2d0913-41c1-4245-b23a-be6c7bae69f2"/>
+				<reportElement style="Title" x="267" y="27" width="263" height="33" uuid="8c2d0913-41c1-4245-b23a-be6c7bae69f2"/>
 				<textElement verticalAlignment="Middle"/>
 				<text><![CDATA[La gran despensa ]]></text>
 			</staticText>
-			<staticText>
-				<reportElement style="SubTitle" x="100" y="46" width="174" height="22" forecolor="#426CB4" uuid="bf3f7d81-f79b-4fe0-89b8-27bec3c64771"/>
-				<text><![CDATA[Cierre de caja]]></text>
-			</staticText>
 			<image>
-				<reportElement x="353" y="-9" width="200" height="77" uuid="0b057c8d-da91-4f16-81ad-912cb905fadb"/>
+				<reportElement x="0" y="0" width="200" height="77" uuid="0b057c8d-da91-4f16-81ad-912cb905fadb"/>
 				<imageExpression><![CDATA["C:\\Users\\Ivan\\Desktop\\logos\\Logo.png"]]></imageExpression>
 			</image>
+			<line>
+				<reportElement x="0" y="97" width="553" height="1" uuid="dbb6d9af-b184-4edd-98f4-6099d33693f8"/>
+			</line>
 		</band>
 	</title>
 	<pageHeader>
@@ -67,8 +39,11 @@
 	<columnHeader>
 		<band height="36" splitType="Stretch">
 			<staticText>
-				<reportElement style="Column header" x="0" y="19" width="100" height="15" uuid="119ce4e0-e942-4a3d-a5a0-e47de593b4f3"/>
-				<text><![CDATA[Label]]></text>
+				<reportElement style="Column header" x="36" y="1" width="47" height="18" forecolor="#000000" backcolor="#000000" uuid="119ce4e0-e942-4a3d-a5a0-e47de593b4f3"/>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<text><![CDATA[Fecha]]></text>
 			</staticText>
 			<line>
 				<reportElement positionType="FixRelativeToBottom" x="0" y="35" width="555" height="1" uuid="01784ef6-b0a3-4be4-ab08-c8c543cfce25"/>
@@ -76,20 +51,145 @@
 					<pen lineWidth="0.5" lineColor="#999999"/>
 				</graphicElement>
 			</line>
+			<staticText>
+				<reportElement style="Column header" x="358" y="1" width="197" height="18" forecolor="#000000" backcolor="#000000" uuid="db6ab120-6b06-4487-9dc2-e33d85aeae6f"/>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<text><![CDATA[Reporte de actividades diarias]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="83" y="1" width="100" height="20" backcolor="#000000" uuid="cdd40bb2-b1a2-4f1c-b0b7-f45b85b2ecfe"/>
+				<textElement>
+					<font fontName="Dialog" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtFecha}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="16" splitType="Stretch">
+		<band height="310" splitType="Stretch">
+			<staticText>
+				<reportElement style="Column header" x="15" y="13" width="123" height="18" forecolor="#000000" backcolor="#000000" uuid="f44c8b8e-b507-48c5-bf40-e7926446dedd"/>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<text><![CDATA[Productos vendidos]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="3" y="59" width="135" height="18" forecolor="#000000" backcolor="#000000" uuid="520bec54-d65c-4867-b9a7-964700d3bb44"/>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<text><![CDATA[Producto mas vendido]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="284" y="13" width="105" height="18" forecolor="#000000" backcolor="#000000" uuid="a88874af-fcfb-4e48-8531-c2a29cc0c820"/>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<text><![CDATA[Ventas realizadas ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="295" y="59" width="94" height="18" forecolor="#000000" backcolor="#000000" uuid="e43d63af-8e91-4f58-8355-3841d8b0cad2"/>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<text><![CDATA[Mejor vendedor]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="104" y="81" width="34" height="18" forecolor="#000000" backcolor="#000000" uuid="a48e36d9-a3d1-4b7d-bf00-1d23d221ce07"/>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<staticText>
+				<reportElement style="Column header" x="355" y="83" width="34" height="18" forecolor="#000000" backcolor="#000000" uuid="a66b26fb-1596-462e-abb9-10e19a9338ee"/>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<text><![CDATA[Total]]></text>
+			</staticText>
+			<line direction="BottomUp">
+				<reportElement x="267" y="0" width="1" height="120" uuid="cc90e0dc-19c0-480b-87a7-715deec55edd"/>
+			</line>
+			<rectangle>
+				<reportElement x="0" y="157" width="267" height="131" uuid="a34eae06-8f21-4e44-9c63-87c8b6ad83d8"/>
+			</rectangle>
+			<staticText>
+				<reportElement style="Column header" x="306" y="172" width="97" height="18" forecolor="#000000" backcolor="#000000" uuid="81472416-b39e-4259-b864-85df1956b78d"/>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<text><![CDATA[Total del día]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="138" y="13" width="100" height="20" backcolor="#000000" uuid="1510cef1-5f12-45c6-93af-61a6646cc121"/>
+				<textElement>
+					<font fontName="Dialog" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtProductosVen}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="138" y="59" width="119" height="20" backcolor="#000000" uuid="9db51a7b-10c7-41cf-8882-4ad69d712577"/>
+				<textElement>
+					<font fontName="Dialog" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtProductosMasVen}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="138" y="81" width="119" height="20" backcolor="#000000" uuid="1880203c-19da-4846-9e17-907b1c9c5931"/>
+				<textElement>
+					<font fontName="Dialog" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtProductosMasVenTotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="389" y="13" width="100" height="20" backcolor="#000000" uuid="7afa1921-03b3-4235-b905-838d88c55fee"/>
+				<textElement>
+					<font fontName="Dialog" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtVentas}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="389" y="59" width="100" height="20" backcolor="#000000" uuid="d9a48b4e-6835-4184-b621-a2b786082ddd"/>
+				<textElement>
+					<font fontName="Dialog" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtMejorVen}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="389" y="83" width="100" height="20" backcolor="#000000" uuid="7684a1a6-c890-4313-845e-00c6d66c6c44"/>
+				<textElement>
+					<font fontName="Dialog" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtMejorVenTotal}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement style="Title" x="335" y="213" width="134" height="34" forecolor="#000000" backcolor="#000000" uuid="07ca0920-7ea6-41d8-b7dd-e37e755c7471"/>
+				<textElement>
+					<font fontName="Dialog" size="16"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtTotalDia}]]></textFieldExpression>
+			</textField>
 			<line>
-				<reportElement positionType="FixRelativeToBottom" x="0" y="15" width="555" height="1" uuid="ac1dc27b-eb4b-4f8a-ab32-7562a718e8e4"/>
-				<graphicElement>
-					<pen lineWidth="0.5" lineColor="#999999"/>
-				</graphicElement>
+				<reportElement x="0" y="304" width="553" height="1" uuid="d5b280f7-71ee-4d0d-9999-b8683a71219e"/>
 			</line>
 			<textField>
-				<reportElement style="Detail" x="0" y="0" width="100" height="15" uuid="0361349b-d4cc-4647-9991-25d44f8a838d"/>
-				<textFieldExpression><![CDATA["Field"]]></textFieldExpression>
+				<reportElement x="4" y="157" width="263" height="131" backcolor="#000000" uuid="d85308d1-3c5f-4982-a408-f8d377a73db6"/>
+				<textElement>
+					<font fontName="Dialog" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtComentario}]]></textFieldExpression>
 			</textField>
+			<staticText>
+				<reportElement style="Column header" x="0" y="139" width="94" height="18" forecolor="#000000" backcolor="#000000" uuid="9f0658b8-a4a6-4237-9a2f-27ba6ab1e73c"/>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<text><![CDATA[Comentarios]]></text>
+			</staticText>
 		</band>
 	</detail>
 	<columnFooter>
@@ -100,34 +200,45 @@
 					<pen lineWidth="0.5" lineColor="#999999"/>
 				</graphicElement>
 			</line>
+			<staticText>
+				<reportElement style="Column header" x="3" y="16" width="135" height="18" forecolor="#000000" backcolor="#000000" uuid="84ab8525-3c75-4a19-b953-83c5efbf033f"/>
+				<textElement>
+					<font fontName="Dialog"/>
+				</textElement>
+				<text><![CDATA[Hora de realización ]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="138" y="16" width="100" height="20" backcolor="#000000" uuid="04b07f37-31e3-468f-9b65-4671c4deeacf"/>
+				<textElement>
+					<font fontName="Dialog" size="12"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{txtHora}]]></textFieldExpression>
+			</textField>
 		</band>
 	</columnFooter>
 	<pageFooter>
 		<band height="20" splitType="Stretch">
 			<textField>
-				<reportElement style="Column header" x="433" y="0" width="80" height="20" uuid="a7b732c5-15dc-4c2c-b085-eb8450d0d9f0"/>
+				<reportElement style="Column header" x="433" y="0" width="80" height="20" forecolor="#000000" uuid="a7b732c5-15dc-4c2c-b085-eb8450d0d9f0"/>
 				<textElement textAlignment="Right">
-					<font size="10" isBold="false"/>
+					<font fontName="Dialog" size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
 			</textField>
 			<textField evaluationTime="Report">
-				<reportElement style="Column header" x="513" y="0" width="40" height="20" uuid="44995271-59ea-4246-8dba-4ac0233d3c9c"/>
+				<reportElement style="Column header" x="513" y="0" width="40" height="20" forecolor="#000000" uuid="44995271-59ea-4246-8dba-4ac0233d3c9c"/>
 				<textElement>
-					<font size="10" isBold="false"/>
+					<font fontName="Dialog" size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
 			</textField>
 			<textField pattern="EEEEE dd MMMMM yyyy">
-				<reportElement style="Column header" x="0" y="0" width="197" height="20" uuid="a0b8eb29-e70b-4b88-ac5d-ef2075ae10af"/>
+				<reportElement style="Column header" x="0" y="0" width="197" height="20" forecolor="#000000" uuid="a0b8eb29-e70b-4b88-ac5d-ef2075ae10af"/>
 				<textElement>
-					<font size="10" isBold="false"/>
+					<font fontName="Dialog" size="10" isBold="false"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageFooter>
-	<summary>
-		<band splitType="Stretch"/>
-	</summary>
 </jasperReport>
