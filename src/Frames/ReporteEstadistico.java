@@ -26,6 +26,8 @@ public class ReporteEstadistico extends javax.swing.JDialog {
     /**
      * Creates new form ReporteEstadistico
      */
+    
+   //Luis Eduardo Hernandez Gil 16/05/2021
     DefaultTableModel modeloTabla = new DefaultTableModel(); //Modelo de la tabla 
     public ReporteEstadistico(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -111,6 +113,7 @@ public class ReporteEstadistico extends javax.swing.JDialog {
                     dato.setValue(productos.getString(6),0);
                 }
             }
+            //Creamos el grafico de pastel
             JFreeChart grafico_pastel = ChartFactory.createPieChart(
                 "Productos Vendidos",   //Nombre del grafico
                 dato,                  //datos
@@ -118,11 +121,11 @@ public class ReporteEstadistico extends javax.swing.JDialog {
                 true,                   //herramientas
                 false                   //generacion de url
             );
-            
+            //creamos un panel de tipo grafico, asignandole nuestra grafica y mostrandolo
             ChartPanel panel = new ChartPanel(grafico_pastel);
             panel.setMouseWheelEnabled(true);
             panel.setPreferredSize(new Dimension(500,320));
-            
+            //Al panel existente agregamos el panel con el grafico de pastel
             PanelPastel.setLayout(new BorderLayout());
             PanelPastel.add(panel,BorderLayout.NORTH);
         }catch(Exception e){
@@ -153,6 +156,7 @@ public class ReporteEstadistico extends javax.swing.JDialog {
                     datos.setValue(0,productos.getString(6),categoria.getString(0));
                 }
             }
+            //Creamos el grafico de barras
             JFreeChart grafico_barras = ChartFactory.createBarChart3D(
                 "Ventas por categorias",    //Nombre del grafico
                 "Productos",                //nombre de las barras
@@ -163,11 +167,11 @@ public class ReporteEstadistico extends javax.swing.JDialog {
                 true,                       //herramientas
                 false                       //generacion de url
             );
-            
+             //creamos un panel de tipo grafico, asignandole nuestra grafica y mostrandolo
             ChartPanel panel2 = new ChartPanel(grafico_barras);
             panel2.setMouseWheelEnabled(true);
             panel2.setPreferredSize(new Dimension(500,320));
-            
+            //Al panel existente agregamos el panel con el grafico de barras
             PanelBarras.setLayout(new BorderLayout());
             PanelBarras.add(panel2,BorderLayout.NORTH);
         }catch(Exception e){
