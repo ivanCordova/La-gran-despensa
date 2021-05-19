@@ -20,7 +20,7 @@ public class Reportes extends javax.swing.JFrame {
     /**
      * Creates new form Reportes
      */
-    //Se creea una variable para guardar la fecha
+    //Se crean variables para guardar las fechas
     public static String fecha2="";
     public static int mes=0;
     public static int anio=0;

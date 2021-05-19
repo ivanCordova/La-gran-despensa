@@ -26,6 +26,8 @@ public class ReporteDiario extends javax.swing.JDialog {
     public ReporteDiario(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
+        //Colocamos el encabezado de la ventana con respecto a la fecha indicada
+        Titulo.setText("Reporte del día: "+Reportes.fecha2);
         //Realizamos una consulta para obtener los productos vendidos
         ResultSet res = Connections.Connectionn.consultation(""+
         "Select p.nombre,pv.cantidad,m.nombre_marca,c.nombre_categoria,pr.nombre,p.precioVenta,p.imagen from Ventas as v"+
@@ -98,7 +100,7 @@ public class ReporteDiario extends javax.swing.JDialog {
     private void initComponents() {
 
         jPanel2 = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
+        Titulo = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -108,8 +110,8 @@ public class ReporteDiario extends javax.swing.JDialog {
 
         jPanel2.setBackground(new java.awt.Color(51, 102, 255));
 
-        jLabel1.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
-        jLabel1.setText("Reportes");
+        Titulo.setFont(new java.awt.Font("Verdana", 1, 24)); // NOI18N
+        Titulo.setText("Reporte del día: 2021-05-06");
 
         jButton1.setBackground(new java.awt.Color(0, 153, 153));
         jButton1.setForeground(new java.awt.Color(255, 255, 255));
@@ -128,8 +130,8 @@ public class ReporteDiario extends javax.swing.JDialog {
                 .addContainerGap()
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 42, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(62, 62, 62)
-                .addComponent(jLabel1)
-                .addContainerGap(432, Short.MAX_VALUE))
+                .addComponent(Titulo)
+                .addContainerGap(170, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -138,7 +140,7 @@ public class ReporteDiario extends javax.swing.JDialog {
                 .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jButton1)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(Titulo)
                         .addGap(8, 8, 8)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -241,8 +243,8 @@ public class ReporteDiario extends javax.swing.JDialog {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Titulo;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
