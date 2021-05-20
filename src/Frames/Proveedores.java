@@ -12,6 +12,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -32,8 +33,10 @@ public class Proveedores extends javax.swing.JFrame {
     }
     int moveX, moveY;
     static ResultSet res;
+     static Statement set=null;
     int cont;
-
+    
+DefaultTableModel model = new DefaultTableModel();  
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -67,9 +70,9 @@ public class Proveedores extends javax.swing.JFrame {
         PDatos3 = new javax.swing.JPanel();
         Id_ConsultaBuscar = new javax.swing.JTextField();
         lbId5 = new javax.swing.JLabel();
-        BuscarProvee = new javax.swing.JButton();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTableConsulta = new javax.swing.JTable();
+        MostrarBaseConsulta = new javax.swing.JButton();
         PDatos2 = new javax.swing.JPanel();
         lbNombre2 = new javax.swing.JLabel();
         lbDireccion4 = new javax.swing.JLabel();
@@ -209,6 +212,12 @@ public class Proveedores extends javax.swing.JFrame {
         PDatos3.setForeground(new java.awt.Color(0, 0, 0));
         PDatos3.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         PDatos3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        Id_ConsultaBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                Id_ConsultaBuscarKeyPressed(evt);
+            }
+        });
         PDatos3.add(Id_ConsultaBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 250, -1));
 
         lbId5.setBackground(new java.awt.Color(0, 0, 0));
@@ -216,17 +225,6 @@ public class Proveedores extends javax.swing.JFrame {
         lbId5.setForeground(new java.awt.Color(0, 0, 0));
         lbId5.setText("ID:");
         PDatos3.add(lbId5, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 30, -1, -1));
-
-        BuscarProvee.setBackground(new java.awt.Color(255, 255, 255));
-        BuscarProvee.setForeground(new java.awt.Color(0, 0, 0));
-        BuscarProvee.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Search_x32A.png"))); // NOI18N
-        BuscarProvee.setText("BUSCAR");
-        BuscarProvee.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                BuscarProveeActionPerformed(evt);
-            }
-        });
-        PDatos3.add(BuscarProvee, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 20, -1, -1));
 
         jTableConsulta.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -244,6 +242,16 @@ public class Proveedores extends javax.swing.JFrame {
         jScrollPane5.setViewportView(jTableConsulta);
 
         PDatos3.add(jScrollPane5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 90, 570, 210));
+
+        MostrarBaseConsulta.setForeground(new java.awt.Color(0, 0, 0));
+        MostrarBaseConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Search_x32A.png"))); // NOI18N
+        MostrarBaseConsulta.setText("ACTUALIZAR");
+        MostrarBaseConsulta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MostrarBaseConsultaActionPerformed(evt);
+            }
+        });
+        PDatos3.add(MostrarBaseConsulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 30, 140, 40));
 
         jTabbedPane7.addTab("CONSULTAR", PDatos3);
 
@@ -548,25 +556,151 @@ public class Proveedores extends javax.swing.JFrame {
     }//GEN-LAST:event_jButtonDardeBajaActionPerformed
 
     private void jButtonB_ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonB_ModificarActionPerformed
+      
         // VALIDAR QUE EL CAMPO NO ESTE VACIO!!
-        if (Id_ConsultaBuscar.getText().isEmpty()) {
+        if (Buscar_Modificar.getText().isEmpty()) {
             JOptionPane.showMessageDialog(this, "INGRESE SU ID CORRECTAMENTE", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
-            Id_ConsultaBuscar.setText("");
+            Buscar_Modificar.setText("");
+            Buscar_Modificar.requestFocus();
+        } else {
+            //Se realiza obtienen los valores del procedimiento
+            try {
+                String b;
+                Procedure.ModificarProveedor(Integer.parseInt(Buscar_Modificar.getText()));
+                b = Buscar_Modificar.getText();
+                Nombre_Modificar.setText("");
+                Empresa_Modificar.setText("");
+                Telefono_Modificar.setText("");
+                Fecha_Modificar.setText("");
+                Direccion_Modificar.setText("");
 
+                Nombre_Modificar.requestFocus();
+                Empresa_Modificar.requestFocus();
+                Telefono_Modificar.requestFocus();
+                Fecha_Modificar.requestFocus();
+                Direccion_Modificar.requestFocus();
+
+                //Se realiza la conexión para hacer la consulta a la tabla
+                
+                res = Connections.Connectionn.consultation("SELECT*FROM Proveedores");
+                while (res.next()) {
+                    if (res.getString(1).equals(b)) {
+                        Nombre_Modificar.setText(res.getString(1));
+                        Empresa_Modificar.setText(res.getString(3));
+                        Telefono_Modificar.setText(res.getString(2));
+                        Fecha_Modificar.setText(res.getString(4));
+                        Direccion_Modificar.setText(res.getString(5));
+
+                    }
+                }
+                
+            } catch (SQLException e) {
+JOptionPane.showMessageDialog(null, "DATOS NO ENCONTRADOS");
+            }
         }
     }//GEN-LAST:event_jButtonB_ModificarActionPerformed
 
-    private void BuscarProveeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BuscarProveeActionPerformed
-        // VALIDAR QUE EL CAMPO NO ESTE VACIO
-        if (Id_ConsultaBuscar.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "INGRESE SU ID CORRECTAMENTE", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
-            Id_ConsultaBuscar.setText("");
-        }
-    }//GEN-LAST:event_BuscarProveeActionPerformed
-
     private void jButton_ModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton_ModificarActionPerformed
-        // TODO add your handling code here:
+       try {
+            //Se realiza la actualización de los campos
+
+            PreparedStatement Mod = Connections.Connectionn.getConnection().prepareStatement("UPDATE Proveedores SET nombre='"
+                    + Nombre_Modificar.getText() + "',telefono='" + Telefono_Modificar.getText() + "',empresa='" + Empresa_Modificar.getText()
+                    + "',fechaRegistro='" + Fecha_Modificar.getText() + "',direccion='" + Direccion_Modificar.getText() + "' WHERE id_proveedor='"
+                    + Buscar_Modificar.getText() + "'");
+
+            //Se ejecuta el Update
+            Mod.executeUpdate();
+            JOptionPane.showMessageDialog(null, "DATOS MODIFICADOS");
+
+            //Se limpian los campos
+            Nombre_Modificar.setText("");
+            Empresa_Modificar.setText("");
+            Telefono_Modificar.setText("");
+            Fecha_Modificar.setText("");
+            Direccion_Modificar.setText("");
+
+            Nombre_Modificar.requestFocus();
+            Empresa_Modificar.requestFocus();
+            Telefono_Modificar.requestFocus();
+            Fecha_Modificar.requestFocus();
+            Direccion_Modificar.requestFocus();
+
+        } catch (SQLException e) {
+
+        }
     }//GEN-LAST:event_jButton_ModificarActionPerformed
+
+    private void Id_ConsultaBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Id_ConsultaBuscarKeyPressed
+       //Información de titulos y resgistros que se usarán
+        
+        String[] titulos = {"ID PROVEEDOR", "NOMBRE", "TELEFONO", "EMPRESA", "FECHA REGISTRO", "DIRECCION"};
+        String[] registros = new String[50];
+        
+        //Consulta para que busque similitudes
+        
+        String sql = "SELECT * FROM Proveedor WHERE id LIKE '%" + Id_ConsultaBuscar.getText() + "%' "
+        + "OR nombre LIKE '%" + Id_ConsultaBuscar.getText() + "%'";
+        model = new DefaultTableModel(null, titulos);
+        
+        //Creamos la conexión
+        
+        Connection conect = Connections.Connectionn.getConnection();
+        try
+        {
+            set = (Statement) conect.createStatement();
+            res = set.executeQuery(sql);
+            //Se agregan los resultados que se van opteniendo de la consulta
+            
+            while (res.next())
+            {
+                
+                registros[0] = res.getString("nombre");
+                registros[1] = res.getString("telefono");
+                registros[2] = res.getString("empresa");
+                registros[3] = res.getString("fechaRegistro");
+                registros[4] = res.getString("direccion");
+                model.addRow(registros);
+            }
+            //Tabla obtiene el modelo
+            jTableConsulta.setModel(model);
+        } catch (SQLException e)
+        {
+            JOptionPane.showMessageDialog(null, "No se encontraron coincidencias");
+        }
+    }//GEN-LAST:event_Id_ConsultaBuscarKeyPressed
+
+    private void MostrarBaseConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MostrarBaseConsultaActionPerformed
+      
+        DefaultTableModel modeloTabla = new DefaultTableModel();
+
+        modeloTabla.addColumn("ID PROVEEDOR");
+        modeloTabla.addColumn("NOMBRE");
+        modeloTabla.addColumn("EMPRESA");
+        modeloTabla.addColumn("TELEFONO");
+        modeloTabla.addColumn("FECHA REGISTRO");
+        modeloTabla.addColumn("DIRECCION");
+
+        ArrayList<Proveedor> listaProveedor = new ArrayList<Proveedor>();
+        listaProveedor = buscarProveedor(0, 0);
+
+        for (Proveedor pv : listaProveedor) {
+
+            Object[] tabla = new Object[6];
+            tabla[0] = pv.id_Proveedor;
+            tabla[1] = pv.nombre;
+            tabla[2] = pv.telefono;
+            tabla[3] = pv.empresa;
+            tabla[4] = pv.fecha_Registro;
+            tabla[5] = pv.direccion;
+
+            modeloTabla.addRow(tabla);
+
+        }
+
+        this.jTableConsulta.setModel(modeloTabla);
+
+    }//GEN-LAST:event_MostrarBaseConsultaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -605,7 +739,6 @@ public class Proveedores extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton BuscarProvee;
     private javax.swing.JTextField Buscar_Modificar;
     private javax.swing.JTextField Direccion_Alta;
     private javax.swing.JTextField Direccion_Modificar;
@@ -615,6 +748,7 @@ public class Proveedores extends javax.swing.JFrame {
     private javax.swing.JTextField Fecha_Modificar;
     private javax.swing.JTextField Id_ConsultaBuscar;
     private javax.swing.JTextField Id_alta;
+    private javax.swing.JButton MostrarBaseConsulta;
     private javax.swing.JTextField Name_alta;
     private javax.swing.JTextField Nombre_Modificar;
     private javax.swing.JPanel PDatos;
