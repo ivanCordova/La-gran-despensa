@@ -28,6 +28,7 @@ public class Proveedores extends javax.swing.JFrame {
      */
     public Proveedores() {
         initComponents();
+
     }
     int moveX, moveY;
     static ResultSet res;
@@ -387,51 +388,51 @@ public class Proveedores extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-        //PROGRAMA LA GRAN DESPENSA - MODULO PROVEEDORES
-        //BASE DE DATOS: bd_LGB.sql
-        //CREADA ABRIL 2021
-        //FECHA DE ENTREGA: 06/05/2021
-        //AUTOR: BRANDON GONZALEZ CRESCENCIO
-    
+    //PROGRAMA LA GRAN DESPENSA - MODULO PROVEEDORES
+    //BASE DE DATOS: bd_LGB.sql
+    //CREADA ABRIL 2021
+    //FECHA DE ENTREGA: 06/05/2021
+    //AUTOR: BRANDON GONZALEZ CRESCENCIO
+
     private void jButtonAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonAltaActionPerformed
+        try {
 
-        //VALIDA QUE NO HAYA CAMPOS VACIOS
-        
-        if (Id_alta.getText().isEmpty() || Name_alta.getText().isEmpty() || Direccion_Alta.getText().isEmpty()
-                || Empresa_alta.getText().isEmpty() || Telefono_Alta.getText().isEmpty() || 
-                Fcha_Alta.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "INGRESE SUS DATOS CORRECTAMENTE", "INFORMACION!", 
-                    JOptionPane.INFORMATION_MESSAGE);
-            //LIMPIA LOS CAMPOS 
-            Id_alta.setText("");
-            Name_alta.setText("");
-            Direccion_Alta.setText("");
-            Empresa_alta.setText("");
-            Telefono_Alta.setText("");
-            Fcha_Alta.setText("");
+            //VALIDA QUE NO HAYA CAMPOS VACIOS
+            if (Id_alta.getText().isEmpty() || Name_alta.getText().isEmpty() || Direccion_Alta.getText().isEmpty()
+                    || Empresa_alta.getText().isEmpty() || Telefono_Alta.getText().isEmpty()
+                    || Fcha_Alta.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "INGRESE SUS DATOS CORRECTAMENTE", "INFORMACION!",
+                        JOptionPane.INFORMATION_MESSAGE);
+                //LIMPIA LOS CAMPOS 
+                Id_alta.setText("");
+                Name_alta.setText("");
+                Direccion_Alta.setText("");
+                Empresa_alta.setText("");
+                Telefono_Alta.setText("");
+                Fcha_Alta.setText("");
 
-        } else {
-            //CONSULTA PARA VALIDAR QUE NO SE REPITA EL ID
-            try {
+            } else {
+                //CONSULTA PARA VALIDAR QUE NO SE REPITA EL ID
+
                 res = Connections.Connectionn.consultation("Select COUNT(id_proveedor)from Proveedores where "
                         + "id_Proveedor ='"
                         + Id_alta.getText() + "'");
-                try {
-                    while (res.next()) {
-                        cont = res.getInt(1);
-                    }
-                } catch (Exception e) {
+
+                while (res.next()) {
+                    cont = res.getInt(1);
                 }
                 if (cont >= 1) {
                     JOptionPane.showMessageDialog(this, "PROVEEDOR EXISTENTE", "ERROR", JOptionPane.ERROR_MESSAGE);
                 } else {
                     Connection con = Connectionn.getConnection();//Inicializamos la conexión 
                     PreparedStatement ps = con.prepareStatement("");//Variable para cargar los datos
-                    ps = con.prepareStatement("INSERT Proveedores VALUES ('" + Id_alta.getText() + "','" + 
-                            Name_alta.getText() + "','" + Empresa_alta.getText() + "'"
-                            + ",'" + Telefono_Alta.getText() + "','" + Fcha_Alta.getText() + "','" + 
-                            Direccion_Alta.getText() + "')");
-                    ps.executeQuery();
+                    ps = con.prepareStatement("INSERT Proveedores VALUES ('" + Id_alta.getText() + "','"
+                            + Name_alta.getText() + "','" + Telefono_Alta.getText() + "'"
+                            + ",'" + Empresa_alta.getText() + "','" + Fcha_Alta.getText() + "','"
+                            + Direccion_Alta.getText() + "')");
+                   ps.executeQuery();
+
+                    JOptionPane.showMessageDialog(this, "hola xd");
 
                     Id_alta.setText("");
                     Name_alta.setText("");
@@ -439,102 +440,108 @@ public class Proveedores extends javax.swing.JFrame {
                     Empresa_alta.setText("");
                     Telefono_Alta.setText("");
                     Fcha_Alta.setText("");
-                    JOptionPane.showMessageDialog(this, "PROVEEDOR CREADO", "INFORMATION", 
-                            JOptionPane.INFORMATION_MESSAGE);
 
-                }
-            } catch (Exception e) {
+                }}
+            }catch (Exception e) {
+                JOptionPane.showMessageDialog(this, "no jala" + e.getMessage());
             }
     }//GEN-LAST:event_jButtonAltaActionPerformed
-    }
+    
     private void jButtonBuscarBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonBuscarBajaActionPerformed
-        ArrayList<Proveedor> listaProveedor = new ArrayList<Proveedor>();
-        listaProveedor = buscarProveedor(0,0);
 
-        DefaultTableModel modelo= (DefaultTableModel)jTableBajas.getModel();
-        
+        DefaultTableModel modeloTabla = new DefaultTableModel();
+
+        modeloTabla.addColumn("ID PROVEEDOR");
+        modeloTabla.addColumn("NOMBRE");
+        modeloTabla.addColumn("EMPRESA");
+        modeloTabla.addColumn("TELEFONO");
+        modeloTabla.addColumn("FECHA REGISTRO");
+        modeloTabla.addColumn("DIRECCION");
+
+        ArrayList<Proveedor> listaProveedor = new ArrayList<Proveedor>();
+        listaProveedor = buscarProveedor(0, 0);
+
         for (Proveedor pv : listaProveedor) {
+
             Object[] tabla = new Object[6];
-            tabla[0]=pv.id_Proveedor;
-            tabla[1]=pv.nombre;
-            tabla[2]=pv.telefono;
-            tabla[3]=pv.empresa;
-            tabla[4]=pv.fecha_Registro;
-            tabla[5]=pv.direccion;
-            
-            modelo.addRow(tabla);
-        
+            tabla[0] = pv.id_Proveedor;
+            tabla[1] = pv.nombre;
+            tabla[2] = pv.telefono;
+            tabla[3] = pv.empresa;
+            tabla[4] = pv.fecha_Registro;
+            tabla[5] = pv.direccion;
+
+            modeloTabla.addRow(tabla);
+
         }
+
+        this.jTableBajas.setModel(modeloTabla);
 
 
     }//GEN-LAST:event_jButtonBuscarBajaActionPerformed
-    public ArrayList<Proveedor> buscarProveedor(int id_Proveedor,int tipo) {//Método para buscar productos por nombre
-
+    public ArrayList<Proveedor> buscarProveedor(int id_Proveedor, int tipo) {//Método para buscar productos por nombre
         ArrayList<Proveedor> listaProveedor = new ArrayList<Proveedor>();
 
 // VALIDAR QUE EL CAMPO NO ESTE VACIO
-        if (Id_ConsultaBuscar.getText().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "INGRESE SU ID CORRECTAMENTE", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
-            Id_ConsultaBuscar.setText("");
+        try {
 
-            try {
-
-                Connection con = Connectionn.getConnection();//Inicializamos la conexión 
-                PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
-                ResultSet rs;
-                
-                if (tipo==0) {
-                      ps = con.prepareStatement("SELECT*FROM Proveedores");
-                }
-                else{  ps = con.prepareStatement("SELECT*FROM Proveedores Where id_Proveedor=?");
-                String id=Id_ConsultaBuscar.getText();
-                ps.setString(1,id);
-                
-                }
-              
-                rs = ps.executeQuery();
-                do {
-                    Proveedor pv = new Proveedor();
-                    pv.id_Proveedor = (Integer) rs.getObject(1);
-                    pv.nombre = (String) rs.getObject(2);
-                    pv.telefono = (String) rs.getObject(3);
-                    pv.empresa = (String) rs.getObject(4);
-                    pv.fecha_Registro = (String) rs.getObject(5);
-                    pv.direccion = (String) rs.getObject(6);
-                    listaProveedor.add(pv);
-
-                } while (rs.next());
-
-            } catch (Exception e) {
-}
+            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+            PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
+            ResultSet rs;
+            if (tipo == 0) {
+                ps = con.prepareStatement("SELECT*FROM Proveedores");
+            } else {
+                ps = con.prepareStatement("SELECT*FROM Proveedores Where id_Proveedor=?");
+                String id = Id_ConsultaBuscar.getText();
+                ps.setString(1, id);
             }
 
-        
+            rs = ps.executeQuery();
+            while (rs.next()) {
+                Proveedor pv = new Proveedor();
+
+                pv.id_Proveedor = (Integer) rs.getInt(1);
+                pv.nombre = (String) rs.getString(2);
+                pv.telefono = (String) rs.getString(3);
+                pv.empresa = (String) rs.getString(4);
+                pv.fecha_Registro = (String) rs.getString(5);
+                pv.direccion = (String) rs.getString(6);
+                listaProveedor.add(pv);
+
+            }
+
+        } catch (Exception e) {
+        }
+
         return listaProveedor;
     }
-        
-        //PROGRAMA LA GRAN DESPENSA - MODULO PROVEEDORES
-        //BASE DE DATOS: bd_LGB.sql
-        //CREADA ABRIL 2021
-        //FECHA DE ENTREGA: 06/05/2021
-        //AUTOR: BRANDON GONZALEZ CRESCENCIO
-    
+
+    //PROGRAMA LA GRAN DESPENSA - MODULO PROVEEDORES
+    //BASE DE DATOS: bd_LGB.sql
+    //CREADA ABRIL 2021
+    //FECHA DE ENTREGA: 06/05/2021
+    //AUTOR: BRANDON GONZALEZ CRESCENCIO
+
     private void jButtonDardeBajaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButtonDardeBajaActionPerformed
         int row1 = jTableBajas.getSelectedRow();
         if (row1 == -1) {
 
             JOptionPane.showMessageDialog(null, "SELECCIONE UN REGISTRO", "WARNING", JOptionPane.WARNING_MESSAGE);
         } else {
-            int row = jTableBajas.getSelectedRow();
 
             int opc = JOptionPane.showConfirmDialog(this, "¿DESEA ELIMINAR EL PROVEEDOR?", "WARNING",
                     JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (opc == JOptionPane.YES_OPTION) {
                 try {
 
-                    Procedure.EliminarUsuarios(Integer.parseInt(jTableBajas.getValueAt(row, 0).toString()));
+                    String sql = "DELETE FROM Proveedores WHERE id_proveedor ='" + jTableBajas.getModel().getValueAt(row1, 0) + "'";
+
+                    Connection cn = Connectionn.getConnection();
+                    PreparedStatement ps = cn.prepareStatement(sql);
+                    ps.executeQuery();
 
                 } catch (SQLException e) {
+                    JOptionPane.showMessageDialog(null, "no se elimina");
                 }
             }
         }
