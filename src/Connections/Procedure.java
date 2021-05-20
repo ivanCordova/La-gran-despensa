@@ -43,14 +43,14 @@ public class Procedure {
         input.execute();
     }
     
-     public static void EliminarProveedor(int id_Provee) throws SQLException {
+     public static void ConsultarProveedor(int id_Provee) throws SQLException {
         CallableStatement input = Connectionn.getConnection().prepareCall("{call EliminarUsuario(?)}");
         input.setInt(1, id_Provee);
         input.execute();
     }
 
-    public static void BuscarProveedor(int id_Provee) throws SQLException {
-        CallableStatement input = Connectionn.getConnection().prepareCall("{call BuscarUsuario(?)}"); 
+    public static void ModificarProveedor(int id_Provee) throws SQLException {
+        CallableStatement input = Connectionn.getConnection().prepareCall("{call ModificarProvee(?)}"); 
         input.setInt(1, id_Provee); 
         input.execute(); 
     }
