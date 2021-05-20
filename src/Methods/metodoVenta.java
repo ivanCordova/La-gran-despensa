@@ -170,15 +170,16 @@ public class metodoVenta {
         }
     }
 
-    public ArrayList<producto> listaProducto(String idVenta) { // Método para crear un ArrayList con todas las ventas 
+    public ArrayList<producto> listaProducto(String idVenta) { 
+        // Método para crear un ArrayList con todas las ventas 
         try {
-            ArrayList<producto> lista = new ArrayList<producto>();
+            ArrayList<producto> lista = new ArrayList<producto>();// Creamos el ArrayList para almacenar las ventas 
             Connection con = Connectionn.getConnection();//Inicializamos la conexión 
             PreparedStatement ps = con.prepareStatement("select pv.id_proventa, p.id_producto, p.nombre, m.nombre_marca, p.precioVenta,pv.cantidad "
                     + "from Ventas as v join ProductosVendidos as pv on v.id_venta = pv.id_venta "
                     + "join Productos as p on pv.id_producto = p.id_producto "
                     + "join Marcas as m on p.id_marca = m.id_marca where pv.id_venta = ?");//Variable para cargar consulta 
-            ps.setString(1, idVenta);
+            ps.setString(1, idVenta);//Sobrecargamos los valores en la consulta 
             ResultSet rs = ps.executeQuery(); //Variable el resultado de la consulta 
 
             if (rs.next()) {
@@ -199,6 +200,7 @@ public class metodoVenta {
             }
             return lista;//Regresamos el ArrayList
         } catch (Exception e) {
+            //Mensaje de error
             JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
             return null;
         }
@@ -206,66 +208,75 @@ public class metodoVenta {
     }
     
     public boolean eliminarProductoV(String idProducto, String subTotal, String idVenta){
+        //Método para eliminar un producto de la venta 
         try {
             Connection con = Connectionn.getConnection();//Inicializamos la conexión 
             PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
             PreparedStatement ps2 = con.prepareStatement("");//Variable para cargar consulta 
 
-            ps = con.prepareStatement("delete from ProductosVendidos where id_proventa = ?");// Consulta para eliminar productos de ProductosVendidos 
+            // Consulta para eliminar productos de ProductosVendidos 
+            ps = con.prepareStatement("delete from ProductosVendidos where id_proventa = ?");
             ps.setString(1, idProducto);// Sobrecargamos la consulta 
-            ps.executeUpdate();
+            ps.executeUpdate();//Ejecutamos la consulta 
             
             
-            
-            ps2 = con.prepareStatement("update Ventas set sumaFinalV = (sumaFinalV - ?) where id_venta = ?");// Consulta para eliminar productos de ProductosVendidos 
+            // Consulta para actualizar la suma final de la venta 
+            ps2 = con.prepareStatement("update Ventas set sumaFinalV = (sumaFinalV - ?) where id_venta = ?");
             ps2.setDouble(1, Double.parseDouble(subTotal));// Sobrecargamos la consulta 
             ps2.setString(2, idVenta);// Sobrecargamos la consulta 
-            ps2.executeUpdate();
+            ps2.executeUpdate();//Ejecutamos la consulta 
 
 
             return true;
         } catch (Exception e) {
+            //Mensaje de error
             JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
             return false;
         }
     }
     
     public boolean modificarProductoV(String idProducto, String subTotal, String idVenta){
+        //Método para modificar un producto de la venta 
         try {
             Connection con = Connectionn.getConnection();//Inicializamos la conexión 
             PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
             PreparedStatement ps2 = con.prepareStatement("");//Variable para cargar consulta 
 
-            ps = con.prepareStatement("delete from ProductosVendidos where id_proventa = ?");// Consulta para eliminar productos de ProductosVendidos 
+            // Consulta para eliminar productos de ProductosVendidos 
+            ps = con.prepareStatement("delete from ProductosVendidos where id_proventa = ?");
             ps.setString(1, idProducto);// Sobrecargamos la consulta 
             ps.executeUpdate();
 
-            ps2 = con.prepareStatement("update Ventas set sumaFinalV = (sumaFinalV - ?) where id_venta = ?");// Consulta para eliminar productos de ProductosVendidos 
+            // Consulta para actualizar productos de ProductosVendidos 
+            ps2 = con.prepareStatement("update Ventas set sumaFinalV = (sumaFinalV - ?) where id_venta = ?");
             ps2.setDouble(1, Double.parseDouble(subTotal));// Sobrecargamos la consulta 
             ps2.setString(2, idVenta);// Sobrecargamos la consulta 
-            ps2.executeUpdate();
+            ps2.executeUpdate();//Ejecutamos la consulta 
 
             return true;
         } catch (Exception e) {
+            //Mensaje de error
             JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
             return false;
         }
     }
     
     public boolean modificarCantidadP(int nuevaCantidad, String idProducto, String idVenta){
+        //Método para modificar la cantidad de productos vendidos y actualiza la suma final de venta 
         try {
             double nuevaSumaFinal = 0.0;
             Connection con = Connectionn.getConnection();//Inicializamos la conexión 
             PreparedStatement ps = con.prepareStatement("");//Variable para cargar consulta 
             PreparedStatement ps2 = con.prepareStatement("");//Variable para cargar consulta 
             PreparedStatement ps3 = con.prepareStatement("");//Variable para cargar consulta 
-
-            ps = con.prepareStatement("update ProductosVendidos set cantidad = ? where id_proventa = ?");// Consulta para eliminar productos de ProductosVendidos 
+            
+            // Consulta para actualizar cantidad de ProductosVendidos 
+            ps = con.prepareStatement("update ProductosVendidos set cantidad = ? where id_proventa = ?");
             ps.setInt(1, nuevaCantidad);// Sobrecargamos la consulta 
             ps.setInt(2, Integer.parseInt(idProducto));// Sobrecargamos la consulta 
             ps.executeUpdate();
 
-           
+           //Seleccionamos la cantidad que ya se actualizado 
             ps2 = con.prepareStatement("select p.precioVenta, pv.cantidad from Productos as p join ProductosVendidos as pv on "
                     + "p.id_producto = pv.id_producto where pv.id_venta = ?");//Variable para cargar consulta 
             ps2.setString(1, idVenta);
@@ -284,6 +295,7 @@ public class metodoVenta {
                 JOptionPane.showMessageDialog(null, "No se encontró ningún producto", "Advertencia", JOptionPane.WARNING_MESSAGE);
             }
 
+            //Actualizamos la suma final de la venta 
             ps3 = con.prepareStatement("update Ventas set sumaFinalV = ? where id_venta = ?");// Consulta para eliminar productos de ProductosVendidos 
             ps3.setDouble(1, nuevaSumaFinal);// Sobrecargamos la consulta 
             ps3.setString(2, idVenta);// Sobrecargamos la consulta 
@@ -291,66 +303,75 @@ public class metodoVenta {
 
             return true;
         } catch (Exception e) {
+            //Mensaje de error
             JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
             return false;
         }
     }
     
     public int totalVentas() {
+        // Método para calcular el número total de ventas que se realizaron durante el día 
         try {
             int total = 0;
             Connection con = Connectionn.getConnection();//Inicializamos la conexión 
             PreparedStatement ps = con.prepareStatement("SELECT count(*) FROM Ventas");//Variable para cargar consulta 
             ResultSet rs = ps.executeQuery(); //Variable el resultado de la consulta 
-            //total = (Integer) rs.getObject(1);
+            //Recorremos todos los resultados 
             if (rs.next()) {
                 do {
+                    //Asignamos a cada variable del objeto el valor del Result set en su posición correspondiente 
                     total = (Integer) rs.getObject(1);
                 } while (rs.next());//Recorremos las filas de la consulta 
             } else {
                 //En caso de no regresar ningún resultado mostramos un mensaje de advertencia 
                 JOptionPane.showMessageDialog(null, "No se encontró ningún producto", "Advertencia", JOptionPane.WARNING_MESSAGE);
             }
-            return total;//Regresamos el ArrayList
+            return total;//Regresamos el resultado
         } catch (Exception e) {
+            //Mensaje de error
             JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
             return 0;
         }
     }
     
     public int totalProductosVendidos() {
+        //Este método calcula el total de productos que se vendieron durante el día 
         try {
             int total = 0;
             Connection con = Connectionn.getConnection();//Inicializamos la conexión 
             PreparedStatement ps = con.prepareStatement("SELECT count(*) FROM ProductosVendidos");//Variable para cargar consulta 
             ResultSet rs = ps.executeQuery(); //Variable el resultado de la consulta 
-            //total = (Integer) rs.getObject(1);
+            //Recorremos todos los resultados 
             if (rs.next()) {
                 do {
+                    //Asignamos a cada variable del objeto el valor del Result set en su posición correspondiente
                     total = (Integer) rs.getObject(1);
                 } while (rs.next());//Recorremos las filas de la consulta 
             } else {
                 //En caso de no regresar ningún resultado mostramos un mensaje de advertencia 
                 JOptionPane.showMessageDialog(null, "No se encontró ningún producto", "Advertencia", JOptionPane.WARNING_MESSAGE);
             }
-            return total;//Regresamos el ArrayList
+            return total;//Regresamos el resultado
         } catch (Exception e) {
+            //Mensaje de error
             JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
             return 0;
         }
     }
     
     public ArrayList<String> productoMasVendidos() {
+        //Este método nos regresa el nombre y la cantidad del producto más vendido 
         try {
-            ArrayList<String> resultado = new ArrayList<String>();
-//            String res = "";
+            ArrayList<String> resultado = new ArrayList<String>();//Creamos el arrayList para guardar los resultados 
             Connection con = Connectionn.getConnection();//Inicializamos la conexión 
-            PreparedStatement ps = con.prepareStatement("select top 1 p.nombre, sum(pv.cantidad) as total from ProductosVendidos as pv join Productos as p on "
+            PreparedStatement ps = con.prepareStatement("select top 1 p.nombre, sum(pv.cantidad) as total from ProductosVendidos as pv "
+                    + "join Productos as p on "
                     + "pv.id_producto = p.id_producto  group by p.nombre order by total desc");//Variable para cargar consulta 
             ResultSet rs = ps.executeQuery(); //Variable el resultado de la consulta 
-            //total = (Integer) rs.getObject(1);
+            //Recorremos todos los resultados 
             if (rs.next()) {
                 do {
+                    //Asignamos a cada variable del objeto el valor del Result set en su posición correspondiente
                     String res1 = (String) rs.getObject(1);
                     String res2 = ""+(Integer) rs.getObject(2);
                     resultado.add(res1);
@@ -361,24 +382,25 @@ public class metodoVenta {
                 JOptionPane.showMessageDialog(null, "No se encontró ningún producto", "Advertencia", JOptionPane.WARNING_MESSAGE);
             }
             return resultado;//Regresamos el ArrayList
- //           return res;
         } catch (Exception e) {
+            //Mensaje de error
             JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
             return null;
         }
     }
 
     public ArrayList<String> mejorVendedor() {
+        //Este método nos regresa el nombre y la cantidad de ventas que realizo el mejor vendedor 
         try {
-            ArrayList<String> resultado = new ArrayList<String>();
-//            String res = "";
+            ArrayList<String> resultado = new ArrayList<String>();//Creamos el arrayList para guardar los resultados 
             Connection con = Connectionn.getConnection();//Inicializamos la conexión 
             PreparedStatement ps = con.prepareStatement("select top 1 u.nombre, count(u.nombre) as total from Ventas as v join Usuarios as u "
                     + "on v.id_usuario = u.id_usuario group by u.nombre order by total desc");//Variable para cargar consulta 
-            ResultSet rs = ps.executeQuery(); //Variable el resultado de la consulta 
-            //total = (Integer) rs.getObject(1);
+            ResultSet rs = ps.executeQuery(); //Variable el resultado de la consulta
+            //Recorremos todos los resultados 
             if (rs.next()) {
                 do {
+                    //Asignamos a cada variable del objeto el valor del Result set en su posición correspondiente
                     String res1 = (String) rs.getObject(1);
                     String res2 = "" + (Integer) rs.getObject(2);
                     resultado.add(res1);
@@ -389,30 +411,33 @@ public class metodoVenta {
                 JOptionPane.showMessageDialog(null, "No se encontró ningún producto", "Advertencia", JOptionPane.WARNING_MESSAGE);
             }
             return resultado;//Regresamos el ArrayList
-            //           return res;
         } catch (Exception e) {
+            //Mensaje de error
             JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
             return null;
         }
     }
 
     public double totalVentasDia() {
+        //Este método devuelve la ganancia total del día 
         try {
-            double total = 0;
+            double total = 0;//Variable para guardar el total
             Connection con = Connectionn.getConnection();//Inicializamos la conexión 
             PreparedStatement ps = con.prepareStatement("select sum(sumaFinalV) from Ventas");//Variable para cargar consulta 
             ResultSet rs = ps.executeQuery(); //Variable el resultado de la consulta 
-            //total = (Integer) rs.getObject(1);
+            //Recorremos todos los resultados
             if (rs.next()) {
                 do {
+                    //Asignamos a cada variable del objeto el valor del Result set en su posición correspondiente
                     total = (double) rs.getObject(1);
                 } while (rs.next());//Recorremos las filas de la consulta 
             } else {
                 //En caso de no regresar ningún resultado mostramos un mensaje de advertencia 
                 JOptionPane.showMessageDialog(null, "No se encontró ningún producto", "Advertencia", JOptionPane.WARNING_MESSAGE);
             }
-            return total;//Regresamos el ArrayList
+            return total;//Regresamos el resultado
         } catch (Exception e) {
+             //Mensaje de error
             JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
             return 0;
         }

@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ Nombre del programa: La gran despensa
+ Fecha de creación: 30/04/2021
+ Fecha de entrega 19/05/2021
+ Autor: Ivan Cordova Rodriguez
  */
 package Frames;
 
@@ -24,7 +25,8 @@ public class cierreCaja extends javax.swing.JFrame {
     /**
      * Creates new form cierreCaja
      */
-    metodoVenta metodos = new metodoVenta();
+    metodoVenta metodos = new metodoVenta();//Iniciamos una instancia de métodos
+    //Creamos  el formato de la fecha y hora actual 
     DateTimeFormatter fecha = DateTimeFormatter.ofPattern("dd/MM/yyyy");
     DateTimeFormatter hora = DateTimeFormatter.ofPattern("HH:mm:ss");
     javax.swing.JFrame padre ;
@@ -32,29 +34,23 @@ public class cierreCaja extends javax.swing.JFrame {
     
     public cierreCaja() {
         initComponents();
-        txtVentas.setText(""+metodos.totalVentas());
-        txtProductosVen.setText(""+metodos.totalProductosVendidos());
-        txtProductosMasVen.setText(""+metodos.productoMasVendidos().get(0));
-        txtProductosMasVenTotal.setText(""+metodos.productoMasVendidos().get(1));
-        txtMejorVen.setText(""+metodos.mejorVendedor().get(0));
-        txtMejorVenTotal.setText(""+metodos.mejorVendedor().get(1));
-        txtTotalDia.setText(""+metodos.totalVentasDia());
-        txtFecha.setText(fecha.format(LocalDateTime.now()));
-        txtHora.setText(hora.format(LocalDateTime.now()));
+
     }
-    
-        public cierreCaja(javax.swing.JFrame padre) {
+
+    public cierreCaja(javax.swing.JFrame padre) {
         initComponents();
-        
+        //En este constructor de la clase cambiamos el valor de la casilla de información por el resultado de 
+        //los métodos que le corresponden 
         this.setLocationRelativeTo(null);//Centra la ventana
         this.padre = padre;
-        txtVentas.setText(""+metodos.totalVentas());
-        txtProductosVen.setText(""+metodos.totalProductosVendidos());
-        txtProductosMasVen.setText(""+metodos.productoMasVendidos().get(0));
-        txtProductosMasVenTotal.setText(""+metodos.productoMasVendidos().get(1));
-        txtMejorVen.setText(""+metodos.mejorVendedor().get(0));
-        txtMejorVenTotal.setText(""+metodos.mejorVendedor().get(1));
-        txtTotalDia.setText(""+metodos.totalVentasDia());
+        
+        txtVentas.setText("" + metodos.totalVentas());
+        txtProductosVen.setText("" + metodos.totalProductosVendidos());
+        txtProductosMasVen.setText("" + metodos.productoMasVendidos().get(0));
+        txtProductosMasVenTotal.setText("" + metodos.productoMasVendidos().get(1));
+        txtMejorVen.setText("" + metodos.mejorVendedor().get(0));
+        txtMejorVenTotal.setText("" + metodos.mejorVendedor().get(1));
+        txtTotalDia.setText("" + metodos.totalVentasDia());
         txtFecha.setText(fecha.format(LocalDateTime.now()));
         txtHora.setText(hora.format(LocalDateTime.now()));
     }
@@ -379,24 +375,29 @@ public class cierreCaja extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
-       Lanzar_Notas();
+        //Ejecutamos el método "Lanzar_Reporte" para generar el reporte 
+        Lanzar_Reporte();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         this.padre.setVisible(true); // Hacemos visible al padre 
-        this.dispose(); //Cerramos le proceso actual 
+        this.dispose(); //Cerramos el proceso actual 
     }//GEN-LAST:event_jButton2ActionPerformed
 
-            public void Lanzar_Notas(){
+    public void Lanzar_Reporte() {
+        //Método para realizar el reporte y mostrar la vista previa 
         try {
             Object[] opciones = {"Aceptar", "Cancelar"};
-            int eleccion = JOptionPane.showOptionDialog(null, "Se genera un reporte de cierre, Desea continuar?", 
+            //Mensaje de confirmación para realizar el reporte 
+            int eleccion = JOptionPane.showOptionDialog(null, "Se genera un reporte de cierre, Desea continuar?",
                     "Mensaje de confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE, null, opciones, "Aceptar");
-            
+
             if (eleccion == JOptionPane.YES_OPTION) {
-                String master = System.getProperty("user.dir")+"/reportes/cierreCajaLDG.jasper";
+                //En caso de confirmar se accede al reporte generado "cierreCajaLDG.jasper"
+                String master = System.getProperty("user.dir") + "/reportes/cierreCajaLDG.jasper";
                 HashMap parametros = new HashMap();
+                
+                //Ingresamos los parámetros necesarios para llenar el reporte 
                 parametros.put("txtFecha", txtFecha.getText());
                 parametros.put("txtProductosVen", txtProductosVen.getText());
                 parametros.put("txtProductosMasVen", txtProductosMasVen.getText());
@@ -407,13 +408,14 @@ public class cierreCaja extends javax.swing.JFrame {
                 parametros.put("txtTotalDia", txtTotalDia.getText());
                 parametros.put("txtHora", txtHora.getText());
                 parametros.put("txtComentario", txtComentario.getText());
-                
-                
-                JasperPrint informe = JasperFillManager.fillReport(master,parametros, new JREmptyDataSource());
+
+                //Creamos el reporte y lanzamos la previsualización 
+                JasperPrint informe = JasperFillManager.fillReport(master, parametros, new JREmptyDataSource());
                 JasperViewer.viewReport(informe, false);
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error generra reporte"+e.getMessage().toString());
+            //Mensaje de error 
+            JOptionPane.showMessageDialog(null, "Error generra reporte" + e.getMessage().toString());
         }
     }
     

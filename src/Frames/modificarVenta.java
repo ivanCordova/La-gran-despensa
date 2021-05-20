@@ -1,7 +1,8 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ Nombre del programa: La gran despensa
+ Fecha de creación: 30/04/2021
+ Fecha de entrega 19/05/2021
+ Autor: Ivan Cordova Rodriguez
  */
 package Frames;
 
@@ -18,11 +19,13 @@ import javax.swing.table.DefaultTableModel;
  */
 public class modificarVenta extends javax.swing.JFrame {
     
+    //Bloqueamos las dos tablas para que no se pueden modificar 
     DefaultTableModel modeloVenta = new DefaultTableModel() {
         public boolean isCellEditable(int row, int column) {
             return false;
         }
     };
+    //Bloqueamos las dos tablas para que no se pueden modificar
     DefaultTableModel modeloProducto = new DefaultTableModel() {
         public boolean isCellEditable(int row, int column) {
             return false;
@@ -43,6 +46,7 @@ public class modificarVenta extends javax.swing.JFrame {
         this.setLocationRelativeTo(null);//Centra la ventana
         this.padre = padre;
 
+        //Agregamos las columnas a los modelos de cada tabla
         modeloVenta.addColumn("Id venta");
         modeloVenta.addColumn("Nombre usuario");
         modeloVenta.addColumn("Fecha de venta");
@@ -71,7 +75,7 @@ public class modificarVenta extends javax.swing.JFrame {
             modeloVentas.removeRow(i);
             i -= 1;
         }
-        
+        //Usamos el ArrayList para llenar la lista Object y pasarla a la tabla 
         ArrayList<venta> lista = metodos.listaVentas();
         for (venta ob : lista) {
             Object[] listaTabla = new Object[4];
@@ -85,7 +89,7 @@ public class modificarVenta extends javax.swing.JFrame {
         
         
         public void limpiarTablaProductos(){
-                    //Limpiamos la tabla de productos 
+        //Limpiamos la tabla de productos 
         DefaultTableModel modeloProductos = (DefaultTableModel) tbl_Productos.getModel();
         for (int i = 0; i < this.tbl_Productos.getRowCount(); i++) {
             modeloProductos.removeRow(i);
@@ -232,13 +236,13 @@ public class modificarVenta extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void tbl_ventasMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_ventasMouseClicked
-        // Controlamos el evento Mouse Clicked para seleccionar la venta que se va a modificar 
-
+        // --------Controlamos el evento Mouse Clicked para seleccionar la venta que se va a modificar ----------
         limpiarTablaProductos();
-        int seleccion = this.tbl_ventas.rowAtPoint(evt.getPoint());//Guardamos el índice de la fila que se selecciona
+        //Guardamos el índice de la fila que se selecciona
+        int seleccion = this.tbl_ventas.rowAtPoint(evt.getPoint());
         DefaultTableModel modeloVentas = (DefaultTableModel) tbl_ventas.getModel();
         ArrayList<producto> listaProductos = metodos.listaProducto(String.valueOf(modeloVentas.getValueAt(seleccion, 0)));
-        
+        //Usamos el ArrayList para llenar la lista Object y pasarla a la tabla 
         for (producto li : listaProductos) {
             Object[] listaTabla = new Object[8];
             listaTabla[0] = li.id_producto;
@@ -260,8 +264,11 @@ public class modificarVenta extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_RegresarActionPerformed
 
     private void tbl_ProductosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_ProductosMouseClicked
-        int seleccion = this.tbl_Productos.rowAtPoint(evt.getPoint());//Guardamos el índice de la fila que se selecciona
+        // ------------- Acción que sé nuestra al dar click en la tabla productos  -------------------
+        //Guardamos el índice de la fila que se selecciona
+        int seleccion = this.tbl_Productos.rowAtPoint(evt.getPoint());
         DefaultTableModel modeloProductos = (DefaultTableModel) tbl_Productos.getModel();
+        //Mensaje para seleccionar la opción de eliminar o cambiar cantidad 
         int opcion = JOptionPane.showOptionDialog(
                 this,
                 "Seleccione opcion",
@@ -273,16 +280,20 @@ public class modificarVenta extends javax.swing.JFrame {
                 "opcion 1");
 
         if (opcion == 0) {
+            // Opción para eliminar el producto, se usa el método  eliminarProductoV
             boolean m = metodos.eliminarProductoV(String.valueOf(modeloProductos.getValueAt(seleccion, 6)), String.valueOf(modeloProductos.getValueAt(seleccion, 5)), String.valueOf(modeloProductos.getValueAt(seleccion, 7)));
             if (m == true) {
+                //Mensaje de confirmación 
                 JOptionPane.showMessageDialog(null, "Producto eliminado correctamente");
                 llenarTablaVentas();
                 limpiarTablaProductos();
             }
         }else if(opcion == 1){
+            //Opción para actualizar la cantidad, se válida que el número sea entero 
             String numero = JOptionPane.showInputDialog("Ingrese la nueva cantidad");
             if (numero.matches("^\\d+$")) {
                 int numeroInt = Integer.parseInt(numero);
+                //Mensaje de confirmación 
                 boolean res = metodos.modificarCantidadP(numeroInt, String.valueOf(modeloProductos.getValueAt(seleccion, 6)), String.valueOf(modeloProductos.getValueAt(seleccion, 7)));
                 JOptionPane.showMessageDialog(null, "" + res);
                 llenarTablaVentas();
