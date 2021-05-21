@@ -50,7 +50,7 @@ public class Usuarios extends javax.swing.JFrame {
     BufferedImage ruta;
     int counter = 0;
     JFileChooser j = new JFileChooser();
-
+    FileNameExtensionFilter filtro=new FileNameExtensionFilter("JPG & PNG","jpg","png");
     public Usuarios() {
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("")).getImage());
@@ -1015,7 +1015,6 @@ public class Usuarios extends javax.swing.JFrame {
     private void lbPhotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbPhotoMouseClicked
         lbPhoto.setIcon(null);
         j.setFileSelectionMode(JFileChooser.FILES_ONLY);
-        FileNameExtensionFilter filtro = new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif");
         j.setFileFilter(filtro);
         int estado = j.showOpenDialog(null);
         if (estado == JFileChooser.APPROVE_OPTION) {
