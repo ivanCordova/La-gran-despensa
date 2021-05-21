@@ -25,6 +25,7 @@ import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 public class Usuarios extends javax.swing.JFrame {
@@ -46,6 +47,7 @@ public class Usuarios extends javax.swing.JFrame {
     WebcamPanel webcamPanel = new WebcamPanel(webcam, dimension, false);
     BufferedImage ruta;
     int counter = 0;
+    JFileChooser j = new JFileChooser();
 
     public Usuarios() {
         initComponents();
@@ -121,7 +123,6 @@ public class Usuarios extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMaximizedBounds(new java.awt.Rectangle(0, 0, 700, 700));
-        setMaximumSize(new java.awt.Dimension(700, 700));
         setMinimumSize(new java.awt.Dimension(700, 700));
         setUndecorated(true);
         setPreferredSize(new java.awt.Dimension(700, 700));
@@ -406,10 +407,10 @@ public class Usuarios extends javax.swing.JFrame {
         PDatos.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 360, 10));
 
         cbIdRol.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
-        cbIdRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Gerente", "Cajero" }));
+        cbIdRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Adminitrador", "Gerente", "Cajero" }));
         cbIdRol.setBorder(null);
         cbIdRol.setOpaque(false);
-        PDatos.add(cbIdRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, -1, 20));
+        PDatos.add(cbIdRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 110, 20));
 
         tfAM.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
         tfAM.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -487,6 +488,7 @@ public class Usuarios extends javax.swing.JFrame {
         PDatos.add(jSeparator8, new org.netbeans.lib.awtextra.AbsoluteConstraints(260, 140, 80, 10));
 
         lbPhoto.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        lbPhoto.setName(""); // NOI18N
         lbPhoto.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 lbPhotoMouseClicked(evt);
@@ -559,7 +561,8 @@ public class Usuarios extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseClicked
-        general.close();
+        sound.minimize();
+        this.dispose();
     }//GEN-LAST:event_btnCloseMouseClicked
 
     private void btnMinimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeMouseClicked
@@ -582,7 +585,7 @@ public class Usuarios extends javax.swing.JFrame {
         //Agregar Usuario
         //Asignación de variables que recolectaran la información del formulario
         int rolcb, sexocb, validacion = 0;
-        String id, name, ap, am, address, phone, pass, rolstring = "", sexostring = "";
+        String id, name, ap, am, address, phone, pass, rolstring = "", sexostring = "", ruta = "";
         id = tfId.getText().trim();
         name = tfNombre.getText().trim();
         ap = tfAP.getText().trim();
@@ -592,9 +595,15 @@ public class Usuarios extends javax.swing.JFrame {
         pass = tfContrasena.getText().trim();
         rolcb = cbIdRol.getSelectedIndex() + 1;
         sexocb = cbSexo.getSelectedIndex() + 1;
+        if (j.getSelectedFile()==null) {
+             JOptionPane.showMessageDialog(null, "Inserte una imagen", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+
+        } else {
+            ruta = ""+ j.getSelectedFile().toString();
+        
         //Evitar que algun campo este vacio
         if (id.equals("") || name.equals("") || ap.equals("") || am.equals("") || address.equals("") || phone.equals("")
-                || phone.equals("") || pass.equals("")) {
+                || phone.equals("") || pass.equals("") || j.getSelectedFile().toString().equals("")) {
             validacion++;
             JOptionPane.showMessageDialog(null, "Inserte datos en los campos vacios", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
         }
@@ -641,11 +650,21 @@ public class Usuarios extends javax.swing.JFrame {
                         pst2.setString(6, address);
                         pst2.setString(7, phone);
                         pst2.setString(8, sexostring);
-                        pst2.setString(9, "x");
+                        pst2.setString(9, ruta);
                         pst2.setString(10, pass);
                         pst2.executeUpdate();
                         cn2.close();
                         JOptionPane.showMessageDialog(null, "Usuario creado correctamente", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                        general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
+                        cbIdRol.removeAllItems();
+                        cbIdRol.addItem("Administrador");
+                        cbIdRol.addItem("Gerente");
+                        cbIdRol.addItem("Cajero");
+                        cbSexo.removeAllItems();
+                        cbSexo.addItem("Masculino");
+                        cbSexo.addItem("Femenino");
+                        lbPhoto.setIcon(null);
+                        j.setSelectedFile(null);
                         refresh();
                     } catch (SQLException e) { //Error en dado de suceder un error desconocido
                         System.err.println("Error al registrar usuario" + e);
@@ -656,6 +675,7 @@ public class Usuarios extends javax.swing.JFrame {
         } catch (SQLException e) { //Error al validar el id por un error desconocido
             System.err.println("Error en la validacion del usuario" + e);
             JOptionPane.showMessageDialog(null, "Errores al comparar usuarios, contacte al administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
+        }
         }
     }//GEN-LAST:event_btnAddMouseClicked
 
@@ -688,23 +708,38 @@ public class Usuarios extends javax.swing.JFrame {
         } else {
             try { //Se convierte la información que se obtenga del ComboBox "Rol" para que coincida con la tabla "rol" de la bd
                 String x = cbIdRol.getSelectedItem().toString();
-                if (x == "Gerente") {
+                
+                if (x.equalsIgnoreCase("Gerente")) {
                     x = "G0000001";
                 }
-                if (x == "Cajero") {
+                if (x.equalsIgnoreCase("Cajero")) {
                     x = "C0000001";
                 }
-                if (x == "Administrador") {
+                if (x.equalsIgnoreCase("Administrador")) {
                     x = "A0000001";
-                } //Se actualizan los datos; NOTA: la variable x se ingresa al id_rol (previamente se realizo la conversión)
+                }
+                String x2 = cbSexo.getSelectedItem().toString();
+                if (x2.equalsIgnoreCase("Masculino")) {
+                    x2 = "M";
+                }
+                 if (x2.equalsIgnoreCase("Femenino")) {
+                    x2 = "F";
+                }//Se actualizan los datos; NOTA: la variable x se ingresa al id_rol (previamente se realizo la conversión)
                 PreparedStatement pss = Connections.Connectionn.getConnection().prepareStatement("update Usuarios set id_rol='" + x
                         + "', nombre='" + tfNombre.getText() + "', ape_paterno='" + tfAP.getText() + "', ape_materno='" + tfAM.getText()
-                        + "', direccion='" + tfDireccion.getText() + "', telefono='" + tfTelefono.getText() + "', contrasena='" + tfContrasena.getText()
+                        + "', direccion='" + tfDireccion.getText() + "', telefono='" + tfTelefono.getText() + "', sexo='" + x2 + "', contrasena='" + tfContrasena.getText()
                         + "' where id_usuario='" + tfId.getText() + "'");
                 pss.executeUpdate();
                 sound.executed();
                 JOptionPane.showMessageDialog(this, "DATOS MODIFICADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);  //Se confirma la actualización
                 general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
+                cbIdRol.removeAllItems();
+                cbIdRol.addItem("Administrador");
+                cbIdRol.addItem("Gerente");
+                cbIdRol.addItem("Cajero");
+                cbSexo.removeAllItems();
+                cbSexo.addItem("Masculino");
+                cbSexo.addItem("Femenino");
                 refresh();
             } catch (SQLException e) {
             }
@@ -722,6 +757,8 @@ public class Usuarios extends javax.swing.JFrame {
                 b = tfId.getText();
                 //Se limpian los espacios de texto por si hay algun campo con texto previo
                 general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
+                lbPhoto.setIcon(null);
+                j.setSelectedFile(null);
                 res = Connections.Connectionn.consultation("select * from Usuarios"); //Sea crea un objeto de tipo Resulset, el cual aloja la consulta
                 while (res.next()) { //Recorremos la bd
                     if (res.getString(1).equals(b)) { //Se busca en todos los id algun coincidente
@@ -729,14 +766,23 @@ public class Usuarios extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(this, "DATOS ENCONTRADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE); //Mensaje de busqueda exitosa
                         tfId.setText(res.getString(1)); //Se envia el ID al espacio correspondiente
                         String x = res.getString(2); //Se hace la conversión del ID de Rol encontrado para mostrarlo como es nombrado
-                        if (x == "G0000001") {
-                            cbIdRol.setSelectedItem("Gerente");
+                        if (x.equalsIgnoreCase("G0000001")) {
+                            cbIdRol.removeAllItems();
+                            cbIdRol.addItem("Gerente");
+                            cbIdRol.addItem("Administrador");
+                            cbIdRol.addItem("Cajero");
                         }
-                        if (x == "C0000001") {
-                            cbIdRol.setSelectedItem("Cajero");
+                        if (x.equalsIgnoreCase("C0000001")) {
+                            cbIdRol.removeAllItems();
+                            cbIdRol.addItem("Cajero");
+                            cbIdRol.addItem("Gerente");
+                            cbIdRol.addItem("Administrador");
                         }
-                        if (x == "A0000001") {
-                            cbIdRol.setSelectedItem("Administrador");
+                        if (x.equalsIgnoreCase("A0000001")) {
+                            cbIdRol.removeAllItems();
+                            cbIdRol.addItem("Administrador");
+                            cbIdRol.addItem("Cajero");
+                            cbIdRol.addItem("Gerente");
                         }
                         //Se envian los datos restantes a los espacios correspondientes
                         tfNombre.setText(res.getString(3));
@@ -744,12 +790,27 @@ public class Usuarios extends javax.swing.JFrame {
                         tfAM.setText(res.getString(5));
                         tfDireccion.setText(res.getString(6));
                         tfTelefono.setText(res.getString(7));
-                        cbSexo.setSelectedItem(res.getString(8));
+                        String x2 = res.getString(8); //Se hace la conversión del ID de Rol encontrado para mostrarlo como es nombrado
+                        if (x2.equalsIgnoreCase("M")) {
+                            cbSexo.removeAllItems();
+                            cbSexo.addItem("Masculino");
+                            cbSexo.addItem("Femenino");
+                        }
+                        if (x2.equalsIgnoreCase("F")) {
+                            cbSexo.removeAllItems();
+                            cbSexo.addItem("Femenino");
+                            cbSexo.addItem("Masculino");
+                        }
                         tfContrasena.setText(res.getString(10));
+                        
+                        ImageIcon ico = new ImageIcon(res.getString(9));
+                        Icon icono = new ImageIcon(ico.getImage().getScaledInstance(lbPhoto.getWidth(), lbPhoto.getHeight(), Image.SCALE_DEFAULT));
+                        lbPhoto.setIcon(icono);
+                        lbPhoto.updateUI();
                     }
                 }//Si no coincide con ningun id registrado, se muestra el siguiente mensaje
-                JOptionPane.showMessageDialog(this, "DATOS NO ENCONTRADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
             } catch (SQLException e) {
+                JOptionPane.showMessageDialog(this, "DATOS NO ENCONTRADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }//GEN-LAST:event_btnSearchMouseClicked
@@ -758,6 +819,16 @@ public class Usuarios extends javax.swing.JFrame {
         refresh();
         sound.clic();
         general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
+        lbPhoto.setIcon(null);
+        j.setSelectedFile(null);
+        cbIdRol.removeAllItems();
+        cbIdRol.addItem("Administrador");
+        cbIdRol.addItem("Gerente");
+        cbIdRol.addItem("Cajero");
+        cbSexo.removeAllItems();
+        cbSexo.addItem("Masculino");
+        cbSexo.addItem("Femenino");
+                        
     }//GEN-LAST:event_btnRefreshMouseClicked
 
     boolean change = false;
@@ -890,8 +961,9 @@ public class Usuarios extends javax.swing.JFrame {
 
     private void lbPhotoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbPhotoMouseClicked
         lbPhoto.setIcon(null);
-        JFileChooser j = new JFileChooser();
         j.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("JPG & GIF Images", "jpg", "gif");
+        j.setFileFilter(filtro);
         int estado = j.showOpenDialog(null);
         if (estado == JFileChooser.APPROVE_OPTION) {
             try {
