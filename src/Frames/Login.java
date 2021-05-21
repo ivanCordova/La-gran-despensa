@@ -152,17 +152,20 @@ public class Login extends javax.swing.JFrame {
                                 + "' and contrasena = '" + pass + "'");
                         ResultSet rs = pst.executeQuery();
                         if (rs.next()) {
-                            String id_rol = rs.getString("id_rol");
-                            if (id_rol.equals("A0000001")) {
-                                dispose();
-                                new Usuarios().setVisible(true);
-                            } else if (id_rol.equals("G0000001")) {
-                                dispose();
-                                new Proveedores().setVisible(true);
-                            } else if (id_rol.equals("C0000001")) {
-                                dispose();
-                                new Ventas().setVisible(true);
-                            }
+//                          String id_rol = rs.getString("id_rol");
+                            inicio n = new inicio(id);
+                            this.setVisible(false);
+                            n.setVisible(true);
+//                            if (id_rol.equals("A0000001")) {
+//                                dispose();
+//                                new Usuarios().setVisible(true);
+//                            } else if (id_rol.equals("G0000001")) {
+//                                dispose();
+//                                new Proveedores().setVisible(true);
+//                            } else if (id_rol.equals("C0000001")) {
+//                                dispose();
+//                                new Ventas().setVisible(true);
+//                            }
                         } else {
                             JOptionPane.showMessageDialog(this, "Datos de acceso incorrectos", "ERROR", JOptionPane.ERROR_MESSAGE);
                             txtId.setText("");
