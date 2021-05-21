@@ -149,7 +149,7 @@ public class Login extends javax.swing.JFrame {
                     try {
                         Connection cn = Connectionn.getConnection();
                         PreparedStatement pst = cn.prepareStatement("select id_rol from Usuarios where id_usuario = '" + id
-                                + "' and contraseña = '" + pass + "'");
+                                + "' and contrasena = '" + pass + "'");
                         ResultSet rs = pst.executeQuery();
                         if (rs.next()) {
                             String id_rol = rs.getString("id_rol");

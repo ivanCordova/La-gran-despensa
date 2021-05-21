@@ -699,7 +699,7 @@ public class Usuarios extends javax.swing.JFrame {
                 } //Se actualizan los datos; NOTA: la variable x se ingresa al id_rol (previamente se realizo la conversión)
                 PreparedStatement pss = Connections.Connectionn.getConnection().prepareStatement("update Usuarios set id_rol='" + x
                         + "', nombre='" + tfNombre.getText() + "', ape_paterno='" + tfAP.getText() + "', ape_materno='" + tfAM.getText()
-                        + "', direccion='" + tfDireccion.getText() + "', telefono='" + tfTelefono.getText() + "', contraseña='" + tfContrasena.getText()
+                        + "', direccion='" + tfDireccion.getText() + "', telefono='" + tfTelefono.getText() + "', contrasena='" + tfContrasena.getText()
                         + "' where id_usuario='" + tfId.getText() + "'");
                 pss.executeUpdate();
                 sound.executed();
