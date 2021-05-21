@@ -20,6 +20,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -34,7 +36,7 @@ public class Usuarios extends javax.swing.JFrame {
     AnimationClass animation = new AnimationClass();
     Methods.General general = new Methods.General();
     Methods.Sound sound = new Methods.Sound();
-    
+
     //VARIABLES
     int moveX, moveY;
     int ancho = 320;
@@ -595,87 +597,87 @@ public class Usuarios extends javax.swing.JFrame {
         pass = tfContrasena.getText().trim();
         rolcb = cbIdRol.getSelectedIndex() + 1;
         sexocb = cbSexo.getSelectedIndex() + 1;
-        if (j.getSelectedFile()==null) {
-             JOptionPane.showMessageDialog(null, "Inserte una imagen", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+        if (j.getSelectedFile() == null) {
+            JOptionPane.showMessageDialog(null, "Inserte una imagen", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
 
         } else {
-            ruta = ""+ j.getSelectedFile().toString();
-        
-        //Evitar que algun campo este vacio
-        if (id.equals("") || name.equals("") || ap.equals("") || am.equals("") || address.equals("") || phone.equals("")
-                || phone.equals("") || pass.equals("") || j.getSelectedFile().toString().equals("")) {
-            validacion++;
-            JOptionPane.showMessageDialog(null, "Inserte datos en los campos vacios", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-        }
-        //Convertir lo que se obtenga del Rol y convertirlo a una cadena aceptada en la BD
-        switch (rolcb) {
-            case 1:
-                rolstring = "A0000001";
-                break;
-            case 2:
-                rolstring = "G0000001";
-                break;
-            case 3:
-                rolstring = "C0000001";
-                break;
-            default:
-                break;
-        }
-        //Convertir lo que se obtenga del Sexo y convertirlo a una cadena aceptada en la BD
-        if (sexocb == 1) {
-            sexostring = "M";
-        } else if (sexocb == 2) {
-            sexostring = "F";
-        }
-        //Verificar si existe ya un usuario con la id que se desea ingresar
-        try {
-            Connection cn = Connectionn.getConnection();
-            PreparedStatement pst = cn.prepareStatement("select id_usuario from Usuarios where id_usuario = '"
-                    + id + "'");
-            ResultSet rs = pst.executeQuery();
-            if (rs.next()) {
-                JOptionPane.showMessageDialog(null, "ID en uso", "ERROR", JOptionPane.ERROR_MESSAGE); //Mensaje de error si el id esta en uso
-                cn.close();
-            } else {
-                cn.close();
-                if (validacion == 0) {
-                    try { //Guardar los datos si el id no esta en uso
-                        Connection cn2 = Connectionn.getConnection();
-                        PreparedStatement pst2 = cn2.prepareStatement("insert into Usuarios values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
-                        pst2.setString(1, id);
-                        pst2.setString(2, rolstring);
-                        pst2.setString(3, name);
-                        pst2.setString(4, ap);
-                        pst2.setString(5, am);
-                        pst2.setString(6, address);
-                        pst2.setString(7, phone);
-                        pst2.setString(8, sexostring);
-                        pst2.setString(9, ruta);
-                        pst2.setString(10, pass);
-                        pst2.executeUpdate();
-                        cn2.close();
-                        JOptionPane.showMessageDialog(null, "Usuario creado correctamente", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
-                        general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
-                        cbIdRol.removeAllItems();
-                        cbIdRol.addItem("Administrador");
-                        cbIdRol.addItem("Gerente");
-                        cbIdRol.addItem("Cajero");
-                        cbSexo.removeAllItems();
-                        cbSexo.addItem("Masculino");
-                        cbSexo.addItem("Femenino");
-                        lbPhoto.setIcon(null);
-                        j.setSelectedFile(null);
-                        refresh();
-                    } catch (SQLException e) { //Error en dado de suceder un error desconocido
-                        System.err.println("Error al registrar usuario" + e);
-                        JOptionPane.showMessageDialog(null, "Error al registrar usuario, contacte al administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
+            ruta = "" + j.getSelectedFile().toString();
+
+            //Evitar que algun campo este vacio
+            if (id.equals("") || name.equals("") || ap.equals("") || am.equals("") || address.equals("") || phone.equals("")
+                    || phone.equals("") || pass.equals("") || j.getSelectedFile().toString().equals("")) {
+                validacion++;
+                JOptionPane.showMessageDialog(null, "Inserte datos en los campos vacios", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
+            }
+            //Convertir lo que se obtenga del Rol y convertirlo a una cadena aceptada en la BD
+            switch (rolcb) {
+                case 1:
+                    rolstring = "A0000001";
+                    break;
+                case 2:
+                    rolstring = "G0000001";
+                    break;
+                case 3:
+                    rolstring = "C0000001";
+                    break;
+                default:
+                    break;
+            }
+            //Convertir lo que se obtenga del Sexo y convertirlo a una cadena aceptada en la BD
+            if (sexocb == 1) {
+                sexostring = "M";
+            } else if (sexocb == 2) {
+                sexostring = "F";
+            }
+            //Verificar si existe ya un usuario con la id que se desea ingresar
+            try {
+                Connection cn = Connectionn.getConnection();
+                PreparedStatement pst = cn.prepareStatement("select id_usuario from Usuarios where id_usuario = '"
+                        + id + "'");
+                ResultSet rs = pst.executeQuery();
+                if (rs.next()) {
+                    JOptionPane.showMessageDialog(null, "ID en uso", "ERROR", JOptionPane.ERROR_MESSAGE); //Mensaje de error si el id esta en uso
+                    cn.close();
+                } else {
+                    cn.close();
+                    if (validacion == 0) {
+                        try { //Guardar los datos si el id no esta en uso
+                            Connection cn2 = Connectionn.getConnection();
+                            PreparedStatement pst2 = cn2.prepareStatement("insert into Usuarios values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+                            pst2.setString(1, id);
+                            pst2.setString(2, rolstring);
+                            pst2.setString(3, name);
+                            pst2.setString(4, ap);
+                            pst2.setString(5, am);
+                            pst2.setString(6, address);
+                            pst2.setString(7, phone);
+                            pst2.setString(8, sexostring);
+                            pst2.setString(9, ruta);
+                            pst2.setString(10, pass);
+                            pst2.executeUpdate();
+                            cn2.close();
+                            JOptionPane.showMessageDialog(null, "Usuario creado correctamente", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                            general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
+                            cbIdRol.removeAllItems();
+                            cbIdRol.addItem("Administrador");
+                            cbIdRol.addItem("Gerente");
+                            cbIdRol.addItem("Cajero");
+                            cbSexo.removeAllItems();
+                            cbSexo.addItem("Masculino");
+                            cbSexo.addItem("Femenino");
+                            lbPhoto.setIcon(null);
+                            j.setSelectedFile(null);
+                            refresh();
+                        } catch (SQLException e) { //Error en dado de suceder un error desconocido
+                            System.err.println("Error al registrar usuario" + e);
+                            JOptionPane.showMessageDialog(null, "Error al registrar usuario, contacte al administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
+                        }
                     }
                 }
+            } catch (SQLException e) { //Error al validar el id por un error desconocido
+                System.err.println("Error en la validacion del usuario" + e);
+                JOptionPane.showMessageDialog(null, "Errores al comparar usuarios, contacte al administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
             }
-        } catch (SQLException e) { //Error al validar el id por un error desconocido
-            System.err.println("Error en la validacion del usuario" + e);
-            JOptionPane.showMessageDialog(null, "Errores al comparar usuarios, contacte al administrador", "ERROR", JOptionPane.ERROR_MESSAGE);
-        }
         }
     }//GEN-LAST:event_btnAddMouseClicked
 
@@ -698,54 +700,107 @@ public class Usuarios extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnDeleteMouseClicked
-/*EMMANUEL MIRANDA DIAZ, 18TE0559, Evento: Modificar*/
+    /*EMMANUEL MIRANDA DIAZ, 18TE0559, Evento: Modificar*/
     private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
         //Se verifica que ningun campo este vacio
-        if (tfId.getText().isEmpty() || cbIdRol.getSelectedItem() == "" || tfNombre.getText().isEmpty() || tfAP.getText().isEmpty() || tfAM.getText().isEmpty()
-                || tfDireccion.getText().isEmpty() || tfTelefono.getText().isEmpty() || cbSexo.getSelectedItem() == "" || tfContrasena.getText().isEmpty()) {
-            sound.warning();
-            JOptionPane.showMessageDialog(this, "CAMPOS VACIOS", "WARNING", JOptionPane.WARNING_MESSAGE); //Mensaje de error
-        } else {
-            try { //Se convierte la información que se obtenga del ComboBox "Rol" para que coincida con la tabla "rol" de la bd
-                String x = cbIdRol.getSelectedItem().toString();
-                
-                if (x.equalsIgnoreCase("Gerente")) {
-                    x = "G0000001";
+        String ruta;
+        try {
+            if (tfId.getText().isEmpty() || cbIdRol.getSelectedItem() == "" || tfNombre.getText().isEmpty() || tfAP.getText().isEmpty() || tfAM.getText().isEmpty()
+                    || tfDireccion.getText().isEmpty() || tfTelefono.getText().isEmpty() || cbSexo.getSelectedItem() == "" || tfContrasena.getText().isEmpty()) {
+                sound.warning();
+                JOptionPane.showMessageDialog(this, "CAMPOS VACIOS", "WARNING", JOptionPane.WARNING_MESSAGE); //Mensaje de error
+            } else {
+                try { //Se convierte la información que se obtenga del ComboBox "Rol" para que coincida con la tabla "rol" de la bd
+                    String x = cbIdRol.getSelectedItem().toString();
+                    if (x.equalsIgnoreCase("Gerente")) {
+                        x = "G0000001";
+                    }
+                    if (x.equalsIgnoreCase("Cajero")) {
+                        x = "C0000001";
+                    }
+                    if (x.equalsIgnoreCase("Administrador")) {
+                        x = "A0000001";
+                    }
+                    String x2 = cbSexo.getSelectedItem().toString();
+                    if (x2.equalsIgnoreCase("Masculino")) {
+                        x2 = "M";
+                    }
+                    if (x2.equalsIgnoreCase("Femenino")) {
+                        x2 = "F";
+                    }//Se actualizan los datos; NOTA: la variable x se ingresa al id_rol (previamente se realizo la conversión)
+                    ruta = "" + j.getSelectedFile().toString();
+                    PreparedStatement pss = Connections.Connectionn.getConnection().prepareStatement("update Usuarios set id_rol='" + x
+                            + "', nombre='" + tfNombre.getText() + "', ape_paterno='" + tfAP.getText() + "', ape_materno='" + tfAM.getText()
+                            + "', direccion='" + tfDireccion.getText() + "', telefono='" + tfTelefono.getText() + "', sexo='" + x2 + "', foto='" + ruta + "', contrasena='" + tfContrasena.getText()
+                            + "' where id_usuario='" + tfId.getText() + "'");
+                    pss.executeUpdate();
+                    sound.executed();
+                    JOptionPane.showMessageDialog(this, "DATOS MODIFICADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);  //Se confirma la actualización
+                    general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
+                    lbPhoto.setIcon(null);
+                    j.setSelectedFile(null);
+                    cbIdRol.removeAllItems();
+                    cbIdRol.addItem("Administrador");
+                    cbIdRol.addItem("Gerente");
+                    cbIdRol.addItem("Cajero");
+                    cbSexo.removeAllItems();
+                    cbSexo.addItem("Masculino");
+                    cbSexo.addItem("Femenino");
+                    refresh();
+                } catch (SQLException e) {
+
                 }
-                if (x.equalsIgnoreCase("Cajero")) {
-                    x = "C0000001";
+            }
+        } catch (Exception e) {
+               if (tfId.getText().isEmpty() || cbIdRol.getSelectedItem() == "" || tfNombre.getText().isEmpty() || tfAP.getText().isEmpty() || tfAM.getText().isEmpty()
+                    || tfDireccion.getText().isEmpty() || tfTelefono.getText().isEmpty() || cbSexo.getSelectedItem() == "" || tfContrasena.getText().isEmpty()) {
+                sound.warning();
+                JOptionPane.showMessageDialog(this, "CAMPOS VACIOS", "WARNING", JOptionPane.WARNING_MESSAGE); //Mensaje de error
+            } else {
+                try { //Se convierte la información que se obtenga del ComboBox "Rol" para que coincida con la tabla "rol" de la bd
+                    String x = cbIdRol.getSelectedItem().toString();
+                    if (x.equalsIgnoreCase("Gerente")) {
+                        x = "G0000001";
+                    }
+                    if (x.equalsIgnoreCase("Cajero")) {
+                        x = "C0000001";
+                    }
+                    if (x.equalsIgnoreCase("Administrador")) {
+                        x = "A0000001";
+                    }
+                    String x2 = cbSexo.getSelectedItem().toString();
+                    if (x2.equalsIgnoreCase("Masculino")) {
+                        x2 = "M";
+                    }
+                    if (x2.equalsIgnoreCase("Femenino")) {
+                        x2 = "F";
+                    }//Se actualizan los datos; NOTA: la variable x se ingresa al id_rol (previamente se realizo la conversión)
+                    
+                    PreparedStatement pss = Connections.Connectionn.getConnection().prepareStatement("update Usuarios set id_rol='" + x
+                            + "', nombre='" + tfNombre.getText() + "', ape_paterno='" + tfAP.getText() + "', ape_materno='" + tfAM.getText()
+                            + "', direccion='" + tfDireccion.getText() + "', telefono='" + tfTelefono.getText() + "', sexo='" + x2 + "', contrasena='" + tfContrasena.getText()
+                            + "' where id_usuario='" + tfId.getText() + "'");
+                    pss.executeUpdate();
+                    sound.executed();
+                    JOptionPane.showMessageDialog(this, "DATOS MODIFICADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);  //Se confirma la actualización
+                    general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
+                    lbPhoto.setIcon(null);
+                    j.setSelectedFile(null);
+                    cbIdRol.removeAllItems();
+                    cbIdRol.addItem("Administrador");
+                    cbIdRol.addItem("Gerente");
+                    cbIdRol.addItem("Cajero");
+                    cbSexo.removeAllItems();
+                    cbSexo.addItem("Masculino");
+                    cbSexo.addItem("Femenino");
+                    refresh();
+                } catch (SQLException e2) {
+
                 }
-                if (x.equalsIgnoreCase("Administrador")) {
-                    x = "A0000001";
-                }
-                String x2 = cbSexo.getSelectedItem().toString();
-                if (x2.equalsIgnoreCase("Masculino")) {
-                    x2 = "M";
-                }
-                 if (x2.equalsIgnoreCase("Femenino")) {
-                    x2 = "F";
-                }//Se actualizan los datos; NOTA: la variable x se ingresa al id_rol (previamente se realizo la conversión)
-                PreparedStatement pss = Connections.Connectionn.getConnection().prepareStatement("update Usuarios set id_rol='" + x
-                        + "', nombre='" + tfNombre.getText() + "', ape_paterno='" + tfAP.getText() + "', ape_materno='" + tfAM.getText()
-                        + "', direccion='" + tfDireccion.getText() + "', telefono='" + tfTelefono.getText() + "', sexo='" + x2 + "', contrasena='" + tfContrasena.getText()
-                        + "' where id_usuario='" + tfId.getText() + "'");
-                pss.executeUpdate();
-                sound.executed();
-                JOptionPane.showMessageDialog(this, "DATOS MODIFICADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);  //Se confirma la actualización
-                general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
-                cbIdRol.removeAllItems();
-                cbIdRol.addItem("Administrador");
-                cbIdRol.addItem("Gerente");
-                cbIdRol.addItem("Cajero");
-                cbSexo.removeAllItems();
-                cbSexo.addItem("Masculino");
-                cbSexo.addItem("Femenino");
-                refresh();
-            } catch (SQLException e) {
             }
         }
     }//GEN-LAST:event_btnSaveMouseClicked
-/*  Emmanuel Miranda Diaz - Modulo Usuario - Evento: Buscar*/
+    /*  Emmanuel Miranda Diaz - Modulo Usuario - Evento: Buscar*/
     private void btnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseClicked
         if (tfId.getText().isEmpty()) { //Si el txt del id esta vacio, entonces enviara una advertencia
             sound.warning();
@@ -800,7 +855,7 @@ public class Usuarios extends javax.swing.JFrame {
                             cbSexo.addItem("Masculino");
                         }
                         tfContrasena.setText(res.getString(10));
-                        
+
                         ImageIcon ico = new ImageIcon(res.getString(9));
                         Icon icono = new ImageIcon(ico.getImage().getScaledInstance(lbPhoto.getWidth(), lbPhoto.getHeight(), Image.SCALE_DEFAULT));
                         lbPhoto.setIcon(icono);
@@ -826,7 +881,7 @@ public class Usuarios extends javax.swing.JFrame {
         cbSexo.removeAllItems();
         cbSexo.addItem("Masculino");
         cbSexo.addItem("Femenino");
-                        
+
     }//GEN-LAST:event_btnRefreshMouseClicked
 
     boolean change = false;
