@@ -407,7 +407,7 @@ public class Usuarios extends javax.swing.JFrame {
         PDatos.add(jSeparator7, new org.netbeans.lib.awtextra.AbsoluteConstraints(90, 110, 360, 10));
 
         cbIdRol.setFont(new java.awt.Font("Verdana", 0, 11)); // NOI18N
-        cbIdRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Adminitrador", "Gerente", "Cajero" }));
+        cbIdRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Administrador", "Gerente", "Cajero" }));
         cbIdRol.setBorder(null);
         cbIdRol.setOpaque(false);
         PDatos.add(cbIdRol, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 110, 20));
@@ -757,8 +757,6 @@ public class Usuarios extends javax.swing.JFrame {
                 b = tfId.getText();
                 //Se limpian los espacios de texto por si hay algun campo con texto previo
                 general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
-                lbPhoto.setIcon(null);
-                j.setSelectedFile(null);
                 res = Connections.Connectionn.consultation("select * from Usuarios"); //Sea crea un objeto de tipo Resulset, el cual aloja la consulta
                 while (res.next()) { //Recorremos la bd
                     if (res.getString(1).equals(b)) { //Se busca en todos los id algun coincidente
