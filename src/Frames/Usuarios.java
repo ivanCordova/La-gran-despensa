@@ -50,9 +50,9 @@ public class Usuarios extends javax.swing.JFrame {
     BufferedImage ruta;
     int counter = 0;
     JFileChooser j = new JFileChooser();
-    FileNameExtensionFilter filtro=new FileNameExtensionFilter("JPG & PNG","jpg","png");
+    FileNameExtensionFilter filtro = new FileNameExtensionFilter("JPG & PNG", "jpg", "png");
     javax.swing.JFrame padre;
-    
+
     public Usuarios() {
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("")).getImage());
@@ -64,8 +64,8 @@ public class Usuarios extends javax.swing.JFrame {
         id = Login.id;
         lbIdEncabezado.setText("INICIO DE SESION CON ID: " + id);
     }
-    
-       public Usuarios(javax.swing.JFrame padre) {
+
+    public Usuarios(javax.swing.JFrame padre) {
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("")).getImage());
         webcam.setViewSize(dimension1);
@@ -104,7 +104,6 @@ public class Usuarios extends javax.swing.JFrame {
         btnSave = new javax.swing.JButton();
         btnSearch = new javax.swing.JButton();
         btnFotografia = new javax.swing.JButton();
-        btn_Regresar = new javax.swing.JButton();
         PDatos = new javax.swing.JPanel();
         lbTelefono = new javax.swing.JLabel();
         lbNombre = new javax.swing.JLabel();
@@ -137,6 +136,7 @@ public class Usuarios extends javax.swing.JFrame {
         lbTitulo2 = new javax.swing.JLabel();
         jSeparator1 = new javax.swing.JSeparator();
         btnGuie = new javax.swing.JButton();
+        btn_Regresar = new javax.swing.JButton();
         Background = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -382,15 +382,6 @@ public class Usuarios extends javax.swing.JFrame {
         });
         PAcciones.add(btnFotografia, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, 150, 30));
 
-        btn_Regresar.setBackground(new java.awt.Color(66, 108, 180));
-        btn_Regresar.setText("Regresar");
-        btn_Regresar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_RegresarActionPerformed(evt);
-            }
-        });
-        PAcciones.add(btn_Regresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, -1, -1));
-
         PHome.add(PAcciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 610, 640, 70));
 
         PDatos.setBackground(new java.awt.Color(255, 255, 255));
@@ -578,6 +569,15 @@ public class Usuarios extends javax.swing.JFrame {
         btnGuie.setRolloverIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Manual_x32N.png"))); // NOI18N
         PHome.add(btnGuie, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 100, -1, -1));
 
+        btn_Regresar.setBackground(new java.awt.Color(66, 108, 180));
+        btn_Regresar.setText("Regresar");
+        btn_Regresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RegresarActionPerformed(evt);
+            }
+        });
+        PHome.add(btn_Regresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 10, -1, 30));
+
         Background.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Usuarios.jpg"))); // NOI18N
         PHome.add(Background, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 700, 700));
 
@@ -589,7 +589,8 @@ public class Usuarios extends javax.swing.JFrame {
 
     private void btnCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseClicked
         sound.minimize();
-        this.dispose();
+       this.padre.setVisible(true); // Hacemos visible al padre 
+        this.dispose(); //Cerramos le proceso actual 
     }//GEN-LAST:event_btnCloseMouseClicked
 
     private void btnMinimizeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnMinimizeMouseClicked
@@ -609,7 +610,12 @@ public class Usuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_PHomeMousePressed
 
     private void btnAddMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnAddMouseClicked
-        //Agregar Usuario
+        /*
+        Evento: Agregar Usuario
+        Creado el: 01/05/2021
+        Entregado: 05/05/2021
+        Autor: Emmanuel Miranda Diaz
+         */
         //Asignación de variables que recolectaran la información del formulario
         int rolcb, sexocb, validacion = 0;
         String id, name, ap, am, address, phone, pass, rolstring = "", sexostring = "", ruta = "";
@@ -622,12 +628,10 @@ public class Usuarios extends javax.swing.JFrame {
         pass = tfContrasena.getText().trim();
         rolcb = cbIdRol.getSelectedIndex() + 1;
         sexocb = cbSexo.getSelectedIndex() + 1;
-        if (j.getSelectedFile() == null) {
+        if (j.getSelectedFile() == null) { //Advertencia de ausencia de una imagen
             JOptionPane.showMessageDialog(null, "Inserte una imagen", "ADVERTENCIA", JOptionPane.WARNING_MESSAGE);
-
         } else {
-            ruta = "" + j.getSelectedFile().toString();
-
+            ruta = "" + j.getSelectedFile().toString(); //Asignación de la ruta de la imagen a una variable
             //Evitar que algun campo este vacio
             if (id.equals("") || name.equals("") || ap.equals("") || am.equals("") || address.equals("") || phone.equals("")
                     || phone.equals("") || pass.equals("") || j.getSelectedFile().toString().equals("")) {
@@ -658,13 +662,13 @@ public class Usuarios extends javax.swing.JFrame {
             try {
                 Connection cn = Connectionn.getConnection();
                 PreparedStatement pst = cn.prepareStatement("select id_usuario from Usuarios where id_usuario = '"
-                        + id + "'");
+                        + id + "'");//Consulta que compara el id que se desea utilizar, para ver si no existe ya un registro.
                 ResultSet rs = pst.executeQuery();
-                if (rs.next()) {
+                if (rs.next()) {//Id en uso : Advertencia
                     JOptionPane.showMessageDialog(null, "ID en uso", "ERROR", JOptionPane.ERROR_MESSAGE); //Mensaje de error si el id esta en uso
                     cn.close();
                 } else {
-                    cn.close();
+                    cn.close(); //Finaliza la consulta
                     if (validacion == 0) {
                         try { //Guardar los datos si el id no esta en uso
                             Connection cn2 = Connectionn.getConnection();
@@ -682,6 +686,7 @@ public class Usuarios extends javax.swing.JFrame {
                             pst2.executeUpdate();
                             cn2.close();
                             JOptionPane.showMessageDialog(null, "Usuario creado correctamente", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+                            //Refrescar la ventana y vaciar de nuevo los elementos
                             general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
                             cbIdRol.removeAllItems();
                             cbIdRol.addItem("Administrador");
@@ -777,7 +782,7 @@ public class Usuarios extends javax.swing.JFrame {
                 }
             }
         } catch (Exception e) {
-               if (tfId.getText().isEmpty() || cbIdRol.getSelectedItem() == "" || tfNombre.getText().isEmpty() || tfAP.getText().isEmpty() || tfAM.getText().isEmpty()
+            if (tfId.getText().isEmpty() || cbIdRol.getSelectedItem() == "" || tfNombre.getText().isEmpty() || tfAP.getText().isEmpty() || tfAM.getText().isEmpty()
                     || tfDireccion.getText().isEmpty() || tfTelefono.getText().isEmpty() || cbSexo.getSelectedItem() == "" || tfContrasena.getText().isEmpty()) {
                 sound.warning();
                 JOptionPane.showMessageDialog(this, "CAMPOS VACIOS", "WARNING", JOptionPane.WARNING_MESSAGE); //Mensaje de error
@@ -800,7 +805,7 @@ public class Usuarios extends javax.swing.JFrame {
                     if (x2.equalsIgnoreCase("Femenino")) {
                         x2 = "F";
                     }//Se actualizan los datos; NOTA: la variable x se ingresa al id_rol (previamente se realizo la conversión)
-                    
+
                     PreparedStatement pss = Connections.Connectionn.getConnection().prepareStatement("update Usuarios set id_rol='" + x
                             + "', nombre='" + tfNombre.getText() + "', ape_paterno='" + tfAP.getText() + "', ape_materno='" + tfAM.getText()
                             + "', direccion='" + tfDireccion.getText() + "', telefono='" + tfTelefono.getText() + "', sexo='" + x2 + "', contrasena='" + tfContrasena.getText()
@@ -1059,7 +1064,7 @@ public class Usuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_formWindowOpened
 
     private void btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegresarActionPerformed
-        // ----------- Control del botón para cancelar la venta actual ---------------
+        // ----------- Regresar ---------------
         this.padre.setVisible(true); // Hacemos visible al padre 
         this.dispose(); //Cerramos le proceso actual 
     }//GEN-LAST:event_btn_RegresarActionPerformed
