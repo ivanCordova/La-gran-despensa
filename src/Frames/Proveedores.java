@@ -447,9 +447,9 @@ public class Proveedores extends javax.swing.JFrame {
 
                     int count = ps.executeUpdate();
                     if (count != 0) {
-                        JOptionPane.showMessageDialog(null, "mensaje de proveedor creado");
+                        JOptionPane.showMessageDialog(null, "PROVEEDOR CREADO CON ÉXITO");
                     } else {
-                        JOptionPane.showMessageDialog(null, "mensaje de proveedor no creado");
+                        JOptionPane.showMessageDialog(null, "NO AGREGADO, VERIFIQUE SUS DATOS");
                     }
 
                     Id_alta.setText("");
@@ -561,12 +561,10 @@ public class Proveedores extends javax.swing.JFrame {
                     int count = ps.executeUpdate();
                     if (count != 0) {
                         JOptionPane.showMessageDialog(null, "PROVEEDOR ELIMINADO CON EXITO");
-                    } else {
-                        JOptionPane.showMessageDialog(null, "NO SE PUDO ELIMINAR EL PROVEEDOR");
-                    }
+                    } 
 
                 } catch (SQLException e) {
-                    JOptionPane.showMessageDialog(null, "no se elimina");
+                 JOptionPane.showMessageDialog(null, "NO SE PUDO ELIMINAR EL PROVEEDOR");
                 }
             }
         }
