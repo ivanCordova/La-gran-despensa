@@ -338,6 +338,11 @@ public class Usuarios extends javax.swing.JFrame {
                 btnDeleteMouseClicked(evt);
             }
         });
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnDeleteActionPerformed(evt);
+            }
+        });
         PAcciones.add(btnDelete, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 30, -1, -1));
 
         btnSave.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Save_x32A.png"))); // NOI18N
@@ -589,7 +594,7 @@ public class Usuarios extends javax.swing.JFrame {
 
     private void btnCloseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnCloseMouseClicked
         sound.minimize();
-       this.padre.setVisible(true); // Hacemos visible al padre 
+        this.padre.setVisible(true); // Hacemos visible al padre 
         this.dispose(); //Cerramos le proceso actual 
     }//GEN-LAST:event_btnCloseMouseClicked
 
@@ -717,15 +722,15 @@ public class Usuarios extends javax.swing.JFrame {
             sound.warning();
             JOptionPane.showMessageDialog(null, "SELECCIONE UN REGISTRO", "WARNING", JOptionPane.WARNING_MESSAGE);
         } else {
-            int row = tUsuarios.getSelectedRow(); //Se envia un mensaje de confirmación
             sound.warning();
             int opc = JOptionPane.showConfirmDialog(this, "¿DESEA ELIMINAR EL USUARIO?", "WARNING", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
             if (opc == JOptionPane.YES_OPTION) { //si la respuesta es correcta, se llama al procedimiento almacenado "Eliminar Usuario"
                 try {
                     sound.executed();
-                    Procedure.EliminarUsuarios(Integer.parseInt(tUsuarios.getValueAt(row, 0).toString()));
+                    Procedure.EliminarUsuarios(Integer.parseInt(tUsuarios.getValueAt(row1, 0).toString()));
                     refresh();
                 } catch (SQLException e) {
+                     JOptionPane.showMessageDialog(this, "ERROR:" + e.getMessage());
                 }
             }
         }
@@ -837,32 +842,36 @@ public class Usuarios extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "INSERTA ID", "WARNING", JOptionPane.WARNING_MESSAGE);
         } else {
             try {
-                String b;
-                Procedure.BuscarUsuarios(Integer.parseInt(tfId.getText())); //Se le envia al procedimiento almacenado el id deseado
-                b = tfId.getText();
+                int b;
+                b = Integer.parseInt(tfId.getText());
                 //Se limpian los espacios de texto por si hay algun campo con texto previo
                 general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
-                res = Connections.Connectionn.consultation("select * from Usuarios"); //Sea crea un objeto de tipo Resulset, el cual aloja la consulta
-                while (res.next()) { //Recorremos la bd
-                    if (res.getString(1).equals(b)) { //Se busca en todos los id algun coincidente
+              ResultSet  h = Connections.Connectionn.consultation("select * from Usuarios WHERE id_usuario='" + b + "'"); //Sea crea un objeto de tipo Resulset, el cual aloja la consulta
+                
+                int c = 0;
+                while (h.next()) {
+                    c++;
+                }
+                if (c == 1) {
+                    ResultSet res = Connections.Connectionn.consultation("select * from Usuarios WHERE id_usuario='" + b + "'");
+                    while (res.next()) { //Recorremos la bd
+                        //Se busca en todos los id algun coincidente
                         sound.executed();
                         JOptionPane.showMessageDialog(this, "DATOS ENCONTRADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE); //Mensaje de busqueda exitosa
                         tfId.setText(res.getString(1)); //Se envia el ID al espacio correspondiente
+                        cbIdRol.removeAllItems();
                         String x = res.getString(2); //Se hace la conversión del ID de Rol encontrado para mostrarlo como es nombrado
                         if (x.equalsIgnoreCase("G0000001")) {
-                            cbIdRol.removeAllItems();
                             cbIdRol.addItem("Gerente");
                             cbIdRol.addItem("Administrador");
                             cbIdRol.addItem("Cajero");
                         }
                         if (x.equalsIgnoreCase("C0000001")) {
-                            cbIdRol.removeAllItems();
                             cbIdRol.addItem("Cajero");
                             cbIdRol.addItem("Gerente");
                             cbIdRol.addItem("Administrador");
                         }
                         if (x.equalsIgnoreCase("A0000001")) {
-                            cbIdRol.removeAllItems();
                             cbIdRol.addItem("Administrador");
                             cbIdRol.addItem("Cajero");
                             cbIdRol.addItem("Gerente");
@@ -873,28 +882,41 @@ public class Usuarios extends javax.swing.JFrame {
                         tfAM.setText(res.getString(5));
                         tfDireccion.setText(res.getString(6));
                         tfTelefono.setText(res.getString(7));
-                        String x2 = res.getString(8); //Se hace la conversión del ID de Rol encontrado para mostrarlo como es nombrado
+                        //Se hace la conversión del ID de Rol encontrado para mostrarlo como es nombrado
+                        String x2 = res.getString(8);
+                        cbSexo.removeAllItems();
                         if (x2.equalsIgnoreCase("M")) {
-                            cbSexo.removeAllItems();
                             cbSexo.addItem("Masculino");
                             cbSexo.addItem("Femenino");
                         }
                         if (x2.equalsIgnoreCase("F")) {
-                            cbSexo.removeAllItems();
                             cbSexo.addItem("Femenino");
                             cbSexo.addItem("Masculino");
                         }
                         tfContrasena.setText(res.getString(10));
-
                         ImageIcon ico = new ImageIcon(res.getString(9));
                         Icon icono = new ImageIcon(ico.getImage().getScaledInstance(lbPhoto.getWidth(), lbPhoto.getHeight(), Image.SCALE_DEFAULT));
                         lbPhoto.setIcon(icono);
                         lbPhoto.updateUI();
                     }
-                }//Si no coincide con ningun id registrado, se muestra el siguiente mensaje
+                } else {
+                    JOptionPane.showMessageDialog(this, "DATOS NO ENCONTRADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+                    general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
+                    lbPhoto.setIcon(null);
+                    j.setSelectedFile(null);
+                    cbIdRol.removeAllItems();
+                    cbIdRol.addItem("Administrador");
+                    cbIdRol.addItem("Gerente");
+                    cbIdRol.addItem("Cajero");
+                    cbSexo.removeAllItems();
+                    cbSexo.addItem("Masculino");
+                    cbSexo.addItem("Femenino");
+                }
+
             } catch (SQLException e) {
-                JOptionPane.showMessageDialog(this, "DATOS NO ENCONTRADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "ERROR: " + e.getMessage(), "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
             }
+
         }
     }//GEN-LAST:event_btnSearchMouseClicked
 
@@ -1068,6 +1090,10 @@ public class Usuarios extends javax.swing.JFrame {
         this.padre.setVisible(true); // Hacemos visible al padre 
         this.dispose(); //Cerramos le proceso actual 
     }//GEN-LAST:event_btn_RegresarActionPerformed
+
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnDeleteActionPerformed
 
     public void refresh() {
         DefaultTableModel model = (DefaultTableModel) tUsuarios.getModel();
