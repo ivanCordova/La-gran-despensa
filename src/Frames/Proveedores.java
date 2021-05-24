@@ -27,10 +27,19 @@ public class Proveedores extends javax.swing.JFrame {
     /**
      * Creates new form Proveedores
      */
+    javax.swing.JFrame padre;
+    
     public Proveedores() {
         initComponents();
 
     }
+
+    public Proveedores(javax.swing.JFrame padre) {
+        initComponents();
+        this.setLocationRelativeTo(null); //Ponemos la ventana en el centro
+        this.padre = padre;
+    }
+
     int moveX, moveY;
     static ResultSet res;
     static Statement set = null;
@@ -92,6 +101,7 @@ public class Proveedores extends javax.swing.JFrame {
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jButton2 = new javax.swing.JButton();
+        btn_Regresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -388,15 +398,31 @@ public class Proveedores extends javax.swing.JFrame {
                 .addGap(27, 27, 27))
         );
 
+        btn_Regresar.setBackground(new java.awt.Color(66, 108, 180));
+        btn_Regresar.setText("Regresar");
+        btn_Regresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RegresarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(PHome, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btn_Regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(PHome, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(PHome, javax.swing.GroupLayout.PREFERRED_SIZE, 587, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(btn_Regresar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -718,6 +744,12 @@ public class Proveedores extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_Id_ConsultaBuscarActionPerformed
 
+    private void btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegresarActionPerformed
+        // ----------- Control del botón para cancelar la venta actual ---------------
+        this.padre.setVisible(true); // Hacemos visible al padre 
+        this.dispose(); //Cerramos le proceso actual 
+    }//GEN-LAST:event_btn_RegresarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -774,6 +806,7 @@ public class Proveedores extends javax.swing.JFrame {
     private javax.swing.JPanel PHome;
     private javax.swing.JTextField Telefono_Alta;
     private javax.swing.JTextField Telefono_Modificar;
+    private javax.swing.JButton btn_Regresar;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButtonAlta;
     private javax.swing.JButton jButtonB_Modificar;

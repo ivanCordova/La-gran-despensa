@@ -22,9 +22,15 @@ public class Inventario extends javax.swing.JFrame {
      */
     static ResultSet res;
     int cont;
-
+    javax.swing.JFrame padre;
     public Inventario() {
         initComponents();
+    }
+
+    public Inventario(javax.swing.JFrame padre) {
+        initComponents();
+        this.setLocationRelativeTo(null); //Ponemos la ventana en el centro
+        this.padre = padre;
     }
 
     /**
@@ -100,6 +106,7 @@ public class Inventario extends javax.swing.JFrame {
         jButton3 = new javax.swing.JButton();
         jScrollPane4 = new javax.swing.JScrollPane();
         tConsultar = new javax.swing.JTable();
+        btn_Regresar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -667,6 +674,14 @@ public class Inventario extends javax.swing.JFrame {
 
         jTabbedPane1.addTab("CONSULTAR", jPanel6);
 
+        btn_Regresar.setBackground(new java.awt.Color(66, 108, 180));
+        btn_Regresar.setText("Regresar");
+        btn_Regresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RegresarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -675,6 +690,10 @@ public class Inventario extends javax.swing.JFrame {
             .addComponent(datosProducto, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(jScrollPane1)
             .addComponent(jTabbedPane1)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_Regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(21, 21, 21))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -686,7 +705,9 @@ public class Inventario extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 395, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_Regresar)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -805,6 +826,12 @@ public class Inventario extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_id_producto_eliminarActionPerformed
 
+    private void btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegresarActionPerformed
+        // ----------- Control del botón para cancelar la venta actual ---------------
+        this.padre.setVisible(true); // Hacemos visible al padre 
+        this.dispose(); //Cerramos le proceso actual 
+    }//GEN-LAST:event_btn_RegresarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -845,6 +872,7 @@ public class Inventario extends javax.swing.JFrame {
     private javax.swing.JButton btnBuscarM;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btn_Regresar;
     private javax.swing.JPanel datosProducto;
     private javax.swing.JTextField id_categoria;
     private javax.swing.JTextField id_marca;

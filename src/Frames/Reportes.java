@@ -23,9 +23,17 @@ public class Reportes extends javax.swing.JFrame {
     //Se crean variables para guardar las fechas
     public static String fecha2="";
     public static int mes=0;
-    public static int anio=0;
+    public static int anio = 0;
+    javax.swing.JFrame padre;
+
     public Reportes() {
         initComponents();
+    }
+
+    public Reportes(javax.swing.JFrame padre) {
+        initComponents();
+        this.setLocationRelativeTo(null); //Ponemos la ventana en el centro
+        this.padre = padre;
     }
 
     /**
@@ -60,6 +68,7 @@ public class Reportes extends javax.swing.JFrame {
         jLabel5 = new javax.swing.JLabel();
         FechaEst = new com.toedter.calendar.JDateChooser();
         BFechaEst = new javax.swing.JButton();
+        btn_Regresar = new javax.swing.JButton();
 
         jPasswordField1.setText("jPasswordField1");
 
@@ -316,6 +325,14 @@ public class Reportes extends javax.swing.JFrame {
                 .addContainerGap(20, Short.MAX_VALUE))
         );
 
+        btn_Regresar.setBackground(new java.awt.Color(66, 108, 180));
+        btn_Regresar.setText("Regresar");
+        btn_Regresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RegresarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -324,13 +341,19 @@ public class Reportes extends javax.swing.JFrame {
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(8, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_Regresar, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(17, 17, 17))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jPanel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 11, Short.MAX_VALUE)
+                .addComponent(btn_Regresar)
+                .addContainerGap())
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -344,9 +367,8 @@ public class Reportes extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, 0))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -416,6 +438,11 @@ public class Reportes extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_BFechaEstActionPerformed
 
+    private void btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegresarActionPerformed
+        this.padre.setVisible(true); // Hacemos visible al padre 
+        this.dispose(); //Cerramos le proceso actual 
+    }//GEN-LAST:event_btn_RegresarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -458,6 +485,7 @@ public class Reportes extends javax.swing.JFrame {
     private javax.swing.JButton BFechaMes;
     private com.toedter.calendar.JDateChooser FechaEst;
     private com.toedter.calendar.JMonthChooser MesIn;
+    private javax.swing.JButton btn_Regresar;
     private com.toedter.calendar.JDateChooser fechaDia;
     private javax.swing.JButton jButton1;
     private javax.swing.JDesktopPane jDesktopPane1;

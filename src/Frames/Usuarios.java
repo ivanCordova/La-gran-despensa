@@ -51,6 +51,8 @@ public class Usuarios extends javax.swing.JFrame {
     int counter = 0;
     JFileChooser j = new JFileChooser();
     FileNameExtensionFilter filtro=new FileNameExtensionFilter("JPG & PNG","jpg","png");
+    javax.swing.JFrame padre;
+    
     public Usuarios() {
         initComponents();
         setIconImage(new ImageIcon(getClass().getResource("")).getImage());
@@ -61,6 +63,19 @@ public class Usuarios extends javax.swing.JFrame {
         lbStatusCamera.setText(webcam.toString());
         id = Login.id;
         lbIdEncabezado.setText("INICIO DE SESION CON ID: " + id);
+    }
+    
+       public Usuarios(javax.swing.JFrame padre) {
+        initComponents();
+        setIconImage(new ImageIcon(getClass().getResource("")).getImage());
+        webcam.setViewSize(dimension1);
+        webcamPanel.setFillArea(true);
+        PCamera.setLayout(new FlowLayout());
+        PCamera.add(webcamPanel);
+        lbStatusCamera.setText(webcam.toString());
+        id = Login.id;
+        lbIdEncabezado.setText("INICIO DE SESION CON ID: " + id);
+        this.padre = padre;
     }
 
     @SuppressWarnings("unchecked")
@@ -89,6 +104,7 @@ public class Usuarios extends javax.swing.JFrame {
         btnSave = new javax.swing.JButton();
         btnSearch = new javax.swing.JButton();
         btnFotografia = new javax.swing.JButton();
+        btn_Regresar = new javax.swing.JButton();
         PDatos = new javax.swing.JPanel();
         lbTelefono = new javax.swing.JLabel();
         lbNombre = new javax.swing.JLabel();
@@ -365,6 +381,15 @@ public class Usuarios extends javax.swing.JFrame {
             }
         });
         PAcciones.add(btnFotografia, new org.netbeans.lib.awtextra.AbsoluteConstraints(320, 30, 150, 30));
+
+        btn_Regresar.setBackground(new java.awt.Color(66, 108, 180));
+        btn_Regresar.setText("Regresar");
+        btn_Regresar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_RegresarActionPerformed(evt);
+            }
+        });
+        PAcciones.add(btn_Regresar, new org.netbeans.lib.awtextra.AbsoluteConstraints(230, 30, -1, -1));
 
         PHome.add(PAcciones, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 610, 640, 70));
 
@@ -1033,6 +1058,12 @@ public class Usuarios extends javax.swing.JFrame {
         sound.login();
     }//GEN-LAST:event_formWindowOpened
 
+    private void btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegresarActionPerformed
+        // ----------- Control del botón para cancelar la venta actual ---------------
+        this.padre.setVisible(true); // Hacemos visible al padre 
+        this.dispose(); //Cerramos le proceso actual 
+    }//GEN-LAST:event_btn_RegresarActionPerformed
+
     public void refresh() {
         DefaultTableModel model = (DefaultTableModel) tUsuarios.getModel();
         model.setRowCount(0);
@@ -1113,6 +1144,7 @@ public class Usuarios extends javax.swing.JFrame {
     private javax.swing.JButton btnSave;
     private javax.swing.JButton btnSaveC;
     private javax.swing.JButton btnSearch;
+    private javax.swing.JButton btn_Regresar;
     private javax.swing.JComboBox<String> cbIdRol;
     private javax.swing.JComboBox<String> cbSexo;
     private javax.swing.JSeparator jSeparator1;
