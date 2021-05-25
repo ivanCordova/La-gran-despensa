@@ -829,35 +829,34 @@ public class Inventario extends javax.swing.JFrame {
         }else{
             try{
                 Connection cn = Connectionn.getConnection();
-                PreparedStatement pst = cn.prepareStatement("select * from Productos Where id_producto='"+id+"'");
+                PreparedStatement pst = cn.prepareStatement("select * from Productos Where id_producto="+id+"");
                 ResultSet rs = pst.executeQuery();
+                modeloTabla = new DefaultTableModel();
+                modeloTabla.addColumn("ID_Producto");
+                modeloTabla.addColumn("ID_Marca");
+                modeloTabla.addColumn("ID_Categoria");
+                modeloTabla.addColumn("ID_Medida");
+                modeloTabla.addColumn("ID_Proveedor");
+                modeloTabla.addColumn("Nombre");
+                modeloTabla.addColumn("Precio Venta");
+                modeloTabla.addColumn("Imagen");
+                this.tConsultar.setModel(modeloTabla);
+                String []datos = new String[8]; //Arreglo para obtener los datos de la consulta
                 while(rs.next()){
-                    modeloTabla.addColumn("ID_Producto");
-                    modeloTabla.addColumn("ID_Marca");
-                    modeloTabla.addColumn("ID_Categoria");
-                    modeloTabla.addColumn("ID_Medida");
-                    modeloTabla.addColumn("ID_Proveedor");
-                    modeloTabla.addColumn("Nombre");
-                    modeloTabla.addColumn("Precio Venta");
-                    modeloTabla.addColumn("Imagen");
-                    this.tConsultar.setModel(modeloTabla);
-                    String []datos = new String[8]; //Arreglo para obtener los datos de la consulta
                     //Recorremos la respuesta
-                    while (res.next()) {
                         //Agregamos al arreglo los datos correspondientes
-                        datos[0] = res.getString(1);
-                        datos[1] = res.getString(2);
-                        datos[2] = res.getString(3);
-                        datos[3] = res.getString(4);
-                        datos[4] = res.getString(5);
-                        datos[5] = res.getString(6);
-                        datos[6] = res.getString(7);
-                        datos[7] = res.getString(8);
+                        datos[0] = rs.getString(1);
+                        datos[1] = rs.getString(2);
+                        datos[2] = rs.getString(3);
+                        datos[3] = rs.getString(4);
+                        datos[4] = rs.getString(5);
+                        datos[5] = rs.getString(6);
+                        datos[6] = rs.getString(7);
+                        datos[7] = rs.getString(8);
 
                         modeloTabla.addRow(datos);//Agregamos el registro al modelo
-                        tConsultar.setModel(modeloTabla);
-                    }
                 }
+                    tConsultar.setModel(modeloTabla);
             }catch (Exception e){
                 JOptionPane.showMessageDialog(this, "Error: "+e.getMessage());
             }
