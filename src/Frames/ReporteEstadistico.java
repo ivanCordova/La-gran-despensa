@@ -153,9 +153,11 @@ public class ReporteEstadistico extends javax.swing.JDialog {
                     //Se obtiene la categoria del producto quee no esta
                     ResultSet categoria = Connections.Connectionn.consultation(""+
                     "select c.nombre_categoria from categorias as c \n" +
-                    "	inner join Productos as p on p.nombre='"+productos.getString(0)+"' and p.id_categoria=c.id_categoria");
-//                    //En caso de no estar en la tabla se le asigna un 0
-//                    datos.setValue(0,productos.getString(6),categoria.getString(0));
+                    "	inner join Productos as p on p.nombre='"+productos.getString(6)+"' and p.id_categoria=c.id_categoria");
+                   //En caso de no estar en la tabla se le asigna un 0
+                    while (categoria.next()) {         
+                        datos.setValue(0,productos.getString(6),categoria.getString("nombre_categoria"));
+                    }
                 }
             }
             //Creamos el grafico de barras
