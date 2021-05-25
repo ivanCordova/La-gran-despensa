@@ -6,6 +6,8 @@ Autor: Ivan Cordova Rodriguez
  */
 package Frames;
 
+import Methods.metodoVenta;
+
 /**
  *
  * @author Miran
@@ -17,7 +19,8 @@ public class Ventas extends javax.swing.JFrame {
      */
     
     javax.swing.JFrame padre;
-    
+    //String id;
+    metodoVenta metodos = new metodoVenta();
     public Ventas() {
         initComponents();
         this.setLocationRelativeTo(null); //Ponemos la ventana en el centro 
@@ -27,6 +30,14 @@ public class Ventas extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(null); //Ponemos la ventana en el centro
         this.padre = padre;
+        //id = Login.id;
+        if(metodos.idRolUsuario(Login.id).equals("C0000001")){
+            jButton1.setEnabled(false);
+            jButton3.setEnabled(false);
+        }else if(metodos.idRolUsuario(Login.id).equals("G0000001")){
+            jButton2.setEnabled(false);
+            jButton4.setEnabled(false);
+        }
     }
     
     /**

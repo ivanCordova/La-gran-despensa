@@ -442,4 +442,30 @@ public class metodoVenta {
             return 0;
         }
     }
+    
+    public String idRolUsuario(String id_Usuarios) {
+        //Este método devuelve la ganancia total del día 
+        try {
+            String id_Rol = "";//Variable para guardar el total
+            Connection con = Connectionn.getConnection();//Inicializamos la conexión 
+            PreparedStatement ps = con.prepareStatement("select id_rol from Usuarios where id_usuario = ?");//Variable para cargar consulta 
+            ps.setString(1, id_Usuarios);// Sobrecargamos la consulta 
+            ResultSet rs = ps.executeQuery(); //Variable el resultado de la consulta 
+            //Recorremos todos los resultados
+            if (rs.next()) {
+                do {
+                    //Asignamos a cada variable del objeto el valor del Result set en su posición correspondiente
+                    id_Rol = (String)rs.getObject(1);
+                } while (rs.next());//Recorremos las filas de la consulta 
+            } else {
+                //En caso de no regresar ningún resultado mostramos un mensaje de advertencia 
+                JOptionPane.showMessageDialog(null, "No se encontró ningún producto", "Advertencia", JOptionPane.WARNING_MESSAGE);
+            }
+            return id_Rol;//Regresamos el resultado
+        } catch (Exception e) {
+            //Mensaje de error
+            JOptionPane.showMessageDialog(null, e.toString(), "Error", JOptionPane.WARNING_MESSAGE);
+            return "";
+        }
+    }
 }

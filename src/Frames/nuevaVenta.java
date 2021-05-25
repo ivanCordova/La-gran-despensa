@@ -34,6 +34,7 @@ public class nuevaVenta extends javax.swing.JFrame {
     double totalVenta;//Creamos la variable general totalVenta 
     javax.swing.JFrame padre ; //Variable para guardar el padre Jframe
 
+    String id;
     /**
      * Creates new form nuevaVenta
      */
@@ -74,8 +75,9 @@ public class nuevaVenta extends javax.swing.JFrame {
         modeloCarrito.addColumn("Cantidad vendida");
         modeloCarrito.addColumn("Sub total");
         this.tbl_Carrito.setModel(modeloCarrito);//Agregamos el modelo a la Carrito
-
+        id = Login.id;
         this.tbl_Buscar.getColumnModel().getColumn(5).setMaxWidth(0);//Ocultamos la columna imagen
+        
     }
 
     /**
@@ -538,9 +540,10 @@ public class nuevaVenta extends javax.swing.JFrame {
         //Realizamos la inserción de una nueva venta en la tabla ventas e incluimos los productos del carrito en la tabla productos vendidos 
         try {
             if (tbl_Carrito.getRowCount() != 0) {
-                if (JOptionPane.showConfirmDialog(null, "Monto a pagar: " + lb_totalVenta.getText(), "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
+                if (JOptionPane.showConfirmDialog(null, "Monto a pagar: " + lb_totalVenta.getText()+", IdVenta: "+id, "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
                     //Agregamos una venta con el método agregarVenta
-                    metodos.agregarVenta(lb_idVenta.getText(), 1, Date.valueOf(lb_Fecha.getText()), Double.parseDouble(lb_totalVenta.getText()));
+                    int idUser = Integer.parseInt(id);
+                    metodos.agregarVenta(lb_idVenta.getText(), idUser, Date.valueOf(lb_Fecha.getText()), Double.parseDouble(lb_totalVenta.getText()));
                     //Recorremos el carrito de compras para agregar cada producto a la tabla Producto vendidos
                     for (int i = 0; i < tbl_Carrito.getRowCount(); i++) {
                         int idProducto = Integer.parseInt(tbl_Carrito.getValueAt(i, 0).toString());

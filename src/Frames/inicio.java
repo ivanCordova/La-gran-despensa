@@ -6,6 +6,8 @@
 package Frames;
 // cambio en rama ivan
 
+import Methods.metodoVenta;
+import javax.swing.JOptionPane;
 import rojerusan.RSPanelsSlider;
 
 /**
@@ -13,10 +15,11 @@ import rojerusan.RSPanelsSlider;
  * @author Ivan
  */
 public class inicio extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form inicio
      */
+    metodoVenta metodos = new metodoVenta();
     public inicio() {
         initComponents();
         this.setLocationRelativeTo(this);
@@ -27,6 +30,20 @@ public class inicio extends javax.swing.JFrame {
         initComponents();
         this.setLocationRelativeTo(this);
         this.setResizable(false);
+        
+        if(metodos.idRolUsuario(id_rol).equals("A0000001")){
+            btn2.setEnabled(false);
+            btn3.setEnabled(false);
+            btn4.setEnabled(false);
+            btn5.setEnabled(false);
+        }else if(metodos.idRolUsuario(id_rol).equals("C0000001")){
+            btn1.setEnabled(false);
+            btn3.setEnabled(false);
+            btn4.setEnabled(false);
+            btn5.setEnabled(false);
+        }else if(metodos.idRolUsuario(id_rol).equals("G0000001")){
+            btn1.setEnabled(false);
+        }
     }
 
     /**
@@ -624,7 +641,7 @@ public class inicio extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn1;
-    private javax.swing.JButton btn2;
+    public javax.swing.JButton btn2;
     private javax.swing.JButton btn3;
     private javax.swing.JButton btn4;
     private javax.swing.JButton btn5;
