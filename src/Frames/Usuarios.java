@@ -717,29 +717,50 @@ public class Usuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAddMouseClicked
 
     private void btnDeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnDeleteMouseClicked
+        /*
+        Evento: Baja Usuario
+        Creado el: 01/05/2021
+        Entregado: 05/05/2021
+        Autor: Emmanuel Miranda Diaz
+         */
         int row1 = tUsuarios.getSelectedRow(); //Se obtiene el numero de la fila
         if (row1 == -1) { //Si no se ha seleccionado una fila se le avisa al usuario a través de un mensaje
             sound.warning();
             JOptionPane.showMessageDialog(null, "SELECCIONE UN REGISTRO", "WARNING", JOptionPane.WARNING_MESSAGE);
         } else {
-            sound.warning();
+            sound.warning(); //Se pide confirmación
             int opc = JOptionPane.showConfirmDialog(this, "¿DESEA ELIMINAR EL USUARIO?", "WARNING", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
-            if (opc == JOptionPane.YES_OPTION) { //si la respuesta es correcta, se llama al procedimiento almacenado "Eliminar Usuario"
+            if (opc == JOptionPane.YES_OPTION) {
                 try {
-                    sound.executed();
-                    Procedure.EliminarUsuarios(Integer.parseInt(tUsuarios.getValueAt(row1, 0).toString()));
-                    refresh();
+                    sound.executed();//Si la respuesta es correcta, se llama al procedimiento almacenado "Eliminar Usuario"
+                    Procedure.EliminarUsuarios(Integer.parseInt(tUsuarios.getValueAt(row1, 0).toString())); //Se envia el dato id_Usuario de la fila
+                    general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
+                    cbIdRol.removeAllItems();
+                    cbIdRol.addItem("Administrador");
+                    cbIdRol.addItem("Gerente");
+                    cbIdRol.addItem("Cajero");
+                    cbSexo.removeAllItems();
+                    cbSexo.addItem("Masculino");
+                    cbSexo.addItem("Femenino");
+                    lbPhoto.setIcon(null);
+                    j.setSelectedFile(null);
+                    refresh(); //Recarga la tabla
                 } catch (SQLException e) {
-                     JOptionPane.showMessageDialog(this, "ERROR:" + e.getMessage());
+                    JOptionPane.showMessageDialog(this, "ERROR:" + e.getMessage()); //Error desconocido
                 }
             }
         }
     }//GEN-LAST:event_btnDeleteMouseClicked
-    /*EMMANUEL MIRANDA DIAZ, 18TE0559, Evento: Modificar*/
+
     private void btnSaveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSaveMouseClicked
-        //Se verifica que ningun campo este vacio
+        /*
+        Evento: Modificar Usuario
+        Creado el: 05/05/2021
+        Entregado: 19/05/2021
+        Autor: Emmanuel Miranda Diaz
+         */
         String ruta;
-        try {
+        try {//Se verifica que ningun campo este vacio
             if (tfId.getText().isEmpty() || cbIdRol.getSelectedItem() == "" || tfNombre.getText().isEmpty() || tfAP.getText().isEmpty() || tfAM.getText().isEmpty()
                     || tfDireccion.getText().isEmpty() || tfTelefono.getText().isEmpty() || cbSexo.getSelectedItem() == "" || tfContrasena.getText().isEmpty()) {
                 sound.warning();
@@ -755,14 +776,15 @@ public class Usuarios extends javax.swing.JFrame {
                     }
                     if (x.equalsIgnoreCase("Administrador")) {
                         x = "A0000001";
-                    }
+                    }//Se convierte la información que se obtenga del ComboBox "Sexo" para que coincida con la tabla "usuarios" de la bd
                     String x2 = cbSexo.getSelectedItem().toString();
                     if (x2.equalsIgnoreCase("Masculino")) {
                         x2 = "M";
                     }
                     if (x2.equalsIgnoreCase("Femenino")) {
                         x2 = "F";
-                    }//Se actualizan los datos; NOTA: la variable x se ingresa al id_rol (previamente se realizo la conversión)
+                    }
+                    //Se actualizan los datos; NOTA: la variable x se ingresa al "id_rol" y x2 es "sexo"(previamente se realizo la conversión)
                     ruta = "" + j.getSelectedFile().toString();
                     PreparedStatement pss = Connections.Connectionn.getConnection().prepareStatement("update Usuarios set id_rol='" + x
                             + "', nombre='" + tfNombre.getText() + "', ape_paterno='" + tfAP.getText() + "', ape_materno='" + tfAM.getText()
@@ -771,6 +793,7 @@ public class Usuarios extends javax.swing.JFrame {
                     pss.executeUpdate();
                     sound.executed();
                     JOptionPane.showMessageDialog(this, "DATOS MODIFICADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);  //Se confirma la actualización
+                    //Se inicializa la ventana al concluir el guardado
                     general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
                     lbPhoto.setIcon(null);
                     j.setSelectedFile(null);
@@ -786,13 +809,14 @@ public class Usuarios extends javax.swing.JFrame {
 
                 }
             }
+          //SE REPITE COMPLETAMENTE EL MISMO PROCESO ANTERIOR, SOLO QUE AL ACTUALIZAR NO SE INCLUYE INSERTAR LA FOTO
         } catch (Exception e) {
             if (tfId.getText().isEmpty() || cbIdRol.getSelectedItem() == "" || tfNombre.getText().isEmpty() || tfAP.getText().isEmpty() || tfAM.getText().isEmpty()
                     || tfDireccion.getText().isEmpty() || tfTelefono.getText().isEmpty() || cbSexo.getSelectedItem() == "" || tfContrasena.getText().isEmpty()) {
                 sound.warning();
-                JOptionPane.showMessageDialog(this, "CAMPOS VACIOS", "WARNING", JOptionPane.WARNING_MESSAGE); //Mensaje de error
+                JOptionPane.showMessageDialog(this, "CAMPOS VACIOS", "WARNING", JOptionPane.WARNING_MESSAGE);
             } else {
-                try { //Se convierte la información que se obtenga del ComboBox "Rol" para que coincida con la tabla "rol" de la bd
+                try {
                     String x = cbIdRol.getSelectedItem().toString();
                     if (x.equalsIgnoreCase("Gerente")) {
                         x = "G0000001";
@@ -809,8 +833,7 @@ public class Usuarios extends javax.swing.JFrame {
                     }
                     if (x2.equalsIgnoreCase("Femenino")) {
                         x2 = "F";
-                    }//Se actualizan los datos; NOTA: la variable x se ingresa al id_rol (previamente se realizo la conversión)
-
+                    }
                     PreparedStatement pss = Connections.Connectionn.getConnection().prepareStatement("update Usuarios set id_rol='" + x
                             + "', nombre='" + tfNombre.getText() + "', ape_paterno='" + tfAP.getText() + "', ape_materno='" + tfAM.getText()
                             + "', direccion='" + tfDireccion.getText() + "', telefono='" + tfTelefono.getText() + "', sexo='" + x2 + "', contrasena='" + tfContrasena.getText()
@@ -846,8 +869,8 @@ public class Usuarios extends javax.swing.JFrame {
                 b = Integer.parseInt(tfId.getText());
                 //Se limpian los espacios de texto por si hay algun campo con texto previo
                 general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
-              ResultSet  h = Connections.Connectionn.consultation("select * from Usuarios WHERE id_usuario='" + b + "'"); //Sea crea un objeto de tipo Resulset, el cual aloja la consulta
-                
+                ResultSet h = Connections.Connectionn.consultation("select * from Usuarios WHERE id_usuario='" + b + "'"); //Sea crea un objeto de tipo Resulset, el cual aloja la consulta
+
                 int c = 0;
                 while (h.next()) {
                     c++;
