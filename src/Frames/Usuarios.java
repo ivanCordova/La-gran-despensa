@@ -858,8 +858,14 @@ public class Usuarios extends javax.swing.JFrame {
             }
         }
     }//GEN-LAST:event_btnSaveMouseClicked
-    /*  Emmanuel Miranda Diaz - Modulo Usuario - Evento: Buscar*/
+   
     private void btnSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btnSearchMouseClicked
+        /*
+        Evento: Buscar Usuario
+        Creado el: 07/05/2021
+        Entregado: 19/05/2021
+        Autor: Emmanuel Miranda Diaz
+         */
         if (tfId.getText().isEmpty()) { //Si el txt del id esta vacio, entonces enviara una advertencia
             sound.warning();
             JOptionPane.showMessageDialog(this, "INSERTA ID", "WARNING", JOptionPane.WARNING_MESSAGE);
@@ -869,16 +875,15 @@ public class Usuarios extends javax.swing.JFrame {
                 b = Integer.parseInt(tfId.getText());
                 //Se limpian los espacios de texto por si hay algun campo con texto previo
                 general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
-                ResultSet h = Connections.Connectionn.consultation("select * from Usuarios WHERE id_usuario='" + b + "'"); //Sea crea un objeto de tipo Resulset, el cual aloja la consulta
-
-                int c = 0;
+                //Sea crea un objeto de tipo Resulset, el cual aloja la consulta
+                ResultSet h = Connections.Connectionn.consultation("select * from Usuarios WHERE id_usuario='" + b + "'");
+                int c = 0; //Se recorre la bd hasta que encuentre coincidencia
                 while (h.next()) {
                     c++;
                 }
-                if (c == 1) {
+                if (c == 1) { //Si encuentra 1 resultado en común
                     ResultSet res = Connections.Connectionn.consultation("select * from Usuarios WHERE id_usuario='" + b + "'");
-                    while (res.next()) { //Recorremos la bd
-                        //Se busca en todos los id algun coincidente
+                    while (res.next()) { //Recorremos la bd nuevamente
                         sound.executed();
                         JOptionPane.showMessageDialog(this, "DATOS ENCONTRADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE); //Mensaje de busqueda exitosa
                         tfId.setText(res.getString(1)); //Se envia el ID al espacio correspondiente
@@ -922,7 +927,7 @@ public class Usuarios extends javax.swing.JFrame {
                         lbPhoto.setIcon(icono);
                         lbPhoto.updateUI();
                     }
-                } else {
+                } else { //Se inicializa nuevamente la interfaz si no existen datos coincidentes
                     JOptionPane.showMessageDialog(this, "DATOS NO ENCONTRADOS", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
                     general.clear(tfId, cbIdRol, tfNombre, tfAP, tfAM, tfDireccion, tfTelefono, cbSexo, tfContrasena);
                     lbPhoto.setIcon(null);
