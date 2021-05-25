@@ -1010,14 +1010,12 @@ public class Inventario extends javax.swing.JFrame {
                         String ruta = "" + j.getSelectedFile().toString(); //Asignación de la ruta de la imagen a una variable
                         Connection con = Connectionn.getConnection();//Inicializamos la conexión 
                         PreparedStatement ps = con.prepareStatement("");//Variable para cargar los datos
-                        JOptionPane.showMessageDialog(this, ""+Integer.parseInt(marcasid.get(id_marca.getSelectedIndex())));
                         ps = con.prepareStatement("INSERT Productos VALUES ('" + id_producto.getText() + "','" + Integer.parseInt(marcasid.get(id_marca.getSelectedIndex())) +
                             "','" + Integer.parseInt(categoriasid.get(id_categoria.getSelectedIndex())) + "'" + ",'" + Integer.parseInt(medidasid.get(id_medida.getSelectedIndex())) +
                             "','" + Integer.parseInt(proveedoresid.get(id_proveedor.getSelectedIndex())) +
                             "','" + nombre.getText() + "','" + Integer.parseInt(precio_venta.getText()) + "','" + ruta + "')");
                         ps.executeUpdate();
                         //limpiamos los campos
-                        JOptionPane.showMessageDialog(this, "Hola"+ marcasid.get(id_marca.getSelectedIndex())+id_marca.getSelectedItem());
                         id_producto.setText("");
                         nombre.setText("");
                         precio_venta.setText("");
