@@ -809,9 +809,13 @@ public class Inventario extends javax.swing.JFrame {
             try{
                 Connection cn = Connectionn.getConnection();
                 PreparedStatement pst = cn.prepareStatement("delete from Productos Where id_producto='"+id+"'");
-                pst.executeUpdate();
+                int i=pst.executeUpdate();
                 consultarAll();
-                JOptionPane.showMessageDialog(this, "ELIMINADO CON EXITO");
+                if(i>0){
+                    JOptionPane.showMessageDialog(this, "ELIMINADO CON EXITO");
+                }else{
+                    JOptionPane.showMessageDialog(this, "IMPOSIBLE ELIMINAR EL PRODUCTO NO EXISTE");
+                }
             }catch (Exception e){
                 JOptionPane.showMessageDialog(this, "IMPOSIBLE ELIMINAR");
             }
@@ -888,13 +892,17 @@ public class Inventario extends javax.swing.JFrame {
                         "',id_proveedor = '" + Integer.parseInt(proveedoresid.get(id_proveedor1.getSelectedIndex())) +
                         "', nombre = '" + nombre1.getText() + "', precioVenta = '" + Integer.parseInt(precio_venta1.getText()) +
                         "', imagen = '" + ruta + "' WHERE id_producto='"+id_producto1.getText()+"'");
-                    ps.executeUpdate();
+                    int i=ps.executeUpdate();
                     //limpiamos los campos
                     id_producto1.setText("");
                     nombre1.setText("");
                     precio_venta1.setText("");
+                    if(i>0){
                     //Informamos al usuario de la creacion exitosa de un producto
                     JOptionPane.showMessageDialog(this, "PRODUCTO ACTUALIZADO", "INFORMATION", JOptionPane.INFORMATION_MESSAGE);
+                    }else{
+                        JOptionPane.showMessageDialog(this, "INGRESE SUS DATOS CORRECTAMENTE", "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
+                    }
                     consultarAll();
                 }
 
