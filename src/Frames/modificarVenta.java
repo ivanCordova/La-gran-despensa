@@ -295,7 +295,7 @@ public class modificarVenta extends javax.swing.JFrame {
                 int numeroInt = Integer.parseInt(numero);
                 //Mensaje de confirmación 
                 boolean res = metodos.modificarCantidadP(numeroInt, String.valueOf(modeloProductos.getValueAt(seleccion, 6)), String.valueOf(modeloProductos.getValueAt(seleccion, 7)));
-                JOptionPane.showMessageDialog(null, "" + res);
+                JOptionPane.showMessageDialog(null, "El producto se modificó correctamente ");
                 llenarTablaVentas();
                 limpiarTablaProductos();
             } else {

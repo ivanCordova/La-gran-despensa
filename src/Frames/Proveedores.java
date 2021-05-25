@@ -78,11 +78,11 @@ public class Proveedores extends javax.swing.JFrame {
         jButtonBuscarBaja = new javax.swing.JButton();
         jButtonDardeBaja = new javax.swing.JButton();
         PDatos3 = new javax.swing.JPanel();
-        Id_ConsultaBuscar = new javax.swing.JTextField();
         lbId5 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         jTableConsulta = new javax.swing.JTable();
         MostrarBaseConsulta = new javax.swing.JButton();
+        Id_ConsultaBuscar = new javax.swing.JTextField();
         PDatos2 = new javax.swing.JPanel();
         lbNombre2 = new javax.swing.JLabel();
         lbDireccion4 = new javax.swing.JLabel();
@@ -224,18 +224,6 @@ public class Proveedores extends javax.swing.JFrame {
         PDatos3.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         PDatos3.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        Id_ConsultaBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                Id_ConsultaBuscarActionPerformed(evt);
-            }
-        });
-        Id_ConsultaBuscar.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                Id_ConsultaBuscarKeyPressed(evt);
-            }
-        });
-        PDatos3.add(Id_ConsultaBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 30, 250, -1));
-
         lbId5.setBackground(new java.awt.Color(0, 0, 0));
         lbId5.setFont(new java.awt.Font("Verdana", 1, 14)); // NOI18N
         lbId5.setForeground(new java.awt.Color(0, 0, 0));
@@ -261,13 +249,14 @@ public class Proveedores extends javax.swing.JFrame {
 
         MostrarBaseConsulta.setForeground(new java.awt.Color(0, 0, 0));
         MostrarBaseConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Elements/Search_x32A.png"))); // NOI18N
-        MostrarBaseConsulta.setText("ACTUALIZAR");
+        MostrarBaseConsulta.setText("BUSCAR");
         MostrarBaseConsulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MostrarBaseConsultaActionPerformed(evt);
             }
         });
-        PDatos3.add(MostrarBaseConsulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 30, 140, 40));
+        PDatos3.add(MostrarBaseConsulta, new org.netbeans.lib.awtextra.AbsoluteConstraints(380, 20, 140, 40));
+        PDatos3.add(Id_ConsultaBuscar, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, 200, -1));
 
         jTabbedPane7.addTab("CONSULTAR", PDatos3);
 
@@ -677,15 +666,15 @@ public class Proveedores extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jButton_ModificarActionPerformed
 
-    private void Id_ConsultaBuscarKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_Id_ConsultaBuscarKeyPressed
-        //Información de titulos y resgistros que se usarán
+    private void MostrarBaseConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MostrarBaseConsultaActionPerformed
+
+               //Información de titulos y resgistros que se usarán
 
         String[] titulos = {"ID PROVEEDOR", "NOMBRE", "TELEFONO", "EMPRESA", "FECHA REGISTRO", "DIRECCION"};
         String[] registros = new String[50];
 
         //Consulta para que busque similitudes
-        String sql = "SELECT * FROM Proveedor WHERE id LIKE '%" + Id_ConsultaBuscar.getText() + "%' "
-                + "OR nombre LIKE '%" + Id_ConsultaBuscar.getText() + "%'";
+        String sql = "SELECT * FROM Proveedores WHERE id_proveedor = "+Id_ConsultaBuscar.getText()+"";
         model = new DefaultTableModel(null, titulos);
 
         //Creamos la conexión
@@ -696,12 +685,12 @@ public class Proveedores extends javax.swing.JFrame {
             //Se agregan los resultados que se van opteniendo de la consulta
 
             while (res.next()) {
-
-                registros[0] = res.getString("nombre");
-                registros[1] = res.getString("telefono");
-                registros[2] = res.getString("empresa");
-                registros[3] = res.getString("fechaRegistro");
-                registros[4] = res.getString("direccion");
+                registros[0] = res.getString("id_proveedor");
+                registros[1] = res.getString("nombre");
+                registros[2] = res.getString("telefono");
+                registros[3] = res.getString("empresa");
+                registros[4] = res.getString("fechaRegistro");
+                registros[5] = res.getString("direccion");
                 model.addRow(registros);
             }
             //Tabla obtiene el modelo
@@ -709,40 +698,34 @@ public class Proveedores extends javax.swing.JFrame {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(null, "No se encontraron coincidencias");
         }
-    }//GEN-LAST:event_Id_ConsultaBuscarKeyPressed
-
-    private void MostrarBaseConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MostrarBaseConsultaActionPerformed
-
-        DefaultTableModel modeloTabla = new DefaultTableModel();
-
-        modeloTabla.addColumn("ID PROVEEDOR");
-        modeloTabla.addColumn("NOMBRE");
-        modeloTabla.addColumn("TELEFONO");
-        modeloTabla.addColumn("EMPRESA");
-        modeloTabla.addColumn("FECHA REGISTRO");
-        modeloTabla.addColumn("DIRECCION");
-
-        ArrayList<Proveedor> listaProveedor = new ArrayList<Proveedor>();
-        listaProveedor = buscarProveedor(0, 0);
-
-        for (Proveedor pv : listaProveedor) {
-
-            Object[] tabla = new Object[6];
-            tabla[0] = pv.id_Proveedor;
-            tabla[1] = pv.nombre;
-            tabla[2] = pv.telefono;
-            tabla[3] = pv.empresa;
-            tabla[4] = pv.fecha_Registro;
-            tabla[5] = pv.direccion;
-
-            modeloTabla.addRow(tabla);
-        }
-        this.jTableConsulta.setModel(modeloTabla);
+        
+        
+//        DefaultTableModel modeloTabla = new DefaultTableModel();
+//
+//        modeloTabla.addColumn("ID PROVEEDOR");
+//        modeloTabla.addColumn("NOMBRE");
+//        modeloTabla.addColumn("TELEFONO");
+//        modeloTabla.addColumn("EMPRESA");
+//        modeloTabla.addColumn("FECHA REGISTRO");
+//        modeloTabla.addColumn("DIRECCION");
+//
+//        ArrayList<Proveedor> listaProveedor = new ArrayList<Proveedor>();
+//        listaProveedor = buscarProveedor(0, 0);
+//
+//        for (Proveedor pv : listaProveedor) {
+//
+//            Object[] tabla = new Object[6];
+//            tabla[0] = pv.id_Proveedor;
+//            tabla[1] = pv.nombre;
+//            tabla[2] = pv.telefono;
+//            tabla[3] = pv.empresa;
+//            tabla[4] = pv.fecha_Registro;
+//            tabla[5] = pv.direccion;
+//
+//            modeloTabla.addRow(tabla);
+//        }
+//        this.jTableConsulta.setModel(modeloTabla);
     }//GEN-LAST:event_MostrarBaseConsultaActionPerformed
-
-    private void Id_ConsultaBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_Id_ConsultaBuscarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_Id_ConsultaBuscarActionPerformed
 
     private void btn_RegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_RegresarActionPerformed
         // ----------- Control del botón para cancelar la venta actual ---------------

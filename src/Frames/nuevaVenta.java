@@ -540,7 +540,7 @@ public class nuevaVenta extends javax.swing.JFrame {
         //Realizamos la inserción de una nueva venta en la tabla ventas e incluimos los productos del carrito en la tabla productos vendidos 
         try {
             if (tbl_Carrito.getRowCount() != 0) {
-                if (JOptionPane.showConfirmDialog(null, "Monto a pagar: " + lb_totalVenta.getText()+", IdVenta: "+id, "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
+                if (JOptionPane.showConfirmDialog(null, "Monto a pagar: " + lb_totalVenta.getText(), "Confirmación", JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == 0) {
                     //Agregamos una venta con el método agregarVenta
                     int idUser = Integer.parseInt(id);
                     metodos.agregarVenta(lb_idVenta.getText(), idUser, Date.valueOf(lb_Fecha.getText()), Double.parseDouble(lb_totalVenta.getText()));

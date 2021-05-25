@@ -41,8 +41,10 @@ public class inicio extends javax.swing.JFrame {
             btn3.setEnabled(false);
             btn4.setEnabled(false);
             btn5.setEnabled(false);
+            jButton5.setEnabled(false);
         }else if(metodos.idRolUsuario(id_rol).equals("G0000001")){
             btn1.setEnabled(false);
+            jButton5.setEnabled(false);
         }
     }
 
