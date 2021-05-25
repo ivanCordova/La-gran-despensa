@@ -154,8 +154,8 @@ public class ReporteEstadistico extends javax.swing.JDialog {
                     ResultSet categoria = Connections.Connectionn.consultation(""+
                     "select c.nombre_categoria from categorias as c \n" +
                     "	inner join Productos as p on p.nombre='"+productos.getString(0)+"' and p.id_categoria=c.id_categoria");
-                    //En caso de no estar en la tabla se le asigna un 0
-                    datos.setValue(0,productos.getString(6),categoria.getString(0));
+//                    //En caso de no estar en la tabla se le asigna un 0
+//                    datos.setValue(0,productos.getString(6),categoria.getString(0));
                 }
             }
             //Creamos el grafico de barras
@@ -178,7 +178,7 @@ public class ReporteEstadistico extends javax.swing.JDialog {
             PanelBarras.add(panel2,BorderLayout.NORTH);
         }catch(Exception e){
             //En caso de error se le informa al usuario con el respectivo mensaje de error
-            JOptionPane.showMessageDialog(this, "SE HA PRODUCIDO UN ERROR INESPERADO AL GENERAR EL GRAFICO DE BARRAS" , "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(this, "SE HA PRODUCIDO UN ERROR INESPERADO AL GENERAR EL GRAFICO DE BARRAS"+e.getMessage() , "INFORMACION!", JOptionPane.INFORMATION_MESSAGE);
         }
     }
 
